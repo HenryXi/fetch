@@ -2,6 +2,7 @@ package com.util;
 
 import cn.edu.hfut.dmic.webcollector.util.JDBCHelper;
 import com.dao.Question;
+import com.exception.GoobbeException;
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -25,49 +26,53 @@ import java.util.List;
 
 public class Index {
     private JdbcTemplate jdbcTemplate;
+    private int INDEX_TITLES_EACH_LOOP=10000;
+    private Path indexFolderBak;
+    private Path indexFolder;
     private Index() {
         jdbcTemplate=JDBCHelper.createMysqlTemplate("po",
                 "jdbc:postgresql://123.57.136.60:5432/goobbe",
                 "yong", "xixiaoyong123", 80, 120);
+        indexFolderBak= Paths.get(System.getProperty("user.home") + FileSystems.getDefault().getSeparator() + "index_bak");
+        indexFolder= Paths.get(System.getProperty("user.home") + FileSystems.getDefault().getSeparator()+"index");
     }
 
     public static void main(String[] args) {
         Index index =new Index();
-
+        index.createIndex();
     }
 
     public void createIndex(){
-
         try {
-            Directory dir = FSDirectory.open(folder);
+            Directory dir = FSDirectory.open(getIndexPath());
             Analyzer analyzer = new StandardAnalyzer();
             IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
             IndexWriter writer = new IndexWriter(dir, iwc);
-            for(int i=1;i<816;i++){
-                indexDocs(writer, getQuestionsForIndex(i * 10000));
+            int totalNum=jdbcTemplate.queryForInt("select count from tcounter where table_name='tb_content';")/INDEX_TITLES_EACH_LOOP+1;
+//            for(int i=1;i<totalNum+1;i++){
+            for(int i=1;i<2;i++){
+                indexDocs(writer, getQuestionsForIndex(i * INDEX_TITLES_EACH_LOOP));
                 System.out.println("current index -> " + i);
             }
             writer.close();
+            FileUtils.deleteDirectory(indexFolder.toFile());
+            FileUtils.moveDirectory(indexFolderBak.toFile(),indexFolder.toFile());
         } catch (IOException e) {
             System.out.println(" caught a " + e.getClass() +
                     "\n with message: " + e.getMessage());
         }
     }
 
-    private Path getPath(){
-        Path folder = Paths.get(System.getProperty("user.home") + FileSystems.getDefault().getSeparator()+"index");
-        Path bakFolder = Paths.get(System.getProperty("user.home") + FileSystems.getDefault().getSeparator()+"index_bak");
-        if (Files.exists(folder)) {
-
-        }else{
-            try {
-                Files.createDirectories(folder);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    private Path getIndexPath(){
+        try {
+            FileUtils.deleteDirectory(indexFolderBak.toFile());
+            Files.createDirectories(indexFolderBak);
+            return indexFolderBak;
+        } catch (IOException e) {
+            throw new GoobbeException("create index error!");
         }
-        return folder;
     }
+
     private void indexDocs(IndexWriter writer, List<Question> questions)
             throws IOException {
         for(Question question:questions){
@@ -76,7 +81,6 @@ public class Index {
             doc.add(new TextField("title",question.getT(), Field.Store.YES));
             writer.addDocument(doc);
         }
-
     }
 
     private List<Question> getQuestionsForIndex(Integer startNum) {
