@@ -59,6 +59,7 @@ public class GetAllPager extends Thread {
                 port = Integer.valueOf(jsonNode.get(i).get("ip_port").toString().replace("\"", "").split(":")[1]);
                 proxys.put(String.valueOf(i), new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ip, port)));
             }
+            proxys.put(String.valueOf(jsonNode.size()+1),Proxy.NO_PROXY);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -117,7 +118,6 @@ public class GetAllPager extends Thread {
 //        httpUrlConnetion.setRequestProperty("User-Agent", userAgent);
         String page=null;
         try {
-            InputStream is=httpUrlConnetion.getInputStream();
             int stateCode=httpUrlConnetion.getResponseCode();
             switch (stateCode/100) {
                 case 5:
@@ -126,7 +126,9 @@ public class GetAllPager extends Thread {
                     return getDoc(url);
                 case 4:
                     System.out.println("state -->"+stateCode);
+                    return null;
             }
+            InputStream is=httpUrlConnetion.getInputStream();
             byte[] buf = new byte[2048];
             int read;
             int sum = 0;
@@ -152,8 +154,6 @@ public class GetAllPager extends Thread {
                 System.out.println("bad proxy change another!");
                 currentProxy=proxys.get(String.valueOf(random.nextInt(proxys.size())));
                 return getDoc(url);
-            } else if (e instanceof FileNotFoundException) {
-                return null;//404
             } else if(e.getMessage().contains("Server returned HTTP response code: 500")){
                 saveInDBFor503(url);
             } else{
@@ -175,7 +175,7 @@ public class GetAllPager extends Thread {
         JDBCHelper.createMysqlTemplate("po",
                 "jdbc:postgresql://localhost:5432/page",
                 "postgres", "postgres", 80, 120);
-        GetAllPager getAllPager = new GetAllPager(1703l, 1800l);
+        GetAllPager getAllPager = new GetAllPager(1900l, 2000l);
         getAllPager.start();
         do {
             try {
