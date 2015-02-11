@@ -58,4 +58,24 @@ public class QuestionService {
                 });
         return questions;
     }
+
+    public List<Question> getQuestionsForIndex(String page) {
+        List<Question> questions = this.jdbcTemplate.query(
+                "select * from tb_content2 where content is not null limit 15",
+                new RowMapper<Question>() {
+                    public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        try{
+                            Question question = objectMapper.readValue(rs.getString("content"), Question.class);
+                            question.setUrl(rs.getString("url"));
+                            question.setContent(Jsoup.parse(question.getContent().replace("&lt", "<").replace("&gt", ">")).text().substring(0, 200));
+                            question.setId(rs.getString("id"));
+                            return question;
+                        }catch (IOException e){
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+                });
+        return questions;
+    }
 }

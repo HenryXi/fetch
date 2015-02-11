@@ -50,4 +50,12 @@ public class ContentController {
     public String loadContent(@PathVariable("id") String id, ModelMap modelMap){
         return loadContent(id,"luck",modelMap);
     }
+
+    @RequestMapping(value = "/questions", method = RequestMethod.GET)
+    public String loadIndex(@RequestParam("page") String page, ModelMap modelMap){
+        List<Question> list = questionService.getQuestionsForIndex();
+        //todo Pagination need to be done,but id in db(postgresql) is not continuous!!
+        //todo there are many duplicate record in db, need remove them
+        return "";
+    }
 }
