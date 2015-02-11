@@ -30,15 +30,17 @@ public class ContentController {
     }
 
     @RequestMapping(value = "/questions/{id}/{title4url}", method = RequestMethod.GET)
-    public ModelAndView loadContent(@PathVariable("id") String id,@PathVariable("title4url") String title, ModelMap modelMap){
+    public String loadContent(@PathVariable("id") String id,@PathVariable("title4url") String title4url, ModelMap modelMap){
         Question question= questionService.getQuestionById(Integer.valueOf(id));
+        if(!question.getTitle4url().equals(title4url)){
+            return "redirect:/questions/"+id+"/"+question.getTitle4url();
+        }
         modelMap.put("question", question);
-        //todo fix redirect issue
-        return new ModelAndView("/questions/"+id+"/"+question.getTitle4url());
+        return "content";
     }
 
-//    @RequestMapping(params = "method=save")
-//    public String save(HttpServletRequest request, ModelMap modelMap){
-//
-//    }
+    @RequestMapping(value = "/questions/{id}", method = RequestMethod.GET)
+    public String loadContent(@PathVariable("id") String id, ModelMap modelMap){
+        return loadContent(id,"luck",modelMap);
+    }
 }

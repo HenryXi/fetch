@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class ClientGetAllPage2Json {
     private static final long totalNumber = 8746897;
-    public static final int threadNumber = 3;
+    public static final int threadNumber = 10;
     public static void main(String[] args) {
         JDBCHelper.createMysqlTemplate("po",
                 "jdbc:postgresql://localhost:5432/page",
@@ -20,7 +20,7 @@ public class ClientGetAllPage2Json {
         List<GetAllPager2Json> deadGap=new ArrayList<GetAllPager2Json>();
         int useProxy=0;
         long step = 100l;
-        long index = 5485l-3l;
+        long index = 5619l-5l;
         do {
             if (getAllPagers.size() == threadNumber) {
                 int waitingThread=0;

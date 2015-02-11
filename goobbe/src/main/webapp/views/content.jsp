@@ -59,6 +59,20 @@
                                    data-comments-unavailable="false" data-addlink-disabled="true">
                             <c:forEach var="comment" items="${question.comments}">
                                 <tr id="comment-44781745" class="comment ">
+                                    <td>
+                                        <table>
+                                            <tbody>
+                                            <tr>
+                                                <td class=" comment-score">
+                                                    &nbsp;&nbsp;
+                                                </td>
+                                                <td>
+                                                    &nbsp;
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
                                     <td class="comment-text">
                                         <div style="display: block;" class="comment-body">
                                             <span class="comment-copy">${comment.content}</span>
