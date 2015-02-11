@@ -3,9 +3,9 @@
 <html itemscope="" itemtype="">
 <head>
 
-    <title>6</title>
-    <link rel="stylesheet" type="text/css" href="../css/all.css">
-    <script src="http://cdn.bootcss.com/jquery/1.9.0/jquery.js"></script>
+    <title>${question.title}</title>
+    <link rel="stylesheet" type="text/css" href="/css/all.css">
+    <%--<script src="http://cdn.bootcss.com/jquery/1.9.0/jquery.js"></script>--%>
 <body class="question-page new-topbar">
 <div class="topbar">
     <div class="topbar-wrapper">
