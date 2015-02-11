@@ -26,6 +26,9 @@ public class QuestionService {
     public Question getQuestionById(Integer id) throws GoobbeException{
         try {
             Map<String,Object> record=jdbcTemplate.queryForMap("select * from tb_content2 where id=?",id);
+            if(null==record.get("content")){
+                throw new GoobbeException("error");
+            }
             Question question = objectMapper.readValue(record.get("content").toString(),Question.class);
             question.setUrl(record.get("url").toString());
             question.setId(record.get("id").toString());
