@@ -20,7 +20,7 @@ public class ClientGetAllPage2Json {
         List<GetAllPager2Json> deadGap=new ArrayList<GetAllPager2Json>();
         int useProxy=0;
         long step = 100l;
-        long index = 4548l-3l;
+        long index = 5485l-3l;
         do {
             if (getAllPagers.size() == threadNumber) {
                 int waitingThread=0;

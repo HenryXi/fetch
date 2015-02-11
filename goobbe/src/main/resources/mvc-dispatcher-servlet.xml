@@ -16,5 +16,27 @@
         <property name="prefix" value="/views/" />
         <property name="suffix" value=".jsp" />
     </bean>
+    <bean id="dataSource"
+          class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName"
+                  value="org.postgresql.Driver">
+        </property>
+        <property name="url" value="jdbc:postgresql://localhost:5432/page"></property>
+        <property name="username" value="postgres"></property>
+        <property name="password" value="postgres"></property>
+        <property name="maxActive" value="100"></property>
+        <property name="maxIdle" value="30"></property>
+        <property name="maxWait" value="500"></property>
+        <property name="defaultAutoCommit" value="true"></property>
+    </bean>
 
+    <!-- jdbc注入 -->
+    <bean id="jdbcTemplate"
+          class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    <bean id="objectMapper" class="org.codehaus.jackson.map.ObjectMapper"></bean>
 </beans>

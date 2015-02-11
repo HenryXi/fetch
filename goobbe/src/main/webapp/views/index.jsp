@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
     <title>2</title>
@@ -37,10 +38,17 @@
                 <h1 id="h-all-questions">All Questions</h1>
             </div>
             <div id="questions">
+                <script language="JavaScript">
+
+                </script>
+                <c:forEach var="listValue" items="${list}">
+                    ${listValue}
+                </c:forEach>
                 <div class="question-summary" id="question-summary-28208463">
                     <div class="summary">
-                        <h3><a href="/content?id=2" class="question-hyperlink">PowerMockito
-                            with TestNG and Mockito framework</a></h3>
+                        <h3>
+                            <a href="/content?id=2" class="question-hyperlink">${listValue}</a>
+                        </h3>
 
                         <div class="excerpt">
                             I am using Mockito+TestNG framework in my Project. It is used to work fine but to mock some

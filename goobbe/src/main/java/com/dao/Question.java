@@ -7,6 +7,7 @@ import java.util.List;
  * Created by henxii on 2/4/15.
  */
 public class Question {
+    public Question(){}
     public Question(String title,String content){
         this.title=title;
         this.content=content;

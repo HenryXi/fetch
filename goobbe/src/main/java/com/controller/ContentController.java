@@ -18,27 +18,17 @@ import java.util.List;
 public class ContentController {
     @Autowired
     private QuestionService questionService;
-//    @RequestMapping(value = "/", method = RequestMethod.GET)
-//    public String index(Model model) {
-//        return "content";
-//    }
-//
-//    @RequestMapping(value = "/springmvc/helloworld", method = RequestMethod.GET)
-//    public String helloworld(Model model) {
-//        model.addAttribute("msg", "springmvc helloworld例子演示成功啦...");
-//        return "helloworld";
-//    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String loadIndex(ModelMap modelMap){
         List<Question> list = questionService.getQuestionsForIndex();
-        modelMap.put("list", list);
-        return "index";
+        modelMap.put("question", list.get(0));
+        return "content";
     }
 
     @RequestMapping(value = "/content", method = RequestMethod.GET)
     public String loadContent(@RequestParam("id") String id, ModelMap modelMap){
-        Question question= questionService.getQuestionById(id);
+        String question= questionService.getQuestionById(id);
         modelMap.put("question", question);
         return "content";
     }
