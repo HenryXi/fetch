@@ -1,9 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>2</title>
-    <link rel="stylesheet" type="text/css" href="/css/all.css">">
+    <title>Goobbe - Page ${currentPage}</title>
+    <link rel="stylesheet" type="text/css" href="/css/all.css">
+    <link rel="icon" href="/pic/favicon.ico" mce_href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/pic/favicon.ico" mce_href="/favicon.ico" type="image/x-icon">
 </head>
 <body class="questions-page new-topbar">
 <div class="topbar">
@@ -54,36 +56,60 @@
             </div>
 
             <br class="cbt">
-
-            <div class="page-sizer fr">
-                <a href="#" title="show 15 items per page" class="page-numbers ">15</a>
-                <a href="#" title="show 30 items per page" class="page-numbers ">30</a>
-                <a href="#" title="show 50 items per page" class="page-numbers current">50</a>
-                <span class="page-numbers desc">per page</span>
-            </div>
             <div class="pager fl">
-
-
-                <span class="page-numbers current">1</span> <a href="#" title="go to page 2"> <span
-                    class="page-numbers">2</span> </a>
-                <a href="#" title="go to page 3"> <span class="page-numbers">3</span> </a>
-                <a href="#" title="go to page 4"> <span class="page-numbers">4</span> </a>
-                <a href="#" title="go to page 5"> <span class="page-numbers">5</span> </a>
-                <span class="page-numbers dots">…</span> <a href="#" title="go to page 175093">
-                <span class="page-numbers">175093</span> </a>
-                <a href="#" rel="next" title="go to page 2"> <span
-                        class="page-numbers next"> next</span> </a>
-
+                <c:if test="${currentPage>1}">
+                    <a href="/questions?page=${currentPage-1}" rel="next" title="go to page ${currentPage-1}">
+                        <span class="page-numbers next"> prev</span>
+                    </a>
+                </c:if>
+                <c:if test="${currentPage!=1}">
+                    <a href="/questions?page=1" title="go to page 1">
+                        <span class="page-numbers">1</span>
+                    </a>
+                </c:if>
+                <c:if test="${currentPage>=5}">
+                    <span class="page-numbers dots">…</span>
+                </c:if>
+                <c:if test="${currentPage-2>1}">
+                    <a href="/questions?page=${currentPage-2}" title="go to page ${currentPage-2}">
+                        <span class="page-numbers">${currentPage-2}</span>
+                    </a>
+                </c:if>
+                <c:if test="${currentPage-1>1}">
+                    <a href="/questions?page=${currentPage-1}" title="go to page ${currentPage-1}">
+                        <span class="page-numbers">${currentPage-1}</span>
+                    </a>
+                </c:if>
+                <span class="page-numbers current">${currentPage}</span>
+                <c:if test="${currentPage+1<totalPage}">
+                    <a href="/questions?page=${currentPage+1}" title="go to page 4">
+                        <span class="page-numbers">${currentPage+1}</span>
+                    </a>
+                </c:if>
+                <c:if test="${currentPage+2<totalPage}">
+                    <a href="/questions?page=${currentPage+2}" title="go to page 5">
+                        <span class="page-numbers">${currentPage+2}</span>
+                    </a>
+                </c:if>
+                <c:if test="${totalPage-currentPage>3}">
+                    <span class="page-numbers dots">…</span>
+                </c:if>
+                <c:if test="${currentPage!=totalPage}">
+                    <a href="/questions?page=${totalPage}" title="go to page 175093">
+                        <span class="page-numbers">${totalPage}</span>
+                    </a>
+                </c:if>
+                <c:if test="${currentPage<totalPage}">
+                    <a href="/questions?page=${currentPage+1}" rel="next" title="go to page ${currentPage+1}">
+                        <span class="page-numbers next"> next</span>
+                    </a>
+                </c:if>
             </div>
         </div>
     </div>
 </div>
 <div id="footer" class="categories">
-    <div class="footerwrap">
-        <div id="copyright">
-            © 2015
-        </div>
-    </div>
+    <div id="copyright">© 2015</div>
 </div>
 </body>
 </html>

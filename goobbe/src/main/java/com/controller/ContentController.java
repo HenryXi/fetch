@@ -21,14 +21,7 @@ public class ContentController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String loadIndex(ModelMap modelMap){
-        try{
-            List<Question> list = questionService.getQuestionsForIndex();
-            modelMap.put("questions", list);
-            return "index";
-        }catch (Exception e){
-           e.printStackTrace();
-        }
-        throw new GoobbeException();
+       return loadIndex("1",modelMap);
     }
 
     @RequestMapping(value = "/questions/{id}/{title4url}", method = RequestMethod.GET)
@@ -53,9 +46,20 @@ public class ContentController {
 
     @RequestMapping(value = "/questions", method = RequestMethod.GET)
     public String loadIndex(@RequestParam("page") String page, ModelMap modelMap){
-        List<Question> list = questionService.getQuestionsForIndex();
-        //todo Pagination need to be done,but id in db(postgresql) is not continuous!!
-        //todo there are many duplicate record in db, need remove them
-        return "";
+        try{
+            int pageNum=Integer.valueOf(page);
+            if(pageNum<=0){
+                pageNum=1;
+            }
+            List<Question> list = questionService.getQuestionsForIndex(pageNum);
+            modelMap.put("questions", list);
+            modelMap.put("currentPage",pageNum);
+            modelMap.put("totalPage",59055);
+            //todo there are many duplicate record in db, need remove them
+            return "index";
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        throw new GoobbeException();
     }
 }

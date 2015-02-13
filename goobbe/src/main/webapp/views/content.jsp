@@ -5,12 +5,13 @@
 
     <title>${question.title}</title>
     <link rel="stylesheet" type="text/css" href="/css/all.css">
-    <%--<script src="http://cdn.bootcss.com/jquery/1.9.0/jquery.js"></script>--%>
+    <link rel="icon" href="/pic/favicon.ico" mce_href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/pic/favicon.ico" mce_href="/favicon.ico" type="image/x-icon">
+<%--<script src="http://cdn.bootcss.com/jquery/1.9.0/jquery.js"></script>--%>
 <body class="question-page new-topbar">
 <div class="topbar">
     <div class="topbar-wrapper">
         <div class="topbar-links">
-
             <div class="links-container">
                     <span class="topbar-menu-links">
                             <a href="#" class="login-link">sign up</a>
@@ -43,6 +44,12 @@
         <table>
             <tbody>
             <tr>
+                <td class="votecell">
+                    <div >
+                        <%--<span itemprop="upvoteCount" class="vote-count-post ">0</span>--%>
+                    </div>
+
+                </td>
                 <td class="postcell">
                     <div>
                         <div class="post-text" itemprop="text">
@@ -52,6 +59,7 @@
                 </td>
             </tr>
             <tr>
+                <td></td>
                 <td>
                     <div id="comments-28208462" class="comments ">
                         <table>
@@ -103,6 +111,12 @@
                 <table>
                     <tbody>
                     <tr>
+                        <td class="votecell">
+                            <div >
+                                <%--<span itemprop="upvoteCount" class="vote-count-post ">0</span>--%>
+                            </div>
+
+                        </td>
                         <td class="answercell">
                             <div class="post-text" itemprop="text">
                                 ${answer.content}
@@ -110,6 +124,7 @@
                         </td>
                     </tr>
                     <tr>
+                        <td></td>
                         <td>
                             <div id="1" class="comments ">
                                 <table>
@@ -117,6 +132,20 @@
                                            data-comments-unavailable="false" data-addlink-disabled="true">
                                     <c:forEach var="answerComment" items="${answer.comments}">
                                         <tr id="4" class="comment ">
+                                            <td>
+                                                <table>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td class=" comment-score">
+                                                            &nbsp;&nbsp;
+                                                        </td>
+                                                        <td>
+                                                            &nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
                                             <td class="comment-text">
                                                 <div style="display: block;" class="comment-body">
                                                     <span class="comment-copy">${answerComment.content}</span>
@@ -168,11 +197,7 @@
 </div>
 </div>
 <div id="footer" class="categories">
-    <div class="footerwrap">
-        <div id="copyright">
-            © 2015
-        </div>
-    </div>
+    <div id="copyright">copyright</div>
 </div>
 </body>
 </html>

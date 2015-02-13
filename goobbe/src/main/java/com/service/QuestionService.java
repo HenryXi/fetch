@@ -45,11 +45,7 @@ public class QuestionService {
                 new RowMapper<Question>() {
                     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
                         try{
-                            Question question = objectMapper.readValue(rs.getString("content"), Question.class);
-                            question.setUrl(rs.getString("url"));
-                            question.setContent(Jsoup.parse(question.getContent().replace("&lt", "<").replace("&gt", ">")).text().substring(0, 200));
-                            question.setId(rs.getString("id"));
-                            return question;
+                            return getQuestionByResultSet(rs);
                         }catch (IOException e){
                             e.printStackTrace();
                         }
@@ -59,18 +55,29 @@ public class QuestionService {
         return questions;
     }
 
-    public List<Question> getQuestionsForIndex(String page) {
+    private Question getQuestionByResultSet(ResultSet rs) throws IOException, SQLException {
+        Question question = objectMapper.readValue(rs.getString("content"), Question.class);
+        question.setUrl(rs.getString("url"));
+        String summery= Jsoup.parse(question.getContent().replace("&lt", "<").replace("&gt", ">")).text();
+        if(summery.length()>200){
+            summery=summery.substring(0,200);
+        }
+        question.setContent(summery);
+        question.setId(rs.getString("id"));
+        return question;
+    }
+
+    public List<Question> getQuestionsForIndex(Integer page) {
+        int startNum=15*page-14; //15*(page-1)+1
+        // todo "not null" in sql should be removed after format db
         List<Question> questions = this.jdbcTemplate.query(
-                "select * from tb_content2 where content is not null limit 15",
+                "select * from tb_content2 where content is not null and id>? limit 15",
+                new Object[]{startNum},
                 new RowMapper<Question>() {
                     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
                         try{
-                            Question question = objectMapper.readValue(rs.getString("content"), Question.class);
-                            question.setUrl(rs.getString("url"));
-                            question.setContent(Jsoup.parse(question.getContent().replace("&lt", "<").replace("&gt", ">")).text().substring(0, 200));
-                            question.setId(rs.getString("id"));
-                            return question;
-                        }catch (IOException e){
+                            return getQuestionByResultSet(rs);
+                        }catch (Exception e){
                             e.printStackTrace();
                         }
                         return null;
