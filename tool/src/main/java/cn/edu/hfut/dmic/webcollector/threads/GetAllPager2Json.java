@@ -158,7 +158,7 @@ public class GetAllPager2Json extends Thread {
         JDBCHelper.createMysqlTemplate("po",
                 "jdbc:postgresql://localhost:5432/page",
                 "postgres", "postgres", 80, 120);
-        GetAllPager2Json getAllPager = new GetAllPager2Json(2l, 100l);
+        GetAllPager2Json getAllPager = new GetAllPager2Json(940000l, 940100l);
         getAllPager.start();
         do {
             try {

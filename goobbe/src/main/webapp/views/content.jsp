@@ -31,9 +31,9 @@
 </div>
 
 <div class="container">
-<div id="header">
-    There should be logo pic
-</div>
+<%--<div id="header">--%>
+    <%--There should be logo pic--%>
+<%--</div>--%>
 <div id="content" class="snippet-hidden">
 <div id="question-header">
     <h1 itemprop="name"><a href="#"

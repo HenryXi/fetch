@@ -14,13 +14,13 @@ public class Client2 {
     public static final int threadNumber = 3;
     public static void main(String[] args) {
         JDBCHelper.createMysqlTemplate("po",
-                "jdbc:postgresql://localhost:5432/page",
-                "postgres", "postgres", 80, 120);
+                "jdbc:postgresql://123.57.136.60:5432/goobbe",
+                "yong", "xixiaoyong123", 80, 120);
         List<GetAllPager2> getAllPagers = new ArrayList<GetAllPager2>();
         List<GetAllPager2> deadGap=new ArrayList<GetAllPager2>();
         int useProxy=0;
         long step = 100l;
-        long index = 889l-3l;
+        long index = 500l;
         do {
             if (getAllPagers.size() == threadNumber) {
                 int waitingThread=0;
