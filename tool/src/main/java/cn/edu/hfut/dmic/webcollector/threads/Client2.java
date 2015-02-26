@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Client2 {
     private static final long totalNumber = 200000;
-    public static final int threadNumber = 3;
+    public static final int threadNumber = 10;
     public static void main(String[] args) {
         JDBCHelper.createMysqlTemplate("po",
                 "jdbc:postgresql://123.57.136.60:5432/goobbe",
@@ -20,7 +20,7 @@ public class Client2 {
         List<GetAllPager2> deadGap=new ArrayList<GetAllPager2>();
         int useProxy=0;
         long step = 100l;
-        long index = 500l;
+        long index = 681l;
         do {
             if (getAllPagers.size() == threadNumber) {
                 int waitingThread=0;

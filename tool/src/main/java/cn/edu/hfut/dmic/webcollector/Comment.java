@@ -5,15 +5,19 @@ package cn.edu.hfut.dmic.webcollector;
  */
 public class Comment{
     public Comment(String content){
-        this.content=content;
+        this.c=content;
     }
-    private String content;
+
+    /**
+     * content
+     */
+    private String c;
 
     public String getContent() {
-        return content;
+        return c;
     }
 
     public void setContent(String content) {
-        this.content = content;
+        this.c = content;
     }
 }

@@ -48,7 +48,9 @@ public class GetAllPager2 extends Thread {
                 port = Integer.valueOf(jsonNode.get(i).get("ip_port").toString().replace("\"", "").split(":")[1]);
                 proxys.put(String.valueOf(i), new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ip, port)));
             }
-            proxys.put(String.valueOf(jsonNode.size()+1),Proxy.NO_PROXY);
+            for(int i=0;i<3;i++){
+                proxys.put(String.valueOf(jsonNode.size()+1),Proxy.NO_PROXY);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -60,13 +62,13 @@ public class GetAllPager2 extends Thread {
         for(Element element:elements){
             if(element.attr("href").contains("/questions/")){
                 try{
-                    jdbcTemplate.update("insert into tb_content2 (url) values (?)","http://stackoverflow.com"+element.attr("href"));
+                    jdbcTemplate.update("insert into tb_content (url) values (?)",element.attr("href").replace("/questions/",""));
                 }catch (DuplicateKeyException e){
                     continue;
                 }
             }
         }
-        System.out.println("Finish one page --->"+doc.title());
+        //System.out.println("Finish one page --->"+doc.title());
     }
 
     public void run() {
@@ -84,7 +86,7 @@ public class GetAllPager2 extends Thread {
 
     private Document getDoc(String url) throws MalformedURLException {
         URL website = new URL(url);
-        System.out.println("proxy -->" +( currentProxy==null?"null":currentProxy.address()));
+        //System.out.println("proxy -->" +( currentProxy==null?"null":currentProxy.address()));
         HttpURLConnection httpUrlConnetion=new HttpURLConnection(website,currentProxy);
         httpUrlConnetion.setConnectTimeout(1000*40);
         httpUrlConnetion.setReadTimeout(1000 * 20);

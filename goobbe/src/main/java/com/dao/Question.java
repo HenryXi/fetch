@@ -9,16 +9,16 @@ import java.util.List;
 public class Question {
     public Question(){}
     public Question(String title,String content){
-        this.title=title;
-        this.content=content;
+        this.t=title;
+        this.c=content;
     }
     private String id;
     private String url;
-    private String title;
+    private String t;
     private String title4url;
-    private String content;
-    private List<Comment> comments=new ArrayList<Comment>();
-    private List<Answer> answers=new ArrayList<Answer>();
+    private String c;
+    private List<Comment> cs=new ArrayList<Comment>();
+    private List<Answer> as=new ArrayList<Answer>();
 
     public String getTitle4url() {
         return url.replaceAll("http://stackoverflow.com/questions/\\d{1,8}/","");
@@ -45,35 +45,35 @@ public class Question {
     }
 
     public String getTitle() {
-        return title;
+        return t;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.t = title;
     }
 
     public String getContent() {
-        return content;
+        return c;
     }
 
     public void setContent(String content) {
-        this.content = content;
+        this.c = content;
     }
 
     public List<Comment> getComments() {
-        return comments;
+        return cs;
     }
 
     public void setComments(List<Comment> comments) {
-        this.comments = comments;
+        this.cs = comments;
     }
 
     public List<Answer> getAnswers() {
-        return answers;
+        return as;
     }
 
     public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
+        this.as = answers;
     }
 }
 

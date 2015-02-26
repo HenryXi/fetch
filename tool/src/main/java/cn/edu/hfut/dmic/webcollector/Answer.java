@@ -8,24 +8,31 @@ import java.util.List;
  */
 public class Answer{
     public Answer(String content){
-        this.content=content;
+        this.c=content;
     }
-    private String content;
-    private List<Comment> comments=new ArrayList<Comment>();
+
+    /**
+     * content
+     */
+    private String c;
+    /**
+     * cs
+     */
+    private List<Comment> cs=new ArrayList<Comment>();
 
     public String getContent() {
-        return content;
+        return c;
     }
 
     public void setContent(String content) {
-        this.content = content;
+        this.c = content;
     }
 
     public List<Comment> getComments() {
-        return comments;
+        return cs;
     }
 
     public void setComments(List<Comment> comments) {
-        this.comments = comments;
+        this.cs = comments;
     }
 }

@@ -6,15 +6,15 @@ package com.dao;
 public class Comment{
     public Comment(){}
     public Comment(String content){
-        this.content=content;
+        this.c=content;
     }
-    private String content;
+    private String c;
 
     public String getContent() {
-        return content;
+        return c;
     }
 
     public void setContent(String content) {
-        this.content = content;
+        this.c = content;
     }
 }

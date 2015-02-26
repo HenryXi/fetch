@@ -63,7 +63,7 @@ public class GetAllPager2Json extends Thread {
         currentProxy=Proxy.NO_PROXY;
     }
 
-    private void saveContentAsJsonInDB(Document doc) {
+    private void saveContentAsJsonInDB(Document doc,String oldUrl) {
         if(doc==null){
             return;
         }
@@ -79,22 +79,22 @@ public class GetAllPager2Json extends Thread {
             question.getAnswers().add(answer);
         }
         try {
-            int i=jdbcTemplate.update("update tb_content2 set content= ?::json where url=?",objectMapper.writeValueAsString(question),doc.baseUri());
-            if(i==0){
-                jdbcTemplate.update("insert into tb_content2 (url,content) values (?,?::json)",doc.baseUri(),objectMapper.writeValueAsString(question));
-            }
-        } catch (IOException e) {
+            jdbcTemplate.update("update tb_content set content=?::json ,url=? where url=?",objectMapper.writeValueAsString(question),doc.baseUri(),oldUrl);
+        }catch (DuplicateKeyException e){
+            jdbcTemplate.update("delete from tb_content where url=?",oldUrl);
+            return;
+        }catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void run() {
-        List<String> records=jdbcTemplate.queryForList("select url from tb_content2 where id between "+startNumber +" and "+endNumber,String.class);
+        List<String> records=jdbcTemplate.queryForList("select url from tb_content where id between "+startNumber +" and "+endNumber,String.class);
         Document doc = null;
         for (String url:records) {
             try {
                 doc = getDoc(url);
-                saveContentAsJsonInDB(doc);
+                saveContentAsJsonInDB(doc,url);
             } catch (Throwable e) {
                 e.printStackTrace();
             }
@@ -115,7 +115,7 @@ public class GetAllPager2Json extends Thread {
             if(stateCode!=200){
                 System.out.println("state -->"+stateCode+" url --->"+url);
                 if(stateCode==404){
-                    jdbcTemplate.update("update tb_content2 set content=null where url=?",url);
+                    jdbcTemplate.update("update tb_content set content=null where url=?",url);
                     return null;
                 }
                 currentProxy = proxys.get(String.valueOf(random.nextInt(proxys.size())));
@@ -156,9 +156,9 @@ public class GetAllPager2Json extends Thread {
 
     public static void main(String[] args) {
         JDBCHelper.createMysqlTemplate("po",
-                "jdbc:postgresql://localhost:5432/page",
-                "postgres", "postgres", 80, 120);
-        GetAllPager2Json getAllPager = new GetAllPager2Json(940000l, 940100l);
+                "jdbc:postgresql://123.57.136.60:5432/goobbe",
+                "yong", "xixiaoyong123", 80, 120);
+        GetAllPager2Json getAllPager = new GetAllPager2Json(300000l, 300500l);
         getAllPager.start();
         do {
             try {

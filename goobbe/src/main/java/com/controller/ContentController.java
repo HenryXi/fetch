@@ -47,15 +47,18 @@ public class ContentController {
     @RequestMapping(value = "/questions", method = RequestMethod.GET)
     public String loadIndex(@RequestParam("page") String page, ModelMap modelMap){
         try{
+            int totalPage=59055;
             int pageNum=Integer.valueOf(page);
             if(pageNum<=0){
                 pageNum=1;
             }
+            if(pageNum>totalPage){
+                pageNum=totalPage;
+            }
             List<Question> list = questionService.getQuestionsForIndex(pageNum);
             modelMap.put("questions", list);
             modelMap.put("currentPage",pageNum);
-            modelMap.put("totalPage",59055);
-            //todo there are many duplicate record in db, need remove them
+            modelMap.put("totalPage",totalPage);
             return "index";
         }catch (Exception e){
             e.printStackTrace();
