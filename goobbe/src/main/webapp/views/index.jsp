@@ -44,11 +44,11 @@
                     <div class="question-summary" id="question-summary-28208463">
                         <div class="summary">
                             <h3>
-                                <a href="/questions/${question.id}/${question.title4url}" class="question-hyperlink">${question.title}</a>
+                                <a href="/questions/${question.id}/${question.title4url}" class="question-hyperlink">${question.t}</a>
                             </h3>
 
                             <div class="excerpt">
-                                ${question.content}
+                                ${question.c}
                             </div>
                         </div>
                     </div>

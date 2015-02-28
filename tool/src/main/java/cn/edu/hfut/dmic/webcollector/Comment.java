@@ -13,11 +13,11 @@ public class Comment{
      */
     private String c;
 
-    public String getContent() {
+    public String getC() {
         return c;
     }
 
-    public void setContent(String content) {
-        this.c = content;
+    public void setC(String c) {
+        this.c = c;
     }
 }

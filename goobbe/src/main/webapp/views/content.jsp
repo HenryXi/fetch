@@ -2,8 +2,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html itemscope="" itemtype="">
 <head>
-
-    <title>${question.title}</title>
+    <%-- todo make a template for index and content--%>
+    <title>${question.t}</title>
     <link rel="stylesheet" type="text/css" href="/css/all.css">
     <link rel="icon" href="/pic/favicon.ico" mce_href="/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="/pic/favicon.ico" mce_href="/favicon.ico" type="image/x-icon">
@@ -37,7 +37,7 @@
 <div id="content" class="snippet-hidden">
 <div id="question-header">
     <h1 itemprop="name"><a href="#"
-                           class="question-hyperlink">${question.title}</a></h1>
+                           class="question-hyperlink">${question.t}</a></h1>
 </div>
 <div id="mainbar">
     <div class="question" data-questionid="" id="question">
@@ -53,7 +53,7 @@
                 <td class="postcell">
                     <div>
                         <div class="post-text" itemprop="text">
-                            ${question.content}
+                            ${question.c}
                         </div>
                     </div>
                 </td>
@@ -65,7 +65,7 @@
                         <table>
                             <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true"
                                    data-comments-unavailable="false" data-addlink-disabled="true">
-                            <c:forEach var="comment" items="${question.comments}">
+                            <c:forEach var="comment" items="${question.cs}">
                                 <tr id="comment-44781745" class="comment ">
                                     <td>
                                         <table>
@@ -83,7 +83,7 @@
                                     </td>
                                     <td class="comment-text">
                                         <div style="display: block;" class="comment-body">
-                                            <span class="comment-copy">${comment.content}</span>
+                                            <span class="comment-copy">${comment.c}</span>
                                         </div>
                                     </td>
                                 </tr>
@@ -105,7 +105,7 @@
                 </h2>
             </div>
         </div>
-        <c:forEach var="answer" items="${question.answers}">
+        <c:forEach var="answer" items="${question.as}">
             <div id="answer-28208672" class="answer accepted-answer" data-answerid="28208672" itemscope=""
                  itemtype="" itemprop="acceptedAnswer">
                 <table>
@@ -119,7 +119,7 @@
                         </td>
                         <td class="answercell">
                             <div class="post-text" itemprop="text">
-                                ${answer.content}
+                                ${answer.c}
                             </div>
                         </td>
                     </tr>
@@ -130,7 +130,7 @@
                                 <table>
                                     <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true"
                                            data-comments-unavailable="false" data-addlink-disabled="true">
-                                    <c:forEach var="answerComment" items="${answer.comments}">
+                                    <c:forEach var="answerComment" items="${answer.cs}">
                                         <tr id="4" class="comment ">
                                             <td>
                                                 <table>
@@ -148,7 +148,7 @@
                                             </td>
                                             <td class="comment-text">
                                                 <div style="display: block;" class="comment-body">
-                                                    <span class="comment-copy">${answerComment.content}</span>
+                                                    <span class="comment-copy">${answerComment.c}</span>
                                                 </div>
                                             </td>
                                         </tr>

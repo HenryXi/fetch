@@ -56,7 +56,9 @@ public class GetAllPager2Json extends Thread {
                 port = Integer.valueOf(jsonNode.get(i).get("ip_port").toString().replace("\"", "").split(":")[1]);
                 proxys.put(String.valueOf(i), new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ip, port)));
             }
-            proxys.put(String.valueOf(jsonNode.size()+1),Proxy.NO_PROXY);
+            for(int i=0;i<3;i++){
+                proxys.put(String.valueOf(jsonNode.size()+1),Proxy.NO_PROXY);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -69,17 +71,17 @@ public class GetAllPager2Json extends Thread {
         }
         question=new Question(doc.select("#question-header>h1>a").html(),doc.select(".postcell>div>.post-text").html());
         for(Element questionComment:doc.select(".question").select(".comment-copy")){
-            question.getComments().add(new Comment(questionComment.html()));
+            question.getCs().add(new Comment(questionComment.html()));
         }
         for(Element ans:doc.select(".answer")){
             Answer answer=new Answer(ans.select(".post-text").html());
             for(Element com:ans.select(".comment-copy")){
-                answer.getComments().add(new Comment(com.html()));
+                answer.getCs().add(new Comment(com.html()));
             }
-            question.getAnswers().add(answer);
+            question.getAs().add(answer);
         }
         try {
-            jdbcTemplate.update("update tb_content set content=?::json ,url=? where url=?",objectMapper.writeValueAsString(question),doc.baseUri(),oldUrl);
+            jdbcTemplate.update("update tb_content set content=?::json ,url=? where url=?",objectMapper.writeValueAsString(question),doc.baseUri().replace("http://stackoverflow.com/questions/",""),oldUrl);
         }catch (DuplicateKeyException e){
             jdbcTemplate.update("delete from tb_content where url=?",oldUrl);
             return;
@@ -93,7 +95,7 @@ public class GetAllPager2Json extends Thread {
         Document doc = null;
         for (String url:records) {
             try {
-                doc = getDoc(url);
+                doc = getDoc("http://stackoverflow.com/questions/"+url);
                 saveContentAsJsonInDB(doc,url);
             } catch (Throwable e) {
                 e.printStackTrace();

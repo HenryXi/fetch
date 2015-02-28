@@ -14,19 +14,19 @@ public class Answer{
     private String c;
     private List<Comment> cs=new ArrayList<Comment>();
 
-    public String getContent() {
+    public String getC() {
         return c;
     }
 
-    public void setContent(String content) {
-        this.c = content;
+    public void setC(String c) {
+        this.c = c;
     }
 
-    public List<Comment> getComments() {
+    public List<Comment> getCs() {
         return cs;
     }
 
-    public void setComments(List<Comment> comments) {
-        this.cs = comments;
+    public void setCs(List<Comment> cs) {
+        this.cs = cs;
     }
 }

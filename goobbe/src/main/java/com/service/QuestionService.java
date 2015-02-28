@@ -25,7 +25,7 @@ public class QuestionService {
     private ObjectMapper objectMapper;
     public Question getQuestionById(Integer id) throws GoobbeException{
         try {
-            Map<String,Object> record=jdbcTemplate.queryForMap("select * from tb_content2 where id=?",id);
+            Map<String,Object> record=jdbcTemplate.queryForMap("select * from tb_content where id=?",id);
             if(null==record.get("content")){
                 throw new GoobbeException("error");
             }
@@ -41,7 +41,7 @@ public class QuestionService {
 
     public List<Question> getQuestionsForIndex() {
         List<Question> questions = this.jdbcTemplate.query(
-                "select * from tb_content2 where content is not null limit 15",
+                "select * from tb_content where content is not null limit 15",
                 new RowMapper<Question>() {
                     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
                         try{
@@ -58,11 +58,11 @@ public class QuestionService {
     private Question getQuestionByResultSet(ResultSet rs) throws IOException, SQLException {
         Question question = objectMapper.readValue(rs.getString("content"), Question.class);
         question.setUrl(rs.getString("url"));
-        String summery= Jsoup.parse(question.getContent().replace("&lt", "<").replace("&gt", ">")).text();
+        String summery= Jsoup.parse(question.getC().replace("&lt", "<").replace("&gt", ">")).text();
         if(summery.length()>200){
             summery=summery.substring(0,200);
         }
-        question.setContent(summery);
+        question.setC(summery);
         question.setId(rs.getString("id"));
         return question;
     }
@@ -71,7 +71,7 @@ public class QuestionService {
         int startNum=15*page-14; //15*(page-1)+1
         // todo "not null" in sql should be removed after format db
         List<Question> questions = this.jdbcTemplate.query(
-                "select * from tb_content2 where content is not null and id>? limit 15",
+                "select * from tb_content where content is not null and id>=? order by id limit 15",
                 new Object[]{startNum},
                 new RowMapper<Question>() {
                     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {

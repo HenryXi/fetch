@@ -29,36 +29,36 @@ public class Question {
      */
     private List<Answer> as=new ArrayList<Answer>();
 
-    public String getTitle() {
+    public String getT() {
         return t;
     }
 
-    public void setTitle(String title) {
-        this.t = title;
+    public void setT(String t) {
+        this.t = t;
     }
 
-    public String getContent() {
+    public String getC() {
         return c;
     }
 
-    public void setContent(String content) {
-        this.c = content;
+    public void setC(String c) {
+        this.c = c;
     }
 
-    public List<Comment> getComments() {
+    public List<Comment> getCs() {
         return cs;
     }
 
-    public void setComments(List<Comment> comments) {
-        this.cs = comments;
+    public void setCs(List<Comment> cs) {
+        this.cs = cs;
     }
 
-    public List<Answer> getAnswers() {
+    public List<Answer> getAs() {
         return as;
     }
 
-    public void setAnswers(List<Answer> answers) {
-        this.as = answers;
+    public void setAs(List<Answer> as) {
+        this.as = as;
     }
 }
 

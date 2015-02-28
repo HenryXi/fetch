@@ -20,7 +20,7 @@ public class Client2 {
         List<GetAllPager2> deadGap=new ArrayList<GetAllPager2>();
         int useProxy=0;
         long step = 100l;
-        long index = 681l;
+        long index = 1035l;//1746
         do {
             if (getAllPagers.size() == threadNumber) {
                 int waitingThread=0;

@@ -22,9 +22,9 @@
         <property name="driverClassName"
                   value="org.postgresql.Driver">
         </property>
-        <property name="url" value="jdbc:postgresql://localhost:5432/page"></property>
-        <property name="username" value="postgres"></property>
-        <property name="password" value="postgres"></property>
+        <property name="url" value="jdbc:postgresql://123.57.136.60:5432/goobbe"></property>
+        <property name="username" value="yong"></property>
+        <property name="password" value="xixiaoyong123"></property>
         <property name="maxActive" value="100"></property>
         <property name="maxIdle" value="30"></property>
         <property name="maxWait" value="500"></property>

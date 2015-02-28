@@ -10,17 +10,17 @@ import java.util.List;
  * Created by henxii on 1/9/15.
  */
 public class ClientGetAllPage2Json {
-    private static final long totalNumber = 8746897;
+    private static final long totalNumber = 8146616;
     public static final int threadNumber = 10;
     public static void main(String[] args) {
         JDBCHelper.createMysqlTemplate("po",
-                "jdbc:postgresql://localhost:5432/page",
-                "postgres", "postgres", 80, 120);
+                "jdbc:postgresql://123.57.136.60:5432/goobbe",
+                "yong", "xixiaoyong123", 80, 120);
         List<GetAllPager2Json> getAllPagers = new ArrayList<GetAllPager2Json>();
         List<GetAllPager2Json> deadGap=new ArrayList<GetAllPager2Json>();
         int useProxy=0;
         long step = 100l;
-        long index = 13775l-10l;
+        long index = 2620l;
         do {
             if (getAllPagers.size() == threadNumber) {
                 int waitingThread=0;
