@@ -2,34 +2,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Goobbe - Page ${currentPage}</title>
+    <c:choose>
+        <c:when test="${currentPage==1}">
+            <title>All questions - Goobbe</title>
+        </c:when>
+        <c:otherwise>
+            <title>All questions - Page ${currentPage} - Goobbe</title>
+        </c:otherwise>
+    </c:choose>
     <link rel="stylesheet" type="text/css" href="/css/all.css">
     <link rel="icon" href="/pic/favicon.ico" mce_href="/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="/pic/favicon.ico" mce_href="/favicon.ico" type="image/x-icon">
 </head>
 <body class="questions-page new-topbar">
-<div class="topbar">
-    <div class="topbar-wrapper">
-        <div class="topbar-links">
-
-            <div class="links-container">
-                    <span class="topbar-menu-links">
-                            <a href="#" class="login-link">sign up</a>
-                            <a href="#" class="login-link">log in</a>
-                    </span>
-            </div>
-
-            <div class="search-container">
-                <form id="search" action="#" method="get" autocomplete="off">
-                    <input name="q" type="text" placeholder="search" value="" tabindex="1" autocomplete="off"
-                           maxlength="240">
-                </form>
-            </div>
-
-        </div>
-    </div>
-</div>
-
+<jsp:include page="topbar.jsp"/>
 <div class="container">
     <%--<div id="header">--%>
         <%--There should be logo pic--%>
@@ -108,10 +94,6 @@
         </div>
     </div>
 </div>
-<div id="footer" class="categories">
-    <div id="copyright">
-        <script type="text/javascript" src="http://js.tongji.linezing.com/3574593/tongji.js"></script><noscript><a href="http://www.linezing.com"><img src="http://img.tongji.linezing.com/3574593/tongji.gif"/></a></noscript>
-    </div>
-</div>
+<jsp:include page="footer.jsp"/>
 </body>
 </html>
