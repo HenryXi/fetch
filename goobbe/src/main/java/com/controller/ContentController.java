@@ -41,6 +41,12 @@ public class ContentController {
         }
         throw new GoobbeException();
     }
+    @RequestMapping(value = "/question/{sUrl}/{{title4url}}", method= RequestMethod.GET)
+    public String loadContentBySearchResult(@PathVariable("sUrl") String sUrl,@PathVariable("title4url") String title4url, ModelMap modelMap){
+        Question question=questionService.getQuestionBysUrl(sUrl);
+        modelMap.put("question", question);
+        return "redirect:/questions/"+question.getId()+"/"+question.getTitle4url();
+    }
 
     @RequestMapping(value = "/questions/{id}", method = RequestMethod.GET)
     public String loadContent(@PathVariable("id") String id, ModelMap modelMap){
@@ -68,23 +74,24 @@ public class ContentController {
         }
         throw new GoobbeException();
     }
-    @RequestMapping(value="/search",method = RequestMethod.GET)
-    public String search(@RequestParam("q") String target,@RequestParam("p") String page, ModelMap modelMap){
-        try{
-            int currentPage=Integer.valueOf(page);
-            if(currentPage<=0){
-                currentPage=1;
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public String search(@RequestParam("q") String q, @RequestParam(value = "p", required = false, defaultValue = "-1") String p, ModelMap modelMap) {
+        try {
+            int currentPage = Integer.valueOf(p);
+            if (currentPage <= 0) {
+                currentPage = 1;
             }
-            if(currentPage>11){
-                currentPage=11;
+            if (currentPage > 11) {
+                currentPage = 11;
             }
-            List<Question> questions=new ArrayList<>();
-            questionService.getQuestionsByKeyword(questions,target,currentPage);
+            List<Question> questions = new ArrayList<>();
+            questionService.getQuestionsByKeyword(questions, q, currentPage);
             modelMap.put("questions", questions);
-            modelMap.put("currentPage",currentPage);
-            modelMap.put("totalPage",10);
-            return "index";
-        }catch (Exception e){
+            modelMap.put("currentPage", currentPage);
+            modelMap.put("totalPage", 10);
+            return "searchResult";
+        } catch (Exception e) {
             e.printStackTrace();
         }
         throw new GoobbeException();

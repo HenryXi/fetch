@@ -48,19 +48,35 @@ public class QuestionService {
         throw new GoobbeException("error");
     }
 
+    public Question getQuestionBysUrl(String sUrl) throws GoobbeException{
+        try {
+            Map<String,Object> record=jdbcTemplate.queryForMap("select * from tb_content where url=?",sUrl);
+            if(null==record.get("content")){
+                throw new GoobbeException("error");
+            }
+            Question question = objectMapper.readValue(record.get("content").toString(),Question.class);
+            question.setUrl(record.get("url").toString());
+            question.setId(record.get("id").toString());
+            return question;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        throw new GoobbeException("error");
+    }
+
     public List<Question> getQuestionsForIndex() {
         List<Question> questions = this.jdbcTemplate.query(
-                "select * from tb_content where content is not null limit 15",
-                new RowMapper<Question>() {
-                    public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
-                        try{
-                            return getQuestionByResultSet(rs);
-                        }catch (IOException e){
-                            e.printStackTrace();
-                        }
-                        return null;
+            "select * from tb_content where content is not null limit 15",
+            new RowMapper<Question>() {
+                public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    try {
+                        return getQuestionByResultSet(rs);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                });
+                    return null;
+                }
+            });
         return questions;
     }
 
