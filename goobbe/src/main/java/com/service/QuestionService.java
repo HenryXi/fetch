@@ -5,6 +5,7 @@ import com.exception.GoobbeException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -20,14 +21,12 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class QuestionService {
-    private final String STACK_URL="http://www.gfsoso.com/?q=java+site%3Astackoverflow.com";
+    private final String SEARCH_STACK_URL="http://www.gfsoso.com/?q=java+site%3Astackoverflow.com";
+    private final String STACK_URL="http://stackoverflow.com/questions/";
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
@@ -96,77 +95,40 @@ public class QuestionService {
         return questions;
     }
 
-    public Question getQuestionByUrlNumber(Integer id) throws GoobbeException{
-        Question question=null;
+    public int getQuestionsByKeyword(List<Question> questions,String keyword,int pageNumber) throws GoobbeException{
         try {
-            Document doc=getDoc(STACK_URL);
-
-//            if(200==conn.getResponseCode()){
-//                Map<String,Object> record=jdbcTemplate.queryForMap("select * from tb_content where url=?",
-//                                                conn.getURL().toString().replace(STACK_URL,""));
-//                if(null==record.get("content")){
-//                    return null;
-//                }
-//                question = objectMapper.readValue(record.get("content").toString(),Question.class);
-//                question.setUrl(record.get("url").toString());
-//                question.setId(record.get("id").toString());
-//            }
-//            conn.disconnect();
-            return question;
-        } catch (Exception e) {
+            Document doc = Jsoup.connect("http://www.gfsoso.com/?q="+keyword+"+site%3Astackoverflow.com&pn="+pageNumber).get();
+            String url=doc.baseUri()+"&t=1";
+            int startIndex=doc.toString().indexOf("$.cookie('_GFTOKEN','");
+            int endIndex=doc.toString().indexOf("', {expires:720}");
+            String cookie=doc.toString().substring(startIndex+21,endIndex);
+            doc=Jsoup.connect(url).cookie("_GFTOKEN",cookie).get();
+            String targetDiv=doc.toString().substring(doc.toString().indexOf("<ol"),doc.toString().indexOf("ol>")+3);
+            Document finalDoc=Jsoup.parse(targetDiv.replace("\\\"","\"").replace("\\","").replace("\t",""));
+            for(Element result:finalDoc.select(".g")){
+                String resultHref=result.select("a").attr("href").replace(STACK_URL,"");
+                if(resultHref.matches("\\d{1,8}/.+")){
+                    Question question=new Question(result.select("a").html(),result.select(".s>.st").html(),resultHref);
+                    if(questions.size()>=10 || questions.contains(question)){
+                        return pageNumber;
+                    }
+                    questions.add(question);
+                }
+            }
+            if(questions.size()<10){
+                return getQuestionsByKeyword(questions,keyword,pageNumber+10);
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        throw new GoobbeException("error");
+        return pageNumber;
     }
 
-    private Document getDoc(String url) throws MalformedURLException {
-        URL website = new URL(url);
-        //System.out.println("proxy -->" +( currentProxy==null?"null":currentProxy.address()));
-        HttpURLConnection httpUrlConnetion=new HttpURLConnection(website, Proxy.NO_PROXY);
-        httpUrlConnetion.setConnectTimeout(1000);
-//        httpUrlConnetion.setReadTimeout(1000 * 20);
-//        httpUrlConnetion.setRequestProperty("User-Agent", userAgent);
-        String page=null;
-        try {
-            int stateCode=httpUrlConnetion.getResponseCode();
-            if(stateCode!=200){
-                System.out.println("state -->"+stateCode+" url --->"+url);
-                if(stateCode==404){
-                    jdbcTemplate.update("update tb_content set content=null where url=?",url);
-                    return null;
-                }
-                //currentProxy = proxys.get(String.valueOf(random.nextInt(proxys.size())));
-                //return getDoc(url);
-            }
-            InputStream is=httpUrlConnetion.getInputStream();
-            byte[] buf = new byte[2048];
-            int read;
-            int sum = 0;
-            int maxsize =1000 * 1000;
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            while ((read = is.read(buf)) != -1) {
-                if (maxsize > 0) {
-                    sum = sum + read;
-                    if (sum > maxsize) {
-                        read = maxsize - (sum - read);
-                        bos.write(buf, 0, read);
-                        break;
-                    }
-                }
-                bos.write(buf, 0, read);
-            }
-            is.close();
-            byte[] content=bos.toByteArray();
-            bos.close();
-            page=new String(content, StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            System.out.println("bad proxy change another!");
-            //currentProxy=proxys.get(String.valueOf(random.nextInt(proxys.size())));
-            //return getDoc(url);
-        }finally {
-            httpUrlConnetion.disconnect();
-        }
-        Document doc= Jsoup.parse(page, String.valueOf(httpUrlConnetion.getURL()));
-        return doc;
+
+
+    public static void main(String[] args) {
+        QuestionService service=new QuestionService();
+        List<Question> questions=new LinkedList<>();
+        int currentPage = service.getQuestionsByKeyword(questions,"we25E",0)/10;
     }
 }

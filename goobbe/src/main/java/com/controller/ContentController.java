@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.service.QuestionService;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -68,32 +69,21 @@ public class ContentController {
         throw new GoobbeException();
     }
     @RequestMapping(value="/search",method = RequestMethod.GET)
-    public String search(@RequestParam("q") String target, ModelMap modelMap){
+    public String search(@RequestParam("q") String target,@RequestParam("p") String page, ModelMap modelMap){
         try{
-            String urlNum;
-            Matcher m = Pattern.compile("\\d{1,8}").matcher(target);
-            if(m.find()){
-                urlNum=m.group();
-                Question question=questionService.getQuestionByUrlNumber(Integer.valueOf(urlNum));
-                if(question!=null){
-                    modelMap.put("question", question);
-                    return "content";
-                }
+            int currentPage=Integer.valueOf(page);
+            if(currentPage<=0){
+                currentPage=1;
             }
-            return loadIndex(modelMap);
-
-//            int totalPage=59055;
-//            int pageNum=Integer.valueOf(page);
-//            if(pageNum<=0){
-//                pageNum=1;
-//            }
-//            if(pageNum>totalPage){
-//                pageNum=totalPage;
-//            }
-//            List<Question> list = questionService.getQuestionsForIndex(pageNum);
-//            modelMap.put("questions", list);
-//            modelMap.put("currentPage",pageNum);
-//            modelMap.put("totalPage",totalPage);
+            if(currentPage>11){
+                currentPage=11;
+            }
+            List<Question> questions=new ArrayList<>();
+            questionService.getQuestionsByKeyword(questions,target,currentPage);
+            modelMap.put("questions", questions);
+            modelMap.put("currentPage",currentPage);
+            modelMap.put("totalPage",10);
+            return "index";
         }catch (Exception e){
             e.printStackTrace();
         }

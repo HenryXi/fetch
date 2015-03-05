@@ -12,11 +12,17 @@ public class Question {
         this.t=title;
         this.c=content;
     }
+    public Question(String title,String content,String sUrl){
+        this.t=title;
+        this.c=content;
+        this.sUrl=sUrl;
+    }
     private String id;
     private String url;
     private String t;
     private String title4url;
     private String c;
+    private String sUrl;
     private List<Comment> cs=new ArrayList<Comment>();
     private List<Answer> as=new ArrayList<Answer>();
 
@@ -76,5 +82,17 @@ public class Question {
         this.as = as;
     }
 
+    public String getsUrl() {
+        return sUrl;
+    }
+
+    public void setsUrl(String sUrl) {
+        this.sUrl = sUrl;
+    }
+    @Override
+    public boolean equals(Object question){
+        Question q=(Question)question;
+        return q.getT().equals(getT());
+    }
 }
 
