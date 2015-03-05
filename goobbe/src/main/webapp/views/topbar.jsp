@@ -1,13 +1,13 @@
-<%--todo: search function, do it self or let user search in google?--%>
-<%--todo: put logo on topbar--%>
 <%--todo: translation function, using js is the best way--%>
 <div class="topbar">
     <script src="http://cdn.bootcss.com/jquery/1.9.0/jquery.js"></script>
     <div class="topbar-wrapper">
-        <%--<a href="/"> </a>--%>
+        <h1 class="logo">
+            <a href="/">Goobbe</a>
+        </h1>
         <div class="search-container">
             <form id="search" action="/search" method="get" autocomplete="off">
-                <input name="q" type="text" placeholder="search" value="" tabindex="1" autocomplete="off"
+                <input name="q" type="text" placeholder="search" value="${keyword}" tabindex="1" autocomplete="off"
                        maxlength="240">
                 <button type="submit" class="btn">Search</button>
             </form>

@@ -142,22 +142,21 @@
         <tr id="6" class="comment ">
             <td class="comment-text">
                 <div style="display: block;" class="comment-body">
-                    <span class="comment-copy">These three <code>alert</code>s will be executed <b>before</b> your <code>tempLogoGetWH</code> callback function, therefore valules of width and height will be undefined. Move them at the very bottom of <code>tempLogoGetWH</code> and everything will be fine.</span>
+                    <span><code>Comments</code> will be put here</span>
                 </div>
             </td>
         </tr>
         <tr id="7" class="comment ">
             <td class="comment-text">
                 <div style="display: block;" class="comment-body">
-                            <span class="comment-copy">This is happening because your image load <code>tempLogoGetWH</code>  is <b>not</b>  executed and you are trying to alert <code>height,
-                                width</code> <b>before</b> it executes.</span>
+                            <span class="comment-copy"><code>Comments</code> will be put here</span>
                 </div>
             </td>
         </tr>
         <tr id="8" class="comment ">
             <td class="comment-text">
                 <div style="display: block;" class="comment-body">
-                    <span class="comment-copy">That explains a lot, works now! Thank you, guys! OT: How do I set this as "asnwered" now?</span>
+                    <span class="comment-copy"><code>Comments</code> will be put here</span>
                 </div>
             </td>
         </tr>

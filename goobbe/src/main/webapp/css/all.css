@@ -573,8 +573,12 @@ blockquote p:last-child {
     margin-bottom: 0
 }
 
-b, strong {
-    font-weight: bold
+b {
+    color:#dd4b39;
+    font-weight: normal;
+}
+strong {
+    font-weight: bold;
 }
 
 i, em {
@@ -3807,10 +3811,6 @@ div.form-field-error.form-error {
     margin-top: 15px
 }
 
-.login-page #show-more-options a {
-    background: #ccc url('../Img/openid/openid-logos.png?v=11')
-}
-
 .login-page #more-openid-options {
     margin-top: 15px;
     overflow: auto
@@ -5477,7 +5477,7 @@ table.sorter tbody tr.odd td {
 }
 .search-container {
     float: left !important;
-    margin: 10px 200px;
+    margin: 10px 20px;
     display: inline-block
 }
 .search-container input {
@@ -5497,4 +5497,12 @@ table.sorter tbody tr.odd td {
     border: 1px solid transparent;
     font-size: 18px;
     border-radius: 4px
+}
+.logo {
+    margin-bottom: 0px;
+}
+.logo a{
+    width: 150px;
+    height: 60px;
+    color: Transparent;
 }

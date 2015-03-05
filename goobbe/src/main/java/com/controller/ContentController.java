@@ -56,7 +56,7 @@ public class ContentController {
     @RequestMapping(value = "/questions", method = RequestMethod.GET)
     public String loadIndex(@RequestParam("page") String page, ModelMap modelMap){
         try{
-            int totalPage=114127;
+            int totalPage=128780;
             int pageNum=Integer.valueOf(page);
             if(pageNum<=0){
                 pageNum=1;
@@ -76,20 +76,13 @@ public class ContentController {
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String search(@RequestParam("q") String q, @RequestParam(value = "p", required = false, defaultValue = "-1") String p, ModelMap modelMap) {
+    public String search(@RequestParam("q") String q, ModelMap modelMap) {
         try {
-            int currentPage = Integer.valueOf(p);
-            if (currentPage <= 0) {
-                currentPage = 1;
-            }
-            if (currentPage > 11) {
-                currentPage = 11;
-            }
             List<Question> questions = new ArrayList<>();
-            questionService.getQuestionsByKeyword(questions, q, currentPage);
+            questionService.getQuestionsByKeyword(questions, q,0);
             modelMap.put("questions", questions);
-            modelMap.put("currentPage", currentPage);
-            modelMap.put("totalPage", 10);
+            modelMap.put("totalPage", -1);
+            modelMap.put("keyword",q);
             return "index";
         } catch (Exception e) {
             e.printStackTrace();
