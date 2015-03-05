@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="/css/all.css">
     <link rel="icon" href="/pic/favicon.ico" mce_href="/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="/pic/favicon.ico" mce_href="/favicon.ico" type="image/x-icon">
-<%--<script src="http://cdn.bootcss.com/jquery/1.9.0/jquery.js"></script>--%>
+
 <body class="question-page new-topbar">
 <jsp:include page="topbar.jsp"/>
 <div class="container">

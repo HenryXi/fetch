@@ -75,7 +75,7 @@ public class GetAllPager2 extends Thread {
         for (long i = startNumber; i <= endNumber; i++) {
             Document doc = null;
             try {
-                doc = getDoc("http://stackoverflow.com/questions?pagesize=50&sort=newest&page=" + i);
+                doc = getDoc("http://www.gfsoso.com/?q=java+site%3Astackoverflow.com");
                 saveLinksInDB(doc);
             } catch (Throwable e) {
                 e.printStackTrace();
@@ -90,6 +90,7 @@ public class GetAllPager2 extends Thread {
         HttpURLConnection httpUrlConnetion=new HttpURLConnection(website,currentProxy);
         httpUrlConnetion.setConnectTimeout(1000*40);
         httpUrlConnetion.setReadTimeout(1000 * 20);
+        httpUrlConnetion.setInstanceFollowRedirects(false);
 //        httpUrlConnetion.setRequestProperty("User-Agent", userAgent);
         String page=null;
         try {

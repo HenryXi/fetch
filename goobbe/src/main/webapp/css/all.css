@@ -774,7 +774,7 @@ tr.comment > td {
 #answers {
     clear: both;
     padding-top: 10px;
-    width: 728px
+    width: 685px
 }
 
 #scroller {
@@ -784,7 +784,7 @@ tr.comment > td {
 .answer {
     padding-bottom: 20px;
     padding-top: 20px;
-    width: 728px
+    width: 685px
 }
 
 .post-signature {
@@ -1082,7 +1082,7 @@ tr.comment > td {
 
 #answers-header {
     margin-top: 10px;
-    width: 728px
+    width: 685px
 }
 
 #question-header {
@@ -1355,9 +1355,8 @@ tr.comment > td {
 #sidebar, .sidebar {
     float: right;
     overflow: hidden;
-    width: 460px;
-    margin: 0;
-    margin: 0 0 15px 0
+    width: 500px;
+    margin: 0 0 15px 0px;
 }
 
 #sidebar h4, .sidebar h4 {
@@ -1387,9 +1386,9 @@ tr.comment > td {
 
 #mainbar, .mainbar {
     float: left;
-    width: 728px;
+    width: 685px;
     margin: 0 0 0 0;
-    padding: 0
+    padding: 0;
 }
 
 #mainbar-full, .mainbar-full {
@@ -1449,7 +1448,7 @@ div.form-error {
     overflow: hidden;
     padding: 15px 0;
     float: left;
-    width: 728px;
+    width: 685px;
     border-bottom: 1px solid #f0f0f0
 }
 
@@ -1460,7 +1459,7 @@ div.form-error {
 #questions {
     clear: both;
     float: left;
-    width: 728px;
+    width: 685px;
     margin-bottom: 20px
 }
 

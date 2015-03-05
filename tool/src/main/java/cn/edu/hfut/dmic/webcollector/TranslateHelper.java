@@ -98,12 +98,13 @@ public class TranslateHelper {
 
     public static void main(String args[]) throws IOException{
         TranslateHelper translateHelper=new TranslateHelper();
-        do{
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-            String s = br.readLine();
-            translateHelper.translate(s);
-        }while (true);
+//        do{
+//            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//
+//            String s = br.readLine();
+//            translateHelper.translate(s);
+//        }while (true);
+        translateHelper.translate("hello,everyone");
     }
 
 
