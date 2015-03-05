@@ -48,11 +48,11 @@ public class QuestionService {
         throw new GoobbeException("error");
     }
 
-    public Question getQuestionBysUrl(String sUrl) throws GoobbeException{
+    private Question getQuestionBysUrl(String sUrl){
         try {
             Map<String,Object> record=jdbcTemplate.queryForMap("select * from tb_content where url=?",sUrl);
             if(null==record.get("content")){
-                throw new GoobbeException("error");
+                return null;
             }
             Question question = objectMapper.readValue(record.get("content").toString(),Question.class);
             question.setUrl(record.get("url").toString());
@@ -61,7 +61,7 @@ public class QuestionService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        throw new GoobbeException("error");
+        return null;
     }
 
     public List<Question> getQuestionsForIndex() {
@@ -128,7 +128,13 @@ public class QuestionService {
                     if(questions.size()>=10 || questions.contains(question)){
                         return pageNumber;
                     }
-                    questions.add(question);
+//todo:this is temporary solution, do not query db in loop, after removing null record can use "SQL SELECT IN (Value1, Value2...)" in sql
+                    Question questionOfLocal=getQuestionBysUrl(question.getsUrl());
+                    if(questionOfLocal!=null){
+                        questionOfLocal.setC(question.getC());
+                        questionOfLocal.setT(question.getT().replace(" - Stack Overflow",""));
+                        questions.add(questionOfLocal);
+                    }
                 }
             }
             if(questions.size()<10){
