@@ -149,6 +149,9 @@ public class QuestionService {
                     }
                 }
             }
+            if(pageNumber>200){
+                return pageNumber;
+            }
             if(questions.size()<10){
                 return getQuestionsByKeyword(questions,keyword,pageNumber+10);
             }

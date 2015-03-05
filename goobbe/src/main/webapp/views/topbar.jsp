@@ -1,4 +1,5 @@
 <%--todo: translation function, using js is the best way--%>
+<%--todo: similar question list in content page --%>
 <div class="topbar">
     <script src="http://cdn.bootcss.com/jquery/1.9.0/jquery.js"></script>
     <div class="topbar-wrapper">
