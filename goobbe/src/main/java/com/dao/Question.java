@@ -92,7 +92,13 @@ public class Question {
     @Override
     public boolean equals(Object question){
         Question q=(Question)question;
-        return q.getT().equals(getT());
+        if(q.getUrl()!=null && q.getUrl().equals(getUrl())){
+            return true;
+        }
+        if(q.getsUrl()!=null && q.getsUrl().equals(getsUrl())){
+            return true;
+        }
+        return false;
     }
 }
 

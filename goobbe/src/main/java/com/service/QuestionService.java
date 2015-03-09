@@ -3,6 +3,7 @@ package com.service;
 import com.dao.Question;
 import com.exception.GoobbeException;
 import com.util.GetPageByUrlWithProxy;
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -10,7 +11,10 @@ import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 import sun.net.www.protocol.http.HttpURLConnection;
 
@@ -33,6 +37,8 @@ public class QuestionService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    @Autowired
     private ObjectMapper objectMapper;
     @Autowired
     private GetPageByUrlWithProxy getPageByUrlWithProxy;
@@ -51,40 +57,6 @@ public class QuestionService {
             e.printStackTrace();
         }
         throw new GoobbeException("error");
-    }
-
-    private Question getQuestionBysUrl(String sUrl){
-        try {
-            Map<String,Object> record=jdbcTemplate.queryForMap("select * from tb_content where url=?", sUrl);
-            if(null==record.get("content")){
-                return null;
-            }
-            Question question = objectMapper.readValue(record.get("content").toString(),Question.class);
-            question.setUrl(record.get("url").toString());
-            question.setId(record.get("id").toString());
-            return question;
-        }catch (EmptyResultDataAccessException e){
-            return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public List<Question> getQuestionsForIndex() {
-        List<Question> questions = this.jdbcTemplate.query(
-            "select * from tb_content where content is not null limit 15",
-            new RowMapper<Question>() {
-                public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
-                    try {
-                        return getQuestionByResultSet(rs);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                }
-            });
-        return questions;
     }
 
     private Question getQuestionByResultSet(ResultSet rs) throws IOException, SQLException {
@@ -118,54 +90,55 @@ public class QuestionService {
         return questions;
     }
 
-    public int getQuestionsByKeyword(List<Question> questions,String keyword,int pageNumber) throws GoobbeException{
+    private List<Question> getQuestionsByKeyword(String keyword,int pageNumber) throws GoobbeException{
         try {
-            //System.out.println("request-->" + keyword + " " + pageNumber);
-            Document doc = Jsoup.connect("http://gufensoso.com/search.php?wd="+keyword+"+site%3Astackoverflow.com&pn="+pageNumber).get();
-//            Document doc = getPageByUrlWithProxy.getDoc("http://www.gfsoso.com/?q="+keyword+"+site%3Astackoverflow.com&pn="+pageNumber,null);
-//            String url=doc.baseUri()+"&t=1";
-//            int startIndex=doc.toString().indexOf("$.cookie('_GFTOKEN','");
-//            int endIndex=doc.toString().indexOf("', {expires:720}");
-//            String cookie=doc.toString().substring(startIndex+21,endIndex);
-//            doc=Jsoup.connect(url).cookie("_GFTOKEN",cookie).get();
-////            doc=getPageByUrlWithProxy.getDoc(url, new Cookie("_GFTOKEN", cookie));
-//            String targetDiv=doc.toString().substring(doc.toString().indexOf("<ol"),doc.toString().indexOf("ol>")+3);
-//            Document finalDoc=Jsoup.parse(targetDiv.replace("\\\"","\"").replace("\\","").replace("\t",""));
-            for(Element result:doc.select(".g")){
-                for(Element hrefElement:result.select("a")){
-                    String resultHref=hrefElement.attr("href").replace(STACK_URL,"");
-                    if(resultHref.matches("\\d{1,8}/.+")){
-                        Question question=new Question(hrefElement.html(),result.select(".s>.st").html(),resultHref);
-                        if(questions.size()>=10 || questions.contains(question)){
-                            return pageNumber;
+            System.out.println("request-->" + keyword + " " + pageNumber);
+            ObjectMapper objectMapper1=new ObjectMapper();
+            //todo add ip param if need. like this ....&i=random ip;
+            String resultJson = Jsoup.connect("http://52.11.54.118/?q="+keyword+"+site%3Astackoverflow.com%2Fquestions%2F&s="+pageNumber).ignoreContentType(true).execute().body();
+            JsonNode jsonNode = objectMapper1.readTree(resultJson).get("responseData").get("results");
+            List<String> urls=new ArrayList<>();
+            for(int i=0;i<jsonNode.size();i++){
+                urls.add(jsonNode.get(i).findPath("url").getValueAsText().replace("http://stackoverflow.com/questions/",""));
+            }
+            // todo "not null" in sql should be removed after format db
+            List<Question> questions = namedParameterJdbcTemplate.query(
+                "select * from tb_content where url in (:urls) and content is not null",
+                Collections.singletonMap("urls",urls),
+                new RowMapper<Question>() {
+                    public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        try{
+                            return getQuestionByResultSet(rs);
+                        }catch (Exception e){
+                            e.printStackTrace();
                         }
-//todo:this is temporary solution, do not query db in loop, after removing null record can use "SQL SELECT IN (Value1, Value2...)" in sql
-                        Question questionOfLocal=getQuestionBysUrl(question.getsUrl());
-                        if(questionOfLocal!=null){
-                            questionOfLocal.setC(question.getC().replace("<br />",""));
-                            questionOfLocal.setT(question.getT().replace(" - Stack Overflow",""));
-                            questions.add(questionOfLocal);
-                        }
+                        return null;
                     }
-                }
-            }
-            if(pageNumber>200){
-                return pageNumber;
-            }
-            if(questions.size()<10){
-                return getQuestionsByKeyword(questions,keyword,pageNumber+10);
-            }
+                });
+            return questions;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return pageNumber;
+        throw new GoobbeException("error");
+    }
+
+    public List<Question> getQuestions(String keyword){
+        List<Question> questions=new ArrayList<>();
+        for(int i=0;i<10;i++){
+            for(Question question:getQuestionsByKeyword(keyword,8*i)){
+                questions.add(question);
+                if(questions.size()>=10){
+                    return questions;
+                }
+            }
+        }
+        return questions;
     }
 
 
 
     public static void main(String[] args) {
         QuestionService service=new QuestionService();
-        List<Question> questions=new LinkedList<>();
-        int currentPage = service.getQuestionsByKeyword(questions,"we25E",0)/10;
+        List<Question> questions= service.getQuestionsByKeyword("get google result",0);
     }
 }

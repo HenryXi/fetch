@@ -24,6 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Service
 public class GetPageByUrlWithProxy {
+    private final String userAgent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:27.0) Gecko/20100101 Firefox/27.0";
     ConcurrentHashMap<String,Proxy> proxys=new ConcurrentHashMap<String,Proxy>();
     Random random = new Random();
     public Proxy currentProxy;
@@ -46,7 +47,7 @@ public class GetPageByUrlWithProxy {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        currentProxy=Proxy.NO_PROXY;
+        currentProxy=Proxy.NO_PROXY;
     }
 
     public Document getDoc(String url,Cookie cookie) throws MalformedURLException {
@@ -57,10 +58,11 @@ public class GetPageByUrlWithProxy {
         httpUrlConnetion.setReadTimeout(1000 * 20);
         if(cookie!=null){
             httpUrlConnetion.setRequestProperty(cookie.getName(),cookie.getValue());
+            httpUrlConnetion.setRequestProperty("User-Agent", userAgent);
         }
         String page=null;
         try {
-            currentProxy = proxys.get(String.valueOf(random.nextInt(proxys.size())));
+//            currentProxy = proxys.get(String.valueOf(random.nextInt(proxys.size())));
             int stateCode=httpUrlConnetion.getResponseCode();
             if(stateCode!=200){
                 System.out.println("state -->"+stateCode);
