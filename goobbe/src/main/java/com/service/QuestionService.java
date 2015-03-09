@@ -22,9 +22,7 @@ import javax.servlet.http.Cookie;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.Proxy;
-import java.net.URL;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,8 +38,7 @@ public class QuestionService {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     @Autowired
     private ObjectMapper objectMapper;
-    @Autowired
-    private GetPageByUrlWithProxy getPageByUrlWithProxy;
+    private Random random=new Random();
 
     public Question getQuestionById(Integer id) throws GoobbeException{
         try {
@@ -93,10 +90,12 @@ public class QuestionService {
     private List<Question> getQuestionsByKeyword(String keyword,int pageNumber) throws GoobbeException{
         try {
             System.out.println("request-->" + keyword + " " + pageNumber);
-            ObjectMapper objectMapper1=new ObjectMapper();
-            //todo add ip param if need. like this ....&i=random ip;
-            String resultJson = Jsoup.connect("http://52.11.54.118/?q="+keyword+"+site%3Astackoverflow.com%2Fquestions%2F&s="+pageNumber).ignoreContentType(true).execute().body();
-            JsonNode jsonNode = objectMapper1.readTree(resultJson).get("responseData").get("results");
+            String resultJson = Jsoup.connect("http://52.11.54.118/?q="+keyword+"+site%3Astackoverflow.com%2Fquestions%2F&s="+pageNumber+getRandomIp()).ignoreContentType(true).execute().body();
+            JsonNode jsonNode = objectMapper.readTree(resultJson).get("responseData").get("results");
+            if(jsonNode==null){
+                System.out.println(resultJson);
+                return null;
+            }
             List<String> urls=new ArrayList<>();
             for(int i=0;i<jsonNode.size();i++){
                 urls.add(jsonNode.get(i).findPath("url").getValueAsText().replace("http://stackoverflow.com/questions/",""));
@@ -122,10 +121,22 @@ public class QuestionService {
         throw new GoobbeException("error");
     }
 
+    private String getRandomIp() throws UnknownHostException {
+        InetAddress inetAddress=InetAddress.getByName(random.nextInt(255)+"."+random.nextInt(255)+"."+random.nextInt(255)+"."+random.nextInt(255));
+        if(inetAddress.isSiteLocalAddress()){
+            return "";
+        }
+        return "&i="+inetAddress.getHostAddress();
+    }
+
     public List<Question> getQuestions(String keyword){
         List<Question> questions=new ArrayList<>();
         for(int i=0;i<10;i++){
-            for(Question question:getQuestionsByKeyword(keyword,8*i)){
+            List<Question> questionsFromSearch=getQuestionsByKeyword(keyword,8*i);
+            if(questionsFromSearch==null){
+                return questions;
+            }
+            for(Question question:questionsFromSearch){
                 questions.add(question);
                 if(questions.size()>=10){
                     return questions;
