@@ -12,17 +12,17 @@ public class Question {
         this.t=title;
         this.c=content;
     }
-    public Question(String title,String content,String sUrl){
+    public Question(String id,String content,String title,String url){
         this.t=title;
         this.c=content;
-        this.sUrl=sUrl;
+        this.id=id;
+        this.url=url;
     }
     private String id;
     private String url;
     private String t;
     private String title4url;
     private String c;
-    private String sUrl;
     private List<Comment> cs=new ArrayList<Comment>();
     private List<Answer> as=new ArrayList<Answer>();
 
@@ -51,6 +51,7 @@ public class Question {
     }
 
     public String getTitle4url() {
+        //todo do format by my self instead of cutting others
         return url.replaceAll("\\d{1,8}/","");
     }
 
@@ -80,25 +81,6 @@ public class Question {
 
     public void setAs(List<Answer> as) {
         this.as = as;
-    }
-
-    public String getsUrl() {
-        return sUrl;
-    }
-
-    public void setsUrl(String sUrl) {
-        this.sUrl = sUrl;
-    }
-    @Override
-    public boolean equals(Object question){
-        Question q=(Question)question;
-        if(q.getUrl()!=null && q.getUrl().equals(getUrl())){
-            return true;
-        }
-        if(q.getsUrl()!=null && q.getsUrl().equals(getsUrl())){
-            return true;
-        }
-        return false;
     }
 }
 

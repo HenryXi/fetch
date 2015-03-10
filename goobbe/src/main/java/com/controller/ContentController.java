@@ -41,12 +41,6 @@ public class ContentController {
         }
         throw new GoobbeException();
     }
-//    @RequestMapping(value = "/question/{sUrl}/{{title4url}}", method= RequestMethod.GET)
-//    public String loadContentBySearchResult(@PathVariable("sUrl") String sUrl,@PathVariable("title4url") String title4url, ModelMap modelMap){
-//        Question question=questionService.getQuestionBysUrl(sUrl);
-//        modelMap.put("question", question);
-//        return "redirect:/questions/"+question.getId()+"/"+question.getTitle4url();
-//    }
 
     @RequestMapping(value = "/questions/{id}", method = RequestMethod.GET)
     public String loadContent(@PathVariable("id") String id, ModelMap modelMap){
