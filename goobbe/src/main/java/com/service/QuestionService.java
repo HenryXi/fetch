@@ -116,9 +116,9 @@ public class QuestionService {
                 });
             return questions;
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
-        throw new GoobbeException("error");
+        return null;
     }
 
     private Question getQuestionForSearchResult(ResultSet rs, JsonNode jsonNode) throws SQLException {

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.service.QuestionService;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -73,7 +74,7 @@ public class ContentController {
     public String search(@RequestParam("q") String q, ModelMap modelMap) {
         try {
             //todo: use utf-8 or do not let user input other language just use english
-            List<Question> questions = questionService.getQuestions(q);
+            List<Question> questions = questionService.getQuestions(URLEncoder.encode(q,"UTF-8"));
             modelMap.put("questions", questions);
             modelMap.put("totalPage", -1);
             modelMap.put("keyword",q);
