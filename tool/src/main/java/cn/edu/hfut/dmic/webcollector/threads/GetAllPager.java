@@ -29,7 +29,7 @@ public class GetAllPager extends Thread {
     ConcurrentHashMap<String,Proxy> proxys=new ConcurrentHashMap<String,Proxy>();
     Random random = new Random();
     Proxy currentProxy;
-
+    public GetAllPager(){}
     public GetAllPager(Long startNumber, Long endNumber) {
         this.startNumber = startNumber;
         this.endNumber = endNumber;
@@ -106,7 +106,7 @@ public class GetAllPager extends Thread {
         System.out.println("---------->" + startNumber + "---" + endNumber + " end---------");
     }
 
-    private Document getDoc(String url) throws MalformedURLException {
+    public Document getDoc(String url) throws MalformedURLException {
         URL website = new URL(url);
         System.out.println("proxy -->" +( currentProxy==null?"null":currentProxy.address()));
         HttpURLConnection httpUrlConnetion=new HttpURLConnection(website,currentProxy);
@@ -172,15 +172,11 @@ public class GetAllPager extends Thread {
         JDBCHelper.createMysqlTemplate("po",
                 "jdbc:postgresql://localhost:5432/page",
                 "postgres", "postgres", 80, 120);
-        GetAllPager getAllPager = new GetAllPager(1900l, 2000l);
-        getAllPager.start();
-        do {
-            try {
-                Thread.sleep(1000*10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println(getAllPager.isAlive());
-        } while (true);
+        GetAllPager getAllPager = new GetAllPager();
+        try {
+            Document document=getAllPager.getDoc("http://stackoverflow.com/questions/283193");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 }

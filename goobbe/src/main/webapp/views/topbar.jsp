@@ -2,6 +2,21 @@
 <%--todo: similar question list in content page --%>
 <div class="topbar">
     <script src="http://cdn.bootcss.com/jquery/1.9.0/jquery.js"></script>
+    <script language="JavaScript">
+        function test(){
+            var target;
+            if (window.getSelection) {  // all browsers, except IE before version 9
+                var range = window.getSelection ();
+                target=range.toString ();
+            }
+            else {
+                if (document.selection.createRange) { // Internet Explorer
+                    var range = document.selection.createRange ();
+                    target=range.text;
+                }
+            }
+        }
+    </script>
     <div class="topbar-wrapper">
         <h1 class="logo">
             <a href="/">Goobbe</a>

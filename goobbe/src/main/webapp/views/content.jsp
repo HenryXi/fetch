@@ -13,7 +13,7 @@
 <%--<div id="header">--%>
     <%--There should be logo pic--%>
 <%--</div>--%>
-<div id="content" class="snippet-hidden">
+<div id="content" class="snippet-hidden" onmouseup="test()">
 
 <div id="question-header">
     <h1 itemprop="name"><a href="/questions/${question.id}/${question.title4url}"
@@ -45,21 +45,12 @@
                         <table>
                             <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true"
                                    data-comments-unavailable="false" data-addlink-disabled="true">
-                            <c:forEach var="comment" items="${question.cs}">
+                            <c:forEach var="comment" items="${question.cs}" varStatus="questionCommentStatus">
                                 <tr id="comment-44781745" class="comment ">
                                     <td>
-                                        <table>
-                                            <tbody>
-                                            <tr>
-                                                <td class=" comment-score">
-                                                    &nbsp;&nbsp;
-                                                </td>
-                                                <td>
-                                                    &nbsp;
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                        <div class="${questionCommentStatus.first? 'first-comment-mark':'other-comment-mark' }">
+                                                <%--<span itemprop="upvoteCount" class="vote-count-post ">0</span>--%>
+                                        </div>
                                     </td>
                                     <td class="comment-text">
                                         <div style="display: block;" class="comment-body">
