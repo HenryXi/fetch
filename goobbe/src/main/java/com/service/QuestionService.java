@@ -121,13 +121,14 @@ public class QuestionService {
         return null;
     }
 
-    private Question getQuestionForSearchResult(ResultSet rs, JsonNode jsonNode) throws SQLException {
+    private Question getQuestionForSearchResult(ResultSet rs, JsonNode jsonNode) throws SQLException, IOException {
         Iterator<JsonNode> iterator=jsonNode.getElements();
         while (iterator.hasNext()){
             JsonNode resultJsonNode=iterator.next();
             String url=rs.getString("url");
             if(resultJsonNode.findValue("unescapedUrl").getValueAsText().contains(url)){
-                return new Question(rs.getString("id"),resultJsonNode.findValue("title").getValueAsText().replace("- Stack Overflow","")
+                String title=objectMapper.readTree(rs.getString("content")).get("t").getValueAsText();
+                return new Question(rs.getString("id"),title.replace("- Stack Overflow","")
                         ,resultJsonNode.findValue("content").getValueAsText(),url);
             }
         }
@@ -150,7 +151,7 @@ public class QuestionService {
                 return questions;
             }
             for(Question question:questionsFromSearch){
-                if(question!=null){
+                if(question!=null && !questions.contains(question)){
                     questions.add(question);
                 }
                 if(questions.size()>=10){

@@ -33,8 +33,9 @@ public class ContentController {
     public String loadContent(@PathVariable("id") String id,@PathVariable("title4url") String title4url, ModelMap modelMap){
         try{
             Question question= questionService.getQuestionById(Integer.valueOf(id));
-            if(!question.getTitle4url().equals(title4url)){
-                return "redirect:/questions/"+id+"/"+question.getTitle4url();
+            String shortTitle=question.getTitle4url();
+            if(!shortTitle.equals(title4url)){
+                return "redirect:/questions/"+id+"/"+shortTitle;
             }
             modelMap.put("question", question);
             return "content";
