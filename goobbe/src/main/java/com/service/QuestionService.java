@@ -27,6 +27,8 @@ import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class QuestionService {
@@ -96,9 +98,16 @@ public class QuestionService {
                 System.out.println(resultJson);
                 return null;
             }
-            List<String> urls=new ArrayList<>();
+            List<Integer> urls=new ArrayList<>();
+            Pattern p = Pattern.compile("http://stackoverflow.com/questions/\\d{1,8}/.+");
             for(int i=0;i<jsonNode.size();i++){
-                urls.add(jsonNode.get(i).findPath("url").getValueAsText().replace("http://stackoverflow.com/questions/",""));
+                String url=jsonNode.get(i).findPath("url").getValueAsText();
+                if(p.matcher(url).find()){
+                    urls.add(Integer.valueOf(url.replace("http://stackoverflow.com/questions/", "").replaceAll("/.+", "")));
+                }
+            }
+            if(urls.size()==0){
+                return null;
             }
             // todo "not null" in sql should be removed after format db
             List<Question> questions = namedParameterJdbcTemplate.query(
@@ -127,7 +136,7 @@ public class QuestionService {
             JsonNode resultJsonNode=iterator.next();
             String url=rs.getString("url");
             if(resultJsonNode.findValue("unescapedUrl").getValueAsText().contains(url)){
-                String title=objectMapper.readTree(rs.getString("content")).get("t").getValueAsText();
+                String title= resultJsonNode.get("title").getValueAsText();
                 return new Question(rs.getString("id"),title.replace("- Stack Overflow","")
                         ,resultJsonNode.findValue("content").getValueAsText(),url);
             }

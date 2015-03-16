@@ -17,10 +17,7 @@ import sun.net.www.protocol.http.HttpURLConnection;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetSocketAddress;
-import java.net.MalformedURLException;
-import java.net.Proxy;
-import java.net.URL;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Random;
@@ -65,7 +62,7 @@ public class GetAllPager2Json extends Thread {
         currentProxy=Proxy.NO_PROXY;
     }
 
-    private void saveContentAsJsonInDB(Document doc,String oldUrl) {
+    private void saveContentAsJsonInDB(Document doc,Integer oldUrl) {
         if(doc==null){
             return;
         }
@@ -84,7 +81,8 @@ public class GetAllPager2Json extends Thread {
             if(!doc.baseUri().contains("http://stackoverflow.com/questions/")){
                 return;
             }
-            jdbcTemplate.update("update tb_content set content=?::json ,url=? where url=?",objectMapper.writeValueAsString(question),doc.baseUri().replace("http://stackoverflow.com/questions/","").replaceAll("/.+",""),oldUrl);
+            jdbcTemplate.update("update tb_content set content=?::json ,url=? where url=?",
+                objectMapper.writeValueAsString(question),Integer.valueOf(doc.baseUri().replace("http://stackoverflow.com/questions/", "").replaceAll("/.+", "")),oldUrl);
         }catch (DuplicateKeyException e){
             jdbcTemplate.update("delete from tb_content where url=?",oldUrl);
             return;
@@ -94,11 +92,11 @@ public class GetAllPager2Json extends Thread {
     }
 
     public void run() {
-        List<String> records=jdbcTemplate.queryForList("select url from tb_content where id between "+startNumber +" and "+endNumber,String.class);
+        List<Integer> records=jdbcTemplate.queryForList("select url from tb_content where id between "+startNumber +" and "+endNumber,Integer.class);
         Document doc = null;
-        for (String url:records) {
+        for (Integer url:records) {
             try {
-                doc = getDoc("http://stackoverflow.com/questions/"+url);
+                doc = getDoc(url);
                 saveContentAsJsonInDB(doc,url);
             } catch (Throwable e) {
                 e.printStackTrace();
@@ -107,8 +105,8 @@ public class GetAllPager2Json extends Thread {
         System.out.println("---------->" + startNumber + "---" + endNumber + " end---------");
     }
 
-    private Document getDoc(String url) throws MalformedURLException {
-        URL website = new URL(url);
+    private Document getDoc(Integer url) throws MalformedURLException {
+        URL website = new URL("http://stackoverflow.com/questions/"+url);
         //System.out.println("proxy -->" +( currentProxy==null?"null":currentProxy.address()));
         HttpURLConnection httpUrlConnetion=new HttpURLConnection(website,currentProxy);
         httpUrlConnetion.setConnectTimeout(1000*40);
@@ -118,10 +116,15 @@ public class GetAllPager2Json extends Thread {
         try {
             int stateCode=httpUrlConnetion.getResponseCode();
             if(stateCode!=200){
-                System.out.println("state -->"+stateCode+" url --->"+url);
+                System.out.println("state -->"+stateCode+" url --->"+url+" proxy -->" +( currentProxy==null?"null":currentProxy.address()));
                 if(stateCode==404){
-                    jdbcTemplate.update("update tb_content set content=null where url=?",url);
-                    return null;
+                    if(currentProxy.equals(Proxy.NO_PROXY)){
+                        jdbcTemplate.update("update tb_content set content=null where url=?",url);
+                        return null;
+                    }else{
+                        currentProxy=Proxy.NO_PROXY;
+                        return getDoc(url);
+                    }
                 }
                 currentProxy = proxys.get(String.valueOf(random.nextInt(proxys.size())));
                 return getDoc(url);

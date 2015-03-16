@@ -16,8 +16,9 @@
 <div id="content" class="snippet-hidden" onmouseup="test()">
 
 <div id="question-header">
-    <h1 itemprop="name"><a href="/questions/${question.id}/${question.title4url}"
-                           class="question-hyperlink">${question.t}</a></h1>
+    <%--<h1 itemprop="name"><a href="/questions/${question.id}/${question.title4url}"--%>
+                           <%--class="question-hyperlink">${question.t}</a></h1>--%>
+    <h1 itemprop="name">${question.t}</h1>
 </div>
 <div id="mainbar">
     <div class="question" data-questionid="" id="question">

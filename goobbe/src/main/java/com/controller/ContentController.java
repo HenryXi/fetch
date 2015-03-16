@@ -53,7 +53,8 @@ public class ContentController {
     @RequestMapping(value = "/questions", method = RequestMethod.GET)
     public String loadIndex(@RequestParam("page") String page, ModelMap modelMap){
         try{
-            int totalPage=128780;
+            //todo get total page number in config file
+            int totalPage=270755;
             int pageNum=Integer.valueOf(page);
             if(pageNum<=0){
                 pageNum=1;
