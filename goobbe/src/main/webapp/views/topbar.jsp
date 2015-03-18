@@ -5,6 +5,7 @@
 <%--todo: add contact us link(email)--%>
 <%--todo: add original link for each question--%>
 <%--todo: use ajax make UE better--%>
+<%--todo: make id in page meaningful--%>
 <div class="topbar">
     <script src="http://cdn.bootcss.com/jquery/1.9.0/jquery.js"></script>
     <script language="JavaScript">

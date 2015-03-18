@@ -33,7 +33,7 @@
             <div class="subheader">
                 <c:choose>
                     <c:when test="${totalPage==-1}">
-                        <h1 id="h-all-questions">Search result(at most show 10 records)</h1>
+                        <h1 id="h-all-questions">Search result(at most show 50 records)</h1>
                     </c:when>
                     <c:otherwise>
                         <h1 id="h-all-questions">All Questions</h1>

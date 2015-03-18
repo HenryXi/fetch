@@ -13,7 +13,7 @@ public class Question {
         this.t=title;
         this.c=content;
     }
-    public Question(String id,String title ,String content,String url){
+    public Question(String id,String title ,String content,int url){
         this.t=title;
         this.title4url=handleTitle(t);
         this.c=content;
@@ -21,7 +21,7 @@ public class Question {
         this.url=url;
     }
     private String id;
-    private String url;
+    private int url;
     private String t;
     private String title4url;
     private String c;
@@ -36,11 +36,11 @@ public class Question {
         this.id = id;
     }
 
-    public String getUrl() {
+    public int getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(int url) {
         this.url = url;
     }
 

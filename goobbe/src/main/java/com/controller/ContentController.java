@@ -76,7 +76,7 @@ public class ContentController {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String search(@RequestParam("q") String q, ModelMap modelMap) {
         try {
-            List<Question> questions = questionService.getQuestions(URLEncoder.encode(q,"UTF-8"));
+            List<Question> questions = questionService.getQuestionsByKeyword(URLEncoder.encode(q,"UTF-8"));
             modelMap.put("questions", questions);
             modelMap.put("totalPage", -1);
             modelMap.put("keyword",q);
