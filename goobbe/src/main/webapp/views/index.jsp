@@ -45,7 +45,16 @@
                     <div class="question-summary" id="question-summary-28208463">
                         <div class="summary">
                             <h3>
-                                <a href="/questions/${question.id}/${question.title4url}" class="question-hyperlink" target="_blank">${question.t}</a>
+                            <c:choose>
+                                <c:when test="${totalPage==-1}">
+                                    <a href="/question/${question.url}/${question.title4url}" class="question-hyperlink" target="_blank">${question.t}</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="/questions/${question.id}/${question.title4url}" class="question-hyperlink" target="_blank">${question.t}</a>
+                                </c:otherwise>
+                            </c:choose>
+
+
                             </h3>
 
                             <div class="excerpt">

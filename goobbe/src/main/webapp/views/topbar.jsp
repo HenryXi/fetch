@@ -1,11 +1,11 @@
 <%--todo: translation function, using js is the best way--%>
 <%--todo: similar question list in content page --%>
-<%--todo: make a ecosystem for goobbe --%>
+<%--todo: make a ecosystem for goobbe(finish half after fetching all data finish this functionality) --%>
 <%--todo: return state code and page for 404 500 503 and so on--%>
 <%--todo: add contact us link(email)--%>
 <%--todo: add original link for each question--%>
-<%--todo: use ajax make UE better--%>
 <%--todo: make id in page meaningful--%>
+<%--todo: replace system out put with log4j to collect log--%>
 <div class="topbar">
     <script src="http://cdn.bootcss.com/jquery/1.9.0/jquery.js"></script>
     <script language="JavaScript">

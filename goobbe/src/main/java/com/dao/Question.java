@@ -1,23 +1,26 @@
 package com.dao;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * this object is for getting question from db
+ */
+//@JsonIgnoreProperties({"id","url","title4url"})
 public class Question {
     public Question(){}
     public Question(String title,String content){
         this.t=title;
         this.c=content;
     }
-    public Question(String id,String title ,String content,int url){
+    public Question(String title ,String content,int url){
         this.t=title;
         this.title4url=handleTitle(t);
         this.c=content;
-        this.id=id;
         this.url=url;
     }
     private String id;
@@ -59,6 +62,7 @@ public class Question {
     private String handleTitle(String title){
         title=title.replace("[duplicate]","");
         title=title.replace("[closed]","");
+        title=title.replace("<b>","").replace("</b>","");
         title=title.toLowerCase();
         title=title.replace("c# ", "c sharp ");
         try {

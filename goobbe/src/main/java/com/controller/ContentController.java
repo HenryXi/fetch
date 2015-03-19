@@ -73,6 +73,27 @@ public class ContentController {
         throw new GoobbeException();
     }
 
+    @RequestMapping(value = "/question/{url}/{title4url}",method = RequestMethod.GET)
+    public String showSearchResult(@PathVariable("url") String url, @PathVariable("title4url") String title4url, ModelMap modelMap){
+        try{
+            Question question= questionService.getQuestionByUrl(Integer.valueOf(url));
+            //todo make io operation as less as you can, and reduce conversion between json and entity
+            if(question.getId()!=null){
+                return "redirect:/questions/"+question.getId()+"/"+question.getTitle4url();
+            }
+            modelMap.put("question", question);
+            return "content";
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        throw new GoobbeException();
+    }
+
+    @RequestMapping(value = "/question/{url}", method = RequestMethod.GET)
+    public String showSearchResult(@PathVariable("url") String url, ModelMap modelMap){
+        return showSearchResult(url,"luck",modelMap);
+    }
+
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String search(@RequestParam("q") String q, ModelMap modelMap) {
         try {
