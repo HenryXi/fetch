@@ -71,8 +71,13 @@ public class GetPageService {
         try {
             int stateCode=httpUrlConnetion.getResponseCode();
             if(stateCode!=200){
-                if(stateCode==404 && Proxy.NO_PROXY.equals(currentProxy)){
-                    return null;
+                if(stateCode==404){
+                    if(Proxy.NO_PROXY.equals(currentProxy)){
+                        return null;
+                    }else{
+                        currentProxy=Proxy.NO_PROXY;
+                        return getDoc(url);
+                    }
                 }
                 System.out.println("state -->"+stateCode);
                 currentProxy = proxys.get(String.valueOf(random.nextInt(proxys.size())));

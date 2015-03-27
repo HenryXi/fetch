@@ -1,16 +1,10 @@
-<%--todo: translation function, using js is the best way--%>
-<%--todo: similar question list in content page --%>
-<%--todo: make a ecosystem for goobbe(finish half after fetching all data finish this functionality) --%>
-<%--todo: return state code and page for 404 500 503 and so on--%>
-<%--todo: add contact us link(email)--%>
-<%--todo: add original link for each question--%>
-<%--todo: make id in page meaningful--%>
-<%--todo: replace system out put with log4j to collect log--%>
 <div class="topbar">
     <script src="http://cdn.bootcss.com/jquery/1.9.0/jquery.js"></script>
+    <script src="/js/nprogress.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/all.css">
     <script language="JavaScript">
-        function test(){
-            var target;
+        function translate(){
+            var target="";
             if (window.getSelection) {  // all browsers, except IE before version 9
                 var range = window.getSelection ();
                 target=range.toString ();
@@ -21,6 +15,33 @@
                     target=range.text;
                 }
             }
+            if(target!=""){
+
+            }
+        }
+        function search(){
+            NProgress.start();
+            var questions=$('#questions');
+            if(questions.length==0){
+                $('#sidebar').remove();
+                $('#question-header').remove();
+                $('#mainbar').html("<div class=\"subheader\"><h1 id=\"allQuestionsHeader\">Search result</h1></div><div id=\"questions\"></div>");
+            }
+            $('#search').blur();
+            $('#pagination').remove();
+            var q=$('#search').val().trim();
+            document.title=q+"_Goobbe search result";
+            questions.html('');
+            $.ajax({
+                url: "/search?q="+encodeURIComponent(q),
+                success: function(data){
+                    NProgress.done();
+                    $('#allQuestionsHeader').html("Search result");
+                    jQuery.parseJSON(data).forEach(function(question,index){
+                        $('#questions').append("<div class=\"question-summary\" id=\"question-summary-"+index+"\"><div class=\"summary\"><h3><a href=\"/question/"+question.url+"\" class=\"question-hyperlink\" target=\"_blank\">"+question.t+"</a></h3><div class=\"excerpt\">"+question.c+"</div></div></div>");
+                    });
+                }
+            });
         }
     </script>
     <div class="topbar-wrapper">
@@ -28,11 +49,9 @@
             <a href="/">Goobbe</a>
         </h1>
         <div class="search-container">
-            <form id="search" action="/search" method="get" autocomplete="off">
-                <input name="q" type="text" placeholder="search" value="${keyword}" tabindex="1" autocomplete="off"
-                       maxlength="240">
-                <button type="submit" class="btn">Search</button>
-            </form>
+            <input id="search" name="q" type="text" placeholder="Tab focus here, Enter search you want" tabindex="1" autocomplete="off"
+                   maxlength="240" onkeydown="if (event.keyCode == 13) search()">
+            <button type="button" class="btn" onclick="search()">Search</button>
         </div>
         <%--<div class="topbar-links">--%>
             <%--<div class="links-container">--%>

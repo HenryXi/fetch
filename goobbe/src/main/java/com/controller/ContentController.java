@@ -10,6 +10,9 @@ import com.service.QuestionService;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +56,7 @@ public class ContentController {
     @RequestMapping(value = "/questions", method = RequestMethod.GET)
     public String loadIndex(@RequestParam("page") String page, ModelMap modelMap){
         try{
-            //todo get total page number in config file
-            int totalPage=270755;
+            int totalPage=502173;
             int pageNum=Integer.valueOf(page);
             if(pageNum<=0){
                 pageNum=1;
@@ -95,17 +97,16 @@ public class ContentController {
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String search(@RequestParam("q") String q, ModelMap modelMap) {
+    public void search(@RequestParam("q") String q, ModelMap modelMap, HttpServletResponse response) {
+        if("".equals(q)){
+            return;
+        }
         try {
-            List<Question> questions = questionService.getQuestionsByKeyword(URLEncoder.encode(q,"UTF-8"));
-            modelMap.put("questions", questions);
-            modelMap.put("totalPage", -1);
-            modelMap.put("keyword",q);
-            return "index";
+            response.getWriter().println(questionService.getQuestionsByKeyword(q));
         } catch (Exception e) {
             e.printStackTrace();
+            throw new GoobbeException();
         }
-        throw new GoobbeException();
     }
     @ResponseBody
     @RequestMapping(value = "/translate",produces = "text/plain")

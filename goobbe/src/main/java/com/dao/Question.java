@@ -65,6 +65,7 @@ public class Question {
         title=title.replace("<b>","").replace("</b>","");
         title=title.toLowerCase();
         title=title.replace("c# ", "c sharp ");
+        title=title.replace(" c#", " c sharp");
         try {
             title= StringEscapeUtils.unescapeHtml4(title).replaceAll("[^0-9a-zA-Z\\\\s]"," ").trim();
             title = URLEncoder.encode(title, "UTF-8");

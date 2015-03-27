@@ -19,6 +19,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -26,6 +28,8 @@ import java.util.*;
 @Service
 public class QuestionService {
     private final String STACK_URL="http://stackoverflow.com/questions/";
+    private final String STACK_OVERFLOW=" - Stack Overflow";
+    private final String STACK_=" - Stack";
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
@@ -81,12 +85,13 @@ public class QuestionService {
         return questions;
     }
 
-    public List<Question> getQuestionsByKeyword(String keyword) throws GoobbeException{
+    public String getQuestionsByKeyword(String keyword) throws GoobbeException{
         try {
             System.out.println("request-->" + keyword);
-            String resultJson = Jsoup.connect("http://52.11.54.118:8080/google?keyword="+keyword).timeout(10000).ignoreContentType(true).execute().body();
-            List<Question> questionsFromSearch=objectMapper.readValue(resultJson, TypeFactory.defaultInstance().constructCollectionType(List.class, Question.class));
-            return questionsFromSearch;
+            if(URLDecoder.decode(keyword, "UTF-8").equals(keyword)){
+                keyword= URLEncoder.encode(keyword,"UTF-8");
+            }
+            return Jsoup.connect("http://52.11.54.118:8080/google?keyword="+keyword).timeout(10000).ignoreContentType(true).execute().body().replace(STACK_OVERFLOW,"").replace(STACK_,"").replaceAll("<br.{0,2}>","");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
