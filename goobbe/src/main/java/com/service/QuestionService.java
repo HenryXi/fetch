@@ -88,10 +88,9 @@ public class QuestionService {
     public String getQuestionsByKeyword(String keyword) throws GoobbeException{
         try {
             System.out.println("request-->" + keyword);
-            if(URLDecoder.decode(keyword, "UTF-8").equals(keyword)){
-                keyword= URLEncoder.encode(keyword,"UTF-8");
-            }
-            return Jsoup.connect("http://52.11.54.118:8080/google?keyword="+keyword).timeout(10000).ignoreContentType(true).execute().body().replace(STACK_OVERFLOW,"").replace(STACK_,"").replaceAll("<br.{0,2}>","");
+            keyword= URLEncoder.encode(keyword,"UTF-8");
+            String returnJson=Jsoup.connect("http://52.11.54.118:8080/google?keyword="+keyword).timeout(10000).ignoreContentType(true).execute().body();
+            return returnJson.replace(STACK_OVERFLOW,"").replace(STACK_,"").replaceAll("<br.{0,2}>","");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
