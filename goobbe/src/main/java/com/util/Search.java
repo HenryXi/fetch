@@ -1,13 +1,5 @@
 package com.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.Date;
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -19,29 +11,31 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.Version;
+
+import java.io.BufferedReader;
+import java.nio.file.Paths;
+import java.util.Date;
 
 public class Search {
 
     private Search() {}
 
     public static void main(String[] args) throws Exception {
-
-
-        IndexReader reader = DirectoryReader.open(FSDirectory.open(new File("D:\\index")));
+        Date begin=new Date();
+        String indexPath = "D:\\index";
+        IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(indexPath)));
         IndexSearcher searcher = new IndexSearcher(reader);
-        Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_4_10_0);
-        BufferedReader in = null;
-
-        QueryParser parser = new QueryParser(Version.LUCENE_4_10_0, "title", analyzer);
-        Query query = parser.parse("java environment");
-
-        TopDocs results = searcher.search(query, null, 100);
-
+        Analyzer analyzer = new StandardAnalyzer();
+        QueryParser parser = new QueryParser("title", analyzer);
+        Query query = parser.parse("PHP and the million array baby");
+        TopDocs results = searcher.search(query, null, 10);
         ScoreDoc[] hits = results.scoreDocs;
+        Date end=new Date();
+        System.out.println("used: "+(end.getTime()-begin.getTime())+" ms");
         for(int i=0;i<hits.length;i++){
             Document doc = searcher.doc(hits[i].doc);
             System.out.println("id -> "+ doc.get("id")+", title -> "+ doc.get("title"));
         }
+
     }
 }

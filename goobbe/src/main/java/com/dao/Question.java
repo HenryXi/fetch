@@ -13,6 +13,10 @@ import java.util.List;
 //@JsonIgnoreProperties({"id","url","title4url"})
 public class Question {
     public Question(){}
+    public Question(int id,String title){
+        this.id=String.valueOf(id);
+        this.t=title;
+    }
     public Question(String title,String content){
         this.t=title;
         this.c=content;

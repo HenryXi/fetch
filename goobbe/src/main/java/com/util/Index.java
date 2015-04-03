@@ -1,48 +1,27 @@
 package com.util;
 
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import cn.edu.hfut.dmic.webcollector.util.JDBCHelper;
 import com.dao.Question;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.document.*;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StoredField;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.Version;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.jsoup.Jsoup;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-/** Index all text files under a directory.
- * <p>
- * This is a command-line application demonstrating simple Lucene indexing.
- * Run it with no command-line arguments for usage information.
- */
+
 public class Index {
     private JdbcTemplate jdbcTemplate;
     private Index() {
@@ -51,17 +30,18 @@ public class Index {
                 "yong", "xixiaoyong123", 80, 120);
     }
 
-    /** Index all text files under a directory. */
     public static void main(String[] args) {
         Index index =new Index();
         String indexPath = "D:\\index";
         try {
-            Directory dir = FSDirectory.open(new File(indexPath));
-            Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_4_10_0);
-            IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_4_10_0, analyzer);
+            Directory dir = FSDirectory.open(Paths.get(indexPath));
+            Analyzer analyzer = new StandardAnalyzer();
+            IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
             IndexWriter writer = new IndexWriter(dir, iwc);
-            indexDocs(writer, index.getQuestionsForIndex(1));
-
+            for(int i=1;i<816;i++){
+                indexDocs(writer, index.getQuestionsForIndex(i*10000));
+                System.out.println("current index -> " + i);
+            }
             writer.close();
         } catch (IOException e) {
             System.out.println(" caught a " + e.getClass() +
@@ -83,7 +63,8 @@ public class Index {
 
     public List<Question> getQuestionsForIndex(Integer startNum) {
         List<Question> questions = this.jdbcTemplate.query(
-                "select * from tb_content where content is not null and id<1500",
+                "select content ->'t' as title,id from tb_content where id between ? and ? and content is not null",
+                new Object[]{startNum-9999,startNum},
                 new RowMapper<Question>() {
                     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
                         try {
@@ -98,12 +79,7 @@ public class Index {
     }
 
     private Question getQuestionByResultSet(ResultSet rs) throws IOException, SQLException {
-        ObjectMapper objectMapper=new ObjectMapper();
-        Question question = objectMapper.readValue(rs.getString("content"), Question.class);
-        question.setUrl(rs.getInt("url"));
-        String summery= Jsoup.parse(question.getC().replace("&lt", "<").replace("&gt", ">")).text();
-        question.setC(summery);
-        question.setId(rs.getString("id"));
+        Question question = new Question(rs.getInt("id"),rs.getString("title").replace("\"",""));
         return question;
     }
 }

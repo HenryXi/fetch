@@ -3,7 +3,7 @@
 ---
 
 * translation function, using js is the best way(press button then translate move mouse button disappear)
-* similar question list in content page
+* similar question list in content page(lucene)
 * make a ecosystem for goobbe(1.fetching all data 2.update db by searching result )
 * return state code and page for 404 500 503 and so on
 * add contact us link(email) and version at the bottom
