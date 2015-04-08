@@ -71,7 +71,7 @@ public class GetPageService {
         try {
             int stateCode=httpUrlConnetion.getResponseCode();
             if(stateCode!=200){
-                if(stateCode==404){
+                if(stateCode==404 || stateCode==403){
                     if(Proxy.NO_PROXY.equals(currentProxy)){
                         return null;
                     }else{

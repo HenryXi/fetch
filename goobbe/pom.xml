@@ -79,11 +79,17 @@
             <artifactId>lucene-demo</artifactId>
             <version>5.0.0</version>
         </dependency>
+
         <dependency>
             <groupId>cn.edu.hfut.dmic.webcollector</groupId>
             <artifactId>tool</artifactId>
             <version>1.0</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.lucene</groupId>-->
+            <!--<artifactId>lucene-backward-codecs</artifactId>-->
+            <!--<version>5.0.0</version>-->
+        <!--</dependency>-->
     </dependencies>
 
 

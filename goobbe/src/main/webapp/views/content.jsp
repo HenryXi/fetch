@@ -119,6 +119,22 @@
             </div>
         </c:forEach>
     </div>
+    <div id="relatedQuestion">
+        <div id="relatedQuestion-header">
+            <div class="subheader answers-subheader">
+                <h2>
+                    Related questions
+                </h2>
+            </div>
+        </div>
+        <c:forEach var="answer" items="${RelatedQuestions}" varStatus="questionStatus">
+            <div class="question-summary" id="questions-summary-${questionsStatus.index}">
+                <div class="summary">
+                    <a href="/questions/${question.id}/${question.title4url}" class="question-hyperlink" target="_blank">${question.t}</a>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
 </div>
 <div id="sidebar" class="show-votes">
     <table>

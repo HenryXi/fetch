@@ -41,6 +41,7 @@ public class ContentController {
                 return "redirect:/questions/"+id+"/"+shortTitle;
             }
             modelMap.put("question", question);
+//            modelMap.put("relatedQuestion", question);
             return "content";
         }catch (Exception e){
            e.printStackTrace();
