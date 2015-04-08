@@ -15,4 +15,4 @@
 * css file is too long, remove useless css
 * i18n
 * get total page number by another table
-* use quartz execute jobs(lucene index, change proxy etc.)
+* use quartz execute jobs(lucene index, change proxy , get new page etc.)
