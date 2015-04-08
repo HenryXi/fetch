@@ -34,6 +34,8 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -56,9 +58,9 @@ public class Index {
         Index index =new Index();
         String indexPath = "D:\\index";
         try {
-            Directory dir = FSDirectory.open(new File(indexPath));
-            Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_4_10_0);
-            IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_4_10_0, analyzer);
+            Directory dir = FSDirectory.open(Paths.get(indexPath));
+            Analyzer analyzer = new StandardAnalyzer();
+            IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
             IndexWriter writer = new IndexWriter(dir, iwc);
             indexDocs(writer, index.getQuestionsForIndex(1));
 
@@ -83,7 +85,8 @@ public class Index {
 
     public List<Question> getQuestionsForIndex(Integer startNum) {
         List<Question> questions = this.jdbcTemplate.query(
-                "select * from tb_content where content is not null and id<1500",
+                "select * from tb_content where content is not null and id<?",
+                new Object[]{startNum},
                 new RowMapper<Question>() {
                     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
                         try {

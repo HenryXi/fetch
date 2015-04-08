@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.Date;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -27,13 +28,13 @@ public class Search {
 
     public static void main(String[] args) throws Exception {
 
-
-        IndexReader reader = DirectoryReader.open(FSDirectory.open(new File("D:\\index")));
+        String indexPath="";
+        IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(indexPath)));
         IndexSearcher searcher = new IndexSearcher(reader);
-        Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_4_10_0);
+        Analyzer analyzer = new StandardAnalyzer();
         BufferedReader in = null;
 
-        QueryParser parser = new QueryParser(Version.LUCENE_4_10_0, "title", analyzer);
+        QueryParser parser = new QueryParser("title", analyzer);
         Query query = parser.parse("java environment");
 
         TopDocs results = searcher.search(query, null, 100);
