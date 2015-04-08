@@ -96,7 +96,7 @@ public class GetAllPager2Json extends Thread {
         Document doc = null;
         for (Integer url:records) {
             try {
-                doc = getDoc(url);
+                doc = getDoc(1348569);
                 saveContentAsJsonInDB(doc,url);
             } catch (Throwable e) {
                 e.printStackTrace();
@@ -117,7 +117,7 @@ public class GetAllPager2Json extends Thread {
             int stateCode=httpUrlConnetion.getResponseCode();
             if(stateCode!=200){
                 System.out.println("state -->"+stateCode+" url --->"+url+" proxy -->" +( currentProxy==null?"null":currentProxy.address()));
-                if(stateCode==404){
+                if(stateCode==404 || stateCode==403){
                     if(Proxy.NO_PROXY.equals(currentProxy)){
                         jdbcTemplate.update("update tb_content set content=null where url=?",url);
                         return null;
@@ -163,18 +163,25 @@ public class GetAllPager2Json extends Thread {
 
 
     public static void main(String[] args) {
-        JDBCHelper.createMysqlTemplate("po",
-                "jdbc:postgresql://123.57.136.60:5432/goobbe",
-                "yong", "xixiaoyong123", 80, 120);
-        GetAllPager2Json getAllPager = new GetAllPager2Json(300000l, 300500l);
-        getAllPager.start();
-        do {
-            try {
-                Thread.sleep(1000*10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println(getAllPager.isAlive());
-        } while (true);
+//        JDBCHelper.createMysqlTemplate("po",
+//                "jdbc:postgresql://123.57.136.60:5432/goobbe",
+//                "yong", "xixiaoyong123", 80, 120);
+//        GetAllPager2Json getAllPager = new GetAllPager2Json(1348569l, 300500l);
+//        getAllPager.start();
+//        do {
+//            try {
+//                Thread.sleep(1000*10);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            System.out.println(getAllPager.isAlive());
+//        } while (true);
+        GetAllPager2Json getAllPager2Json=new GetAllPager2Json(1348569l,1348569l);
+        try {
+            Document doc=getAllPager2Json.getDoc(1348569);
+            doc.baseUri();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 }
