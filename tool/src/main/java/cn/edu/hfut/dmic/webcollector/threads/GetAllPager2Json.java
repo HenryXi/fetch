@@ -176,12 +176,6 @@ public class GetAllPager2Json extends Thread {
 //            }
 //            System.out.println(getAllPager.isAlive());
 //        } while (true);
-        GetAllPager2Json getAllPager2Json=new GetAllPager2Json(1348569l,1348569l);
-        try {
-            Document doc=getAllPager2Json.getDoc(1348569);
-            doc.baseUri();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        System.out.printf(System.getProperty("user.home"));
     }
 }
