@@ -44,4 +44,38 @@
     </bean>
     <bean id="objectMapper" class="org.codehaus.jackson.map.ObjectMapper"></bean>
     <bean class="com.exception.CustomHandlerExceptionResolver"/>
+
+    <bean id="index" class="com.util.Index" />
+
+    <!-- Spring Quartz -->
+    <bean name="runMeJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+
+        <property name="jobClass" value="com.job.RunMeJob" />
+
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="index" value-ref="index" />
+            </map>
+        </property>
+
+    </bean>
+
+    <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="runMeJob" />
+        <property name="cronExpression" value="0 0 1 ? * 7L" />
+    </bean>
+
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="jobDetails">
+            <list>
+                <ref bean="runMeJob" />
+            </list>
+        </property>
+
+        <property name="triggers">
+            <list>
+                <ref bean="cronTrigger" />
+            </list>
+        </property>
+    </bean>
 </beans>

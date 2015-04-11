@@ -13,6 +13,7 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
 
 import java.io.BufferedReader;
+import java.nio.file.FileSystems;
 import java.nio.file.Paths;
 import java.util.Date;
 
@@ -22,7 +23,7 @@ public class Search {
 
     public static void main(String[] args) throws Exception {
         Date begin=new Date();
-        String indexPath = "D:\\index";
+        String indexPath = System.getProperty("user.home") + FileSystems.getDefault().getSeparator()+"index";
         IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(indexPath)));
         IndexSearcher searcher = new IndexSearcher(reader);
         Analyzer analyzer = new StandardAnalyzer();

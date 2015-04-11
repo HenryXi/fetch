@@ -2,6 +2,7 @@ package com.util;
 
 import cn.edu.hfut.dmic.webcollector.util.JDBCHelper;
 import com.dao.Question;
+import org.apache.commons.io.FileUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.*;
@@ -13,6 +14,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,14 +33,18 @@ public class Index {
 
     public static void main(String[] args) {
         Index index =new Index();
-        String indexPath = "D:\\index";
+
+    }
+
+    public void createIndex(){
+
         try {
-            Directory dir = FSDirectory.open(Paths.get(indexPath));
+            Directory dir = FSDirectory.open(folder);
             Analyzer analyzer = new StandardAnalyzer();
             IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
             IndexWriter writer = new IndexWriter(dir, iwc);
             for(int i=1;i<816;i++){
-                indexDocs(writer, index.getQuestionsForIndex(i*10000));
+                indexDocs(writer, getQuestionsForIndex(i * 10000));
                 System.out.println("current index -> " + i);
             }
             writer.close();
@@ -46,8 +54,21 @@ public class Index {
         }
     }
 
+    private Path getPath(){
+        Path folder = Paths.get(System.getProperty("user.home") + FileSystems.getDefault().getSeparator()+"index");
+        Path bakFolder = Paths.get(System.getProperty("user.home") + FileSystems.getDefault().getSeparator()+"index_bak");
+        if (Files.exists(folder)) {
 
-    static void indexDocs(IndexWriter writer, List<Question> questions)
+        }else{
+            try {
+                Files.createDirectories(folder);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return folder;
+    }
+    private void indexDocs(IndexWriter writer, List<Question> questions)
             throws IOException {
         for(Question question:questions){
             Document doc = new Document();
@@ -58,7 +79,7 @@ public class Index {
 
     }
 
-    public List<Question> getQuestionsForIndex(Integer startNum) {
+    private List<Question> getQuestionsForIndex(Integer startNum) {
         List<Question> questions = this.jdbcTemplate.query(
                 "select content ->'t' as title,id from tb_content where id between ? and ? and content is not null",
                 new Object[]{startNum-9999,startNum},
