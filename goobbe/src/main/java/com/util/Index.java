@@ -37,7 +37,6 @@ public class Index {
     }
 
     public void createIndex(){
-
         try {
             Directory dir = FSDirectory.open(folder);
             Analyzer analyzer = new StandardAnalyzer();
