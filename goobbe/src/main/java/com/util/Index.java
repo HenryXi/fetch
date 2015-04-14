@@ -44,7 +44,7 @@ public class Index {
 
     public void createIndex(){
         try {
-            Directory dir = FSDirectory.open(getIndexPath());
+            Directory dir = FSDirectory.open(indexFolder);
             Analyzer analyzer = new StandardAnalyzer();
             IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
             IndexWriter writer = new IndexWriter(dir, iwc);

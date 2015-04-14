@@ -1,5 +1,6 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html itemscope="" itemtype="">
 <head>
     <title>${question.t}</title>
@@ -139,21 +140,27 @@
 <div id="sidebar" class="show-votes">
     <table>
         <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
-        <tr id="6" class="comment ">
+        <tr id="transalateMsg" class="comment ">
+            <td class="comment-text">
+                <div style="display: block;" class="comment-body">
+                    <h2><spring:message code="translation.message" text="default text" /></h2>
+                </div>
+            </td>
+        </tr><tr id="comment1" class="comment ">
             <td class="comment-text">
                 <div style="display: block;" class="comment-body">
                     <span><code>Comments</code> will be put here</span>
                 </div>
             </td>
         </tr>
-        <tr id="7" class="comment ">
+        <tr id="comment2" class="comment ">
             <td class="comment-text">
                 <div style="display: block;" class="comment-body">
                             <span class="comment-copy"><code>Comments</code> will be put here</span>
                 </div>
             </td>
         </tr>
-        <tr id="8" class="comment ">
+        <tr id="comment3" class="comment ">
             <td class="comment-text">
                 <div style="display: block;" class="comment-body">
                     <span class="comment-copy"><code>Comments</code> will be put here</span>

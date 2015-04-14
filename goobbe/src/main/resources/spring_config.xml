@@ -78,4 +78,10 @@
             </list>
         </property>
     </bean>
+
+    <!-- i18n -->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="welcome" />
+        <property name="useCodeAsDefaultMessage" value="true" />
+    </bean>
 </beans>
