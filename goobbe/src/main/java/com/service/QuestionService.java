@@ -5,9 +5,8 @@ import com.dao.Comment;
 import com.dao.Question;
 import com.dao.QuestionJson;
 import com.exception.GoobbeException;
-import com.util.GetPageService;
+import com.util.GoobbeLogger;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.type.TypeFactory;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,14 +18,13 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
 @Service
-public class QuestionService {
+public class QuestionService extends GoobbeLogger {
     private final String STACK_URL="http://stackoverflow.com/questions/";
     private final String STACK_OVERFLOW=" - Stack Overflow";
     private final String STACK_=" - Stack";
@@ -43,13 +41,14 @@ public class QuestionService {
         try {
             Map<String,Object> record=jdbcTemplate.queryForMap("select * from tb_content where id=?",id);
             if(null==record.get("content")){
+                error("content of question [id: "+id+"] is null");
                 throw new GoobbeException("error");
             }
             Question question = objectMapper.readValue(record.get("content").toString(),Question.class);
             question.setId(record.get("id").toString());
             return question;
         } catch (Exception e) {
-            e.printStackTrace();
+            error("error when get question [id: "+id+"]");
         }
         throw new GoobbeException("error");
     }
@@ -87,12 +86,12 @@ public class QuestionService {
 
     public String getQuestionsByKeyword(String keyword) throws GoobbeException{
         try {
-            System.out.println("request-->" + keyword);
+            info("user search by keyword:[" + keyword+"]");
             keyword= URLEncoder.encode(keyword,"UTF-8");
             String returnJson=Jsoup.connect("http://52.11.54.118:8080/google?keyword="+keyword).timeout(10000).ignoreContentType(true).execute().body();
             return returnJson.replace(STACK_OVERFLOW,"").replace(STACK_,"").replaceAll("<br.{0,2}>","");
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            error("error when user search by keyword:["+keyword+"]");
         }
         return null;
     }
@@ -158,13 +157,14 @@ public class QuestionService {
             int updateRow=jdbcTemplate.update("update tb_content set content=?::json where url=?",
                 objectMapper.writeValueAsString(questionJson), questionJson.getUrl());
             if(updateRow==0){
-                jdbcTemplate.update("insert into tb_content (content,url) VALUES (?::json,?)",
-                    objectMapper.writeValueAsString(questionJson), questionJson.getUrl());
+                String id=jdbcTemplate.queryForObject("insert into tb_content (content,url) VALUES (?::json,?) RETURNING id", String.class,
+                        objectMapper.writeValueAsString(questionJson), questionJson.getUrl());
+                questionJson.setId(id);
             }
         }catch (DuplicateKeyException e){
             return;
         }catch (IOException e) {
-            e.printStackTrace();
+            error("error occur when save search result in db. question url["+questionJson.getUrl()+"]");
         }
     }
 }

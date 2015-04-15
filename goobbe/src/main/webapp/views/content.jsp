@@ -11,7 +11,11 @@
 <%--<div id="header">--%>
     <%--There should be logo pic--%>
 <%--</div>--%>
-<div id="content" class="snippet-hidden" onmouseup="translate()">
+    <script language="JavaScript">
+        var url='/questions/${question.id}/${question.title4url}';
+        window.history.replaceState(null, '${question.t}', url);
+    </script>
+<div id="content" class="snippet-hidden">
 <div id="question-header">
     <h1 itemprop="name">${question.t}</h1>
 </div>
@@ -67,7 +71,14 @@
         <div id="answers-header">
             <div class="subheader answers-subheader">
                 <h2>
-                    Answers
+                    <c:choose>
+                        <c:when test="${question.as.size()>0}">
+                            Answers
+                        </c:when>
+                        <c:otherwise>
+                            No answers
+                        </c:otherwise>
+                    </c:choose>
                 </h2>
             </div>
         </div>

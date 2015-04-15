@@ -1,5 +1,6 @@
 package com.dao;
 
+import com.util.HandleTitle;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
@@ -23,7 +24,7 @@ public class Question {
     }
     public Question(String title ,String content,int url){
         this.t=title;
-        this.title4url=handleTitle(t);
+        this.title4url=HandleTitle.generateShortTitle(t);
         this.c=content;
         this.url=url;
     }
@@ -57,35 +58,13 @@ public class Question {
 
     public void setT(String t) {
         this.t = t;
-        this.title4url=handleTitle(t);
+        this.title4url= HandleTitle.generateShortTitle(t);
     }
 
     public String getTitle4url() {
         return this.title4url;
     }
-    private String handleTitle(String title){
-        title=title.replace("[duplicate]","");
-        title=title.replace("[closed]","");
-        title=title.replace("<b>","").replace("</b>","");
-        title=title.toLowerCase();
-        title=title.replace("c# ", "c sharp ");
-        title=title.replace(" c#", " c sharp");
-        try {
-            title= StringEscapeUtils.unescapeHtml4(title).replaceAll("[^0-9a-zA-Z\\\\s]"," ").trim();
-            title = URLEncoder.encode(title, "UTF-8");
-            title= title.replaceAll("%.{1,2}", "").replaceAll("[^0-9a-zA-Z]", "+");
-            title=title.replaceAll("\\++", "-");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        if(title.length()>80){
-            title=title.substring(0,80);
-        }
-        if(title.length()==title.lastIndexOf("-")){
-            title=title.substring(0,title.lastIndexOf("-"));
-        }
-        return title;
-    }
+
     public void setTitle4url(String title4url) {
         this.title4url = title4url;
     }

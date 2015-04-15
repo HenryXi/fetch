@@ -1,20 +1,13 @@
-package com.util;
+package com.service;
 
-import com.dao.Answer;
-import com.dao.Comment;
-import com.dao.Question;
+import com.util.GoobbeLogger;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import sun.net.www.protocol.http.HttpURLConnection;
 
-import javax.servlet.http.Cookie;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by yong on 2015/3/5.
  */
 @Service
-public class GetPageService {
+public class GetPageService extends GoobbeLogger {
     private final String userAgent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:27.0) Gecko/20100101 Firefox/27.0";
     ConcurrentHashMap<String,Proxy> proxys=new ConcurrentHashMap<String,Proxy>();
     Random random = new Random();
@@ -79,7 +72,7 @@ public class GetPageService {
                         return getDoc(url);
                     }
                 }
-                System.out.println("state -->"+stateCode);
+                warn("http state: [" + stateCode + "]");
                 currentProxy = proxys.get(String.valueOf(random.nextInt(proxys.size())));
                 return getDoc(url);
             }
@@ -105,7 +98,7 @@ public class GetPageService {
             bos.close();
             page=new String(content, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            System.out.println("bad proxy change another!");
+            warn("bad proxy ["+currentProxy.toString()+"] change another!");
             currentProxy=proxys.get(String.valueOf(random.nextInt(proxys.size())));
             return getDoc(url);
         }finally {
