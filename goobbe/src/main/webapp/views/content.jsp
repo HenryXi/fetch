@@ -139,13 +139,20 @@
                 </h2>
             </div>
         </div>
-        <c:forEach var="answer" items="${RelatedQuestions}" varStatus="questionStatus">
-            <div class="question-summary" id="questions-summary-${questionsStatus.index}">
-                <div class="summary">
-                    <a href="/questions/${question.id}/${question.title4url}" class="question-hyperlink" target="_blank">${question.t}</a>
-                </div>
-            </div>
-        </c:forEach>
+        <script language="javascript">
+            $(document).ready(function(){
+                var url=window.location.href;
+                var shortTitle=url.substr(url.lastIndexOf("/")+1);
+                $.ajax({
+                    url: "/getRelated?title="+shortTitle,
+                    success: function(data){
+                        data.forEach(function(question,index){
+                            $('#relatedQuestion').append("<div class=\"question-summary\" id=\"question-summary-"+index+"\"><div class=\"summary\"><a href=\"/questions/"+question.id+"/"+question.title4url+"\" class=\"question-hyperlink\" target=\"_blank\">"+question.t+"</a></div></div>");
+                        });
+                    }
+                });
+            });
+        </script>
     </div>
 </div>
 <div id="sidebar" class="show-votes">

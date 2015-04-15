@@ -46,7 +46,7 @@ public class IndexService extends GoobbeLogger {
 
     public void createIndex(){
         try {
-            Directory dir = FSDirectory.open(indexFolder);
+            Directory dir = FSDirectory.open(getIndexPath());
             Analyzer analyzer = new StandardAnalyzer();
             IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
             IndexWriter writer = new IndexWriter(dir, iwc);

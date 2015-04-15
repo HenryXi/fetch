@@ -99,21 +99,21 @@ public class QuestionService extends GoobbeLogger {
     public Question getQuestionByUrl(Integer url) {
         try {
             List<Question> questions=jdbcTemplate.query("select * from tb_content where url=?",
-                new Object[]{url},
-                new RowMapper<Question>() {
-                    public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
-                        try {
-                            if(rs.getString("content")==null){
+                    new Object[]{url},
+                    new RowMapper<Question>() {
+                        public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
+                            try {
+                                if (rs.getString("content") == null) {
+                                    return null;
+                                }
+                                Question question = objectMapper.readValue(rs.getString("content").toString(), Question.class);
+                                question.setId(rs.getString("id"));
+                                return question;
+                            } catch (IOException e) {
                                 return null;
                             }
-                            Question question=objectMapper.readValue(rs.getString("content").toString(),Question.class);
-                            question.setId(rs.getString("id"));
-                            return question;
-                        } catch (IOException e) {
-                            return null;
                         }
-                    }
-                });
+                    });
             if(questions.size()==0 || questions.get(0)==null){
                 Document docFromSearch=getPageService.getDoc(STACK_URL+url);
                 QuestionJson questionJson=getQuestionByDoc(docFromSearch,url);
@@ -166,5 +166,9 @@ public class QuestionService extends GoobbeLogger {
         }catch (IOException e) {
             error("error occur when save search result in db. question url["+questionJson.getUrl()+"]");
         }
+    }
+
+    public int getTotalNumQuestions(){
+        return jdbcTemplate.queryForInt("select count from tcounter where table_name='tb_content';");
     }
 }

@@ -7,6 +7,7 @@
     http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
 
     <context:annotation-config />
+    <mvc:annotation-driven />
     <context:component-scan base-package="com" />
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
     </bean>
@@ -58,7 +59,7 @@
 
     <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="runMeJob" />
-        <property name="cronExpression" value="0 0 1 ? * 7L" />
+        <property name="cronExpression" value="0 03 21 ? * 4" />
     </bean>
 
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">

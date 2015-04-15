@@ -1,6 +1,9 @@
 package com.service;
 
+import com.dao.Question;
+import com.dao.RelatedQuestion;
 import com.util.GoobbeLogger;
+import com.util.HandleTitle;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -29,8 +32,8 @@ public class SearchService extends GoobbeLogger {
 
     }
 
-    public Map<String,String> getLocalSearchResult(String target){
-        Map<String,String> relatedQuestions=new HashMap<>();
+    public List<RelatedQuestion> getLocalSearchResult(String target){
+        List<RelatedQuestion> relatedQuestions=new ArrayList<>();
         String indexPath = System.getProperty("user.home") + FileSystems.getDefault().getSeparator()+"index";
         IndexReader reader = null;
         try {
@@ -38,12 +41,12 @@ public class SearchService extends GoobbeLogger {
             IndexSearcher searcher = new IndexSearcher(reader);
             Analyzer analyzer = new StandardAnalyzer();
             QueryParser parser = new QueryParser("title", analyzer);
-            Query query = parser.parse(target);
-            TopDocs results = searcher.search(query, null, 10);
+            Query query = parser.parse(target.replaceAll("[^0-9a-zA-Z\\\\s]"," "));
+            TopDocs results = searcher.search(query, null, 11);
             ScoreDoc[] hits = results.scoreDocs;
-            for(int i=0;i<hits.length;i++){
+            for(int i=1;i<hits.length;i++){
                 Document doc = searcher.doc(hits[i].doc);
-                relatedQuestions.put(doc.get("id"),doc.get("title"));
+                relatedQuestions.add(new RelatedQuestion(doc.get("id"), doc.get("title")));
             }
         } catch (IOException e) {
             error("read directory ["+indexPath+"] error!");

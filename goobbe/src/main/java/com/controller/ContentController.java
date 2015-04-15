@@ -1,6 +1,7 @@
 package com.controller;
 
 import com.dao.Question;
+import com.dao.RelatedQuestion;
 import com.exception.GoobbeException;
 import com.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by henxii on 2/9/15.
- */
 @Controller
 public class ContentController {
+    private final int number_of_questions_per_page=15;
     @Autowired
     private QuestionService questionService;
     @Autowired
@@ -41,8 +40,6 @@ public class ContentController {
         try{
             Question question= questionService.getQuestionById(Integer.valueOf(id));
             modelMap.put("question", question);
-            Map<String,String> relatedQuestion=searchService.getLocalSearchResult(question.getT());
-            modelMap.put("relatedQuestion", relatedQuestion);
             return "content";
         }catch (Exception e){
            e.printStackTrace();
@@ -58,7 +55,7 @@ public class ContentController {
     @RequestMapping(value = "/questions", method = RequestMethod.GET)
     public String loadIndex(@RequestParam("page") String page, ModelMap modelMap){
         try{
-            int totalPage=502173;
+            int totalPage=1+questionService.getTotalNumQuestions()/number_of_questions_per_page;
             int pageNum=Integer.valueOf(page);
             if(pageNum<=0){
                 pageNum=1;
@@ -92,6 +89,12 @@ public class ContentController {
     @RequestMapping(value = "/question/{url}", method = RequestMethod.GET)
     public String showSearchResult(@PathVariable("url") String url, ModelMap modelMap){
         return showSearchResult(url,"luck",modelMap);
+    }
+
+    @RequestMapping(value = "/getRelated", method = RequestMethod.GET)
+    @ResponseBody
+    public List<RelatedQuestion> getRelatedQuestion(@RequestParam("title") String title){
+        return searchService.getLocalSearchResult(title);
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
