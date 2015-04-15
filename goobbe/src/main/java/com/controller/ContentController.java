@@ -95,12 +95,12 @@ public class ContentController {
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public void search(@RequestParam("q") String q, ModelMap modelMap, HttpServletResponse response) {
+    public @ResponseBody String search(@RequestParam("q") String q, ModelMap modelMap, HttpServletResponse response) {
         if("".equals(q)){
-            return;
+            return "";
         }
         try {
-            response.getWriter().println(questionService.getQuestionsByKeyword(q));
+            return questionService.getQuestionsByKeyword(q);
         } catch (Exception e) {
             e.printStackTrace();
             throw new GoobbeException();

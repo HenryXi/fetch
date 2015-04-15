@@ -43,6 +43,10 @@
                 }
             });
         }
+
+        function getRelated(){
+
+        }
     </script>
     <div class="topbar-wrapper">
         <h1 class="logo">
@@ -53,13 +57,5 @@
                    maxlength="240" onkeydown="if (event.keyCode == 13) search()">
             <button type="button" class="btn" onclick="search()">Search</button>
         </div>
-        <%--<div class="topbar-links">--%>
-            <%--<div class="links-container">--%>
-                    <%--<span class="topbar-menu-links">--%>
-                            <%--<a href="#" class="login-link">sign up</a>--%>
-                            <%--<a href="#" class="login-link">log in</a>--%>
-                    <%--</span>--%>
-            <%--</div>--%>
-        <%--</div>--%>
     </div>
 </div>
