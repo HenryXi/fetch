@@ -4618,7 +4618,7 @@ table.sorter tbody tr.odd td {
 }
 
 #nprogress .bar {
-    background: linear-gradient(to right, yellow 95%, #3d495f 5%);
+    background: yellow;
     position: fixed;
     z-index: 1031;
     top: 0;

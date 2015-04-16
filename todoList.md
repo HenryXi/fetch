@@ -5,7 +5,7 @@
 * <s>make id in page meaningful</s>
 * <s>make search with ajax and progress bar</s>
 * <s>similar question list in content page</s>
-* <s>replace system.out.put with log4j to collect log.</s>
+* <s>replace system.out.put with log4j to collect log.</s> make sure log file in tomcat directory
 * translation function, using js is the best way(press button then translate move mouse button disappear)
 * make a ecosystem for goobbe(<s>1.fetching all data</s> 2.update db by searching result 3.handle questions move to other domain )
 * return state code and page for 404 500 503 and so on
@@ -81,25 +81,9 @@ vi 越南语
 zh-TW 中文(繁体) 
 zh-CN 中文(简体) 
 </code></pre>
-* use quartz execute jobs(lucene index, change proxy , get new page etc.)
+* use quartz execute jobs(<s>lucene index</s>, change proxy , get new page etc.)
 * add config file to store configuration
 * security in spring mvc(forbid access with illegal url)
 * store search key word in db
 * get total page number by another table, show lastest question in first page
-<pre><code>
-    insert into tcounter(table_name,count) select 'tb_content', count(*) from tb_content ;
-    CREATE OR REPLACE FUNCTION ex_count()  
-    RETURNS trigger AS  
-    $BODY$  
-    BEGIN  
-    IF (TG_OP='INSERT') THEN  
-      UPDATE tcounter set count = count + 1 where table_name = TG_TABLE_NAME::TEXT;  
-    ELSIF  (TG_OP='DELETE') THEN  
-      UPDATE tcounter set count = count - 1 where table_name = TG_TABLE_NAME::TEXT;  
-    END IF;  
-    RETURN NEW;  
-    END$BODY$  
-    LANGUAGE plpgsql VOLATILE  
-    COST 100;  
-    CREATE TRIGGER tg_counter AFTER INSERT OR DELETE ON my_schema.my_table  FOR EACH ROW  EXECUTE PROCEDURE ex_count();  
-</pre></code>
+* remove records content is null
