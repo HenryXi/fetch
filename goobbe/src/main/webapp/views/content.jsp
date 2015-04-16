@@ -147,7 +147,7 @@
                     url: "/getRelated?title="+shortTitle,
                     success: function(data){
                         data.forEach(function(question,index){
-                            $('#relatedQuestion').append("<div class=\"question-summary\" id=\"question-summary-"+index+"\"><div class=\"summary\"><a href=\"/questions/"+question.id+"/"+question.title4url+"\" class=\"question-hyperlink\" target=\"_blank\">"+question.t+"</a></div></div>");
+                            $('#relatedQuestion').append("<div class=\"question-summary\" id=\"question-summary-"+index+"\"><div class=\"related\"><a href=\"/questions/"+question.id+"/"+question.title4url+"\" target=\"_blank\">"+question.t+"</a></div></div>");
                         });
                     }
                 });
@@ -158,13 +158,14 @@
 <div id="sidebar" class="show-votes">
     <table>
         <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
-        <tr id="transalateMsg" class="comment ">
-            <td class="comment-text">
-                <div style="display: block;" class="comment-body">
-                    <h2><spring:message code="translation.message" text="default text" /></h2>
-                </div>
-            </td>
-        </tr><tr id="comment1" class="comment ">
+        <%--<tr id="transalateMsg" class="comment ">--%>
+            <%--<td class="comment-text">--%>
+                <%--<div style="display: block;" class="comment-body">--%>
+                    <%--<h2><spring:message code="translation.message" text="default text" /></h2>--%>
+                <%--</div>--%>
+            <%--</td>--%>
+        <%--</tr>--%>
+        <tr id="comment1" class="comment ">
             <td class="comment-text">
                 <div style="display: block;" class="comment-body">
                     <span><code>Comments</code> will be put here</span>

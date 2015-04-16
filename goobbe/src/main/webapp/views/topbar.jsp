@@ -3,20 +3,24 @@
     <script src="/js/nprogress.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/all.css">
     <script language="JavaScript">
-        function translate(){
+        function translation(){
             var target="";
             if (window.getSelection) {  // all browsers, except IE before version 9
                 var range = window.getSelection ();
                 target=range.toString ();
-            }
-            else {
+            } else {
                 if (document.selection.createRange) { // Internet Explorer
                     var range = document.selection.createRange ();
                     target=range.text;
                 }
             }
             if(target!=""){
-
+                var translate= $("#translate");
+                translate.css({"display":"block"});
+                translate.html('');
+                $("#translate").append("<div><p>"+target+"</p></div>").append("<div><p>"+target+"</p></div>").append("<div><p>"+target+"</p></div>").append("<div><p>"+target+"</p></div>").append("<div><p>"+target+"</p></div>").append("<div><p>"+target+"</p></div>")
+            }else{
+                $("#translate").css({"display":"none"});
             }
         }
         function search(){
@@ -43,11 +47,8 @@
                 }
             });
         }
-
-        function getRelated(){
-
-        }
     </script>
+    <div id="translate"></div>
     <div class="topbar-wrapper">
         <h1 class="logo">
             <a href="/">Goobbe</a>
