@@ -14,7 +14,7 @@
 <%--</div>--%>
     <script language="JavaScript">
         var url='/questions/${question.id}/${question.title4url}';
-        window.history.replaceState(null, '${question.t}', url);
+        window.history.replaceState(null, null, url);
     </script>
 <div id="content" class="snippet-hidden">
 <div id="question-header">
