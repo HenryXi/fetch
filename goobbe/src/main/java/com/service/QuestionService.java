@@ -171,4 +171,8 @@ public class QuestionService extends GoobbeLogger {
     public int getTotalNumQuestions(){
         return jdbcTemplate.queryForInt("select count from tcounter where table_name='tb_content';");
     }
+
+    public int getMaxId(){
+        return jdbcTemplate.queryForInt("select max(id) from tb_content;");
+    }
 }

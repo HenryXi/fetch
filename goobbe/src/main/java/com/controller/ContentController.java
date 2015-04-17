@@ -55,7 +55,7 @@ public class ContentController {
     @RequestMapping(value = "/questions", method = RequestMethod.GET)
     public String loadIndex(@RequestParam("page") String page, ModelMap modelMap){
         try{
-            int totalPage=1+questionService.getTotalNumQuestions()/number_of_questions_per_page;
+            int totalPage=1+questionService.getMaxId()/number_of_questions_per_page;
             int pageNum=Integer.valueOf(page);
             if(pageNum<=0){
                 pageNum=1;
