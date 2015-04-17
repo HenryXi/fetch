@@ -59,7 +59,7 @@
 
     <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="runMeJob" />
-        <property name="cronExpression" value="0 03 21 ? * 4" />
+        <property name="cronExpression" value="0 20 22 ? * 5" />
     </bean>
 
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
