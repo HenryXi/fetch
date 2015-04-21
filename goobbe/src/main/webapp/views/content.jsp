@@ -16,7 +16,7 @@
         var url='/questions/${question.id}/${question.title4url}';
         window.history.replaceState(null, null, url);
     </script>
-<div id="content" class="snippet-hidden">
+<div id="content" class="snippet-hidden" onmouseup="translation()">
 <div id="question-header">
     <h1 itemprop="name">${question.t}</h1>
 </div>

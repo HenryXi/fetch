@@ -4684,12 +4684,3 @@ table.sorter tbody tr.odd td {
     0%   { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-
-#translate {
-    background: rgba(211, 211, 211, 1);
-    display: none;
-    width: 240px;
-    position: absolute;
-    height: 150px;
-}
-

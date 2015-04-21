@@ -1,7 +1,9 @@
 <div class="topbar">
-    <script src="http://cdn.bootcss.com/jquery/1.9.0/jquery.js"></script>
+    <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.js"></script>
+    <script src="http://cdn.bootcss.com/jqueryui/1.10.2/jquery-ui.min.js"></script>
     <script src="/js/nprogress.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/all.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/jqueryui/1.10.2/css/smoothness/jquery-ui-1.10.2.custom.min.css">
     <script language="JavaScript">
         function translation(){
             var target="";
@@ -14,13 +16,16 @@
                     target=range.text;
                 }
             }
+            var translate= $("#translate");
             if(target!=""){
-                var translate= $("#translate");
-                translate.css({"display":"block"});
                 translate.html('');
-                $("#translate").append("<div><p>"+target+"</p></div>").append("<div><p>"+target+"</p></div>").append("<div><p>"+target+"</p></div>").append("<div><p>"+target+"</p></div>").append("<div><p>"+target+"</p></div>").append("<div><p>"+target+"</p></div>")
+                translate.append("<p>"+target+"</p>").append("<p>"+target+"</p>").append("<p>"+target+"</p>").append("<p>"+target+"</p>").append("<p>"+target+"</p>");
+                translate.dialog({
+                    position:{my: "left+10 bottom-10", of: event, collision: "fit"},
+                    maxWidth: 300
+                });
             }else{
-                $("#translate").css({"display":"none"});
+                translate.dialog("close");
             }
         }
         function search(){
@@ -48,7 +53,9 @@
             });
         }
     </script>
-    <div id="translate"></div>
+    <div id="translate" title="Basic dialog">
+        <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
+    </div>
     <div class="topbar-wrapper">
         <h1 class="logo">
             <a href="/">Goobbe</a>
