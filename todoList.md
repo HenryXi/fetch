@@ -87,3 +87,4 @@ zh-CN 中文(简体)
 * store search key word in db
 * get total page number by another table, show lastest question in first page
 * remove records content is null
+* final target every can learn IT skill by themselves
