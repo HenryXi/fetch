@@ -40,6 +40,8 @@ public class ContentController {
         try{
             Question question= questionService.getQuestionById(Integer.valueOf(id));
             modelMap.put("question", question);
+            List<RelatedQuestion> relatedQuestions=searchService.getLocalSearchResult(question.getT());
+            modelMap.put("relatedQuestions",relatedQuestions);
             return "content";
         }catch (Exception e){
            e.printStackTrace();
@@ -79,6 +81,8 @@ public class ContentController {
         try{
             Question question= questionService.getQuestionByUrl(Integer.valueOf(url));
             modelMap.put("question", question);
+            List<RelatedQuestion> relatedQuestions=searchService.getLocalSearchResult(question.getT());
+            modelMap.put("relatedQuestions",relatedQuestions);
             return "content";
         }catch (Exception e){
             e.printStackTrace();

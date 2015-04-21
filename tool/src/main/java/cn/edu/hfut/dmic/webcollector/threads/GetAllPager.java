@@ -174,7 +174,7 @@ public class GetAllPager extends Thread {
                 "postgres", "postgres", 80, 120);
         GetAllPager getAllPager = new GetAllPager();
         try {
-            Document document=getAllPager.getDoc("http://stackoverflow.com/questions/283193");
+            Document document=getAllPager.getDoc("http://goobbe.com/questions/11/is-it-possible-to-distribute-an-iphone-app-in-a-specific-group-of-people");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

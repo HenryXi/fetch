@@ -139,20 +139,13 @@
                 </h2>
             </div>
         </div>
-        <script language="javascript">
-            $(document).ready(function(){
-                var url=window.location.href;
-                var shortTitle=url.substr(url.lastIndexOf("/")+1);
-                $.ajax({
-                    url: "/getRelated?title="+shortTitle,
-                    success: function(data){
-                        data.forEach(function(question,index){
-                            $('#relatedQuestion').append("<div class=\"question-summary\" id=\"question-summary-"+index+"\"><div class=\"related\"><a href=\"/questions/"+question.id+"/"+question.title4url+"\" target=\"_blank\">"+question.t+"</a></div></div>");
-                        });
-                    }
-                });
-            });
-        </script>
+        <c:forEach var="question" items="${relatedQuestions}" varStatus="questionStatus">
+            <div class="question-summary" id="questions-summary-${questionsStatus.index}">
+                <div class="related">
+                    <a href="/questions/${question.id}/${question.title4url}" target="_blank">${question.t}</a>
+                </div>
+            </div>
+        </c:forEach>
     </div>
 </div>
 <div id="sidebar" class="show-votes">
