@@ -114,8 +114,8 @@ public class ContentController {
         }
     }
     @ResponseBody
-    @RequestMapping(value = "/translate",produces = "text/plain")
-    public String  translate(@RequestParam("t") String t,ModelMap modelMap){
+    @RequestMapping(value = "/translate", method = RequestMethod.GET)
+    public String  translate(@RequestParam("t") String t,ModelMap modelMap, HttpServletRequest request){
         return "";
     }
 }
