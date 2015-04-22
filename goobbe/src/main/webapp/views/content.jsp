@@ -16,7 +16,7 @@
         var url='/questions/${question.id}/${question.title4url}';
         window.history.replaceState(null, null, url);
     </script>
-<div id="content" class="snippet-hidden" onmouseup="translation()">
+<div id="content" class="snippet-hidden">
 <div id="question-header">
     <h1 itemprop="name">${question.t}</h1>
 </div>
@@ -151,13 +151,13 @@
 <div id="sidebar" class="show-votes">
     <table>
         <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
-        <%--<tr id="transalateMsg" class="comment ">--%>
-            <%--<td class="comment-text">--%>
-                <%--<div style="display: block;" class="comment-body">--%>
-                    <%--<h2><spring:message code="translation.message" text="default text" /></h2>--%>
-                <%--</div>--%>
-            <%--</td>--%>
-        <%--</tr>--%>
+        <tr id="transalateMsg" class="comment ">
+            <td class="comment-text">
+                <div style="display: block;" class="comment-body">
+                    <h2><spring:message code="translation.message" text="Double-click the word automatic translation!" /></h2>
+                </div>
+            </td>
+        </tr>
         <tr id="comment1" class="comment ">
             <td class="comment-text">
                 <div style="display: block;" class="comment-body">

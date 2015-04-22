@@ -78,7 +78,7 @@
 
     <!-- i18n -->
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basename" value="welcome" />
+        <property name="basename" value="dicMsg" />
         <property name="useCodeAsDefaultMessage" value="true" />
     </bean>
 </beans>

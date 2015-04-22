@@ -5,29 +5,6 @@
     <link rel="stylesheet" type="text/css" href="/css/all.css">
     <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/jqueryui/1.10.2/css/smoothness/jquery-ui-1.10.2.custom.min.css">
     <script language="JavaScript">
-        function translation(){
-            var target="";
-            if (window.getSelection) {  // all browsers, except IE before version 9
-                var range = window.getSelection ();
-                target=range.toString ();
-            } else {
-                if (document.selection.createRange) { // Internet Explorer
-                    var range = document.selection.createRange ();
-                    target=range.text;
-                }
-            }
-            var translate= $("#translate");
-            if(target!=""){
-                translate.html('');
-                translate.append("<p>"+target+"</p>").append("<p>"+target+"</p>").append("<p>"+target+"</p>").append("<p>"+target+"</p>").append("<p>"+target+"</p>");
-                translate.dialog({
-                    position:{my: "left+10 bottom-10", of: event, collision: "fit"},
-                    maxWidth: 300
-                });
-            }else{
-                translate.dialog("close");
-            }
-        }
         function search(){
             NProgress.start();
             var questions=$('#questions');
@@ -53,8 +30,18 @@
             });
         }
     </script>
-    <div id="translate" title="Basic dialog">
-        <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
+    <!-- begin dictionary box -->
+    <script type="text/javascript" src="/js/dic_box.js"></script>
+    <div id="pl-dbox"><a class="pl-dbox-title" href="javascript:void(0);dboxCursorLoc();"><span id="pl-dbox-title-text">Dictionary</span></a>
+        <div id="pl-dbox-content">
+            <div id="pl-dbox-ajax-content">
+                <p><input type="text" name="pl-dbox-search-field" style="width:97%;" id="pl-dbox-search-field"
+                          onKeyPress="return dbxChkKy(event);" autocomplete=off/></p>
+
+                <p id="pl-dbox-search-button"><input type="button" value=" Search! " OnClick="getdboxResults();"/></p>
+            </div>
+            <input id="pl-dbox-glossary" type="hidden" value="EnglishToChineseS,EnglishToChineseT"/>
+        </div>
     </div>
     <div class="topbar-wrapper">
         <h1 class="logo">

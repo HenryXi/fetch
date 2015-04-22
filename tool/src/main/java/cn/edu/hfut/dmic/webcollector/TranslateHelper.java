@@ -2,6 +2,8 @@ package cn.edu.hfut.dmic.webcollector;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.io.*;
 import java.net.*;
@@ -19,7 +21,7 @@ public class TranslateHelper {
     String userAgent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:27.0) Gecko/20100101 Firefox/27.0";
     ConcurrentHashMap<String,java.net.Proxy> proxys=new ConcurrentHashMap<String,Proxy>();
     public TranslateHelper(){
-        String proxyJson = "[{\"ip_port\":\"177.55.251.26:8080\"},{\"ip_port\":\"202.103.149.187:9999\"},{\"ip_port\":\"186.94.55.151:8080\"},{\"ip_port\":\"190.204.64.199:9064\"},{\"ip_port\":\"201.20.187.35:8080\"},{\"ip_port\":\"186.94.241.7:9064\"},{\"ip_port\":\"95.211.99.112:8080\"},{\"ip_port\":\"201.20.182.28:8080\"},{\"ip_port\":\"111.119.198.182:3128\"},{\"ip_port\":\"177.184.138.98:8080\"},{\"ip_port\":\"91.121.108.174:3128\"},{\"ip_port\":\"84.10.28.77:8080\"},{\"ip_port\":\"103.9.185.57:8080\"},{\"ip_port\":\"110.77.248.105:3128\"},{\"ip_port\":\"190.78.176.39:8080\"},{\"ip_port\":\"190.202.160.129:8080\"},{\"ip_port\":\"190.206.205.32:9064\"},{\"ip_port\":\"128.199.221.102:443\"},{\"ip_port\":\"218.248.47.189:3128\"},{\"ip_port\":\"197.40.94.189:8080\"},{\"ip_port\":\"104.155.213.223:80\"},{\"ip_port\":\"208.109.223.119:8800\"},{\"ip_port\":\"197.33.26.184:8080\"},{\"ip_port\":\"190.207.13.108:8080\"},{\"ip_port\":\"190.202.219.188:8080\"},{\"ip_port\":\"190.38.177.181:8080\"},{\"ip_port\":\"220.242.29.20:80\"},{\"ip_port\":\"200.8.224.171:8080\"},{\"ip_port\":\"181.92.6.135:8080\"},{\"ip_port\":\"115.133.232.128:8080\"},{\"ip_port\":\"125.230.103.85:3128\"},{\"ip_port\":\"41.34.135.238:8080\"},{\"ip_port\":\"190.78.121.178:8080\"},{\"ip_port\":\"190.203.166.15:8080\"},{\"ip_port\":\"190.0.50.35:3128\"},{\"ip_port\":\"200.84.149.117:8080\"},{\"ip_port\":\"54.148.103.250:80\"},{\"ip_port\":\"190.207.95.141:8080\"},{\"ip_port\":\"110.77.214.244:8080\"},{\"ip_port\":\"120.194.237.95:80\"},{\"ip_port\":\"106.81.43.108:8118\"},{\"ip_port\":\"41.205.6.88:8080\"},{\"ip_port\":\"213.136.183.98:8080\"},{\"ip_port\":\"117.166.110.79:8123\"},{\"ip_port\":\"36.80.5.240:8080\"},{\"ip_port\":\"117.171.253.168:8123\"},{\"ip_port\":\"117.175.59.35:8123\"},{\"ip_port\":\"183.136.135.153:8080\"},{\"ip_port\":\"183.220.158.175:8123\"},{\"ip_port\":\"117.168.159.84:8123\"}]";
+        String proxyJson = "[{\"ip_port\":\"183.207.224.50:82\"},{\"ip_port\":\"183.207.224.51:81\"},{\"ip_port\":\"202.102.22.182:80\"},{\"ip_port\":\"163.177.79.5:8101\"},{\"ip_port\":\"212.250.202.217:80\"},{\"ip_port\":\"202.55.23.144:80\"},{\"ip_port\":\"202.55.23.168:80\"},{\"ip_port\":\"111.40.196.68:80\"},{\"ip_port\":\"183.207.224.51:86\"},{\"ip_port\":\"183.207.224.50:84\"},{\"ip_port\":\"183.207.224.50:86\"},{\"ip_port\":\"123.125.104.242:80\"},{\"ip_port\":\"213.85.92.10:80\"},{\"ip_port\":\"54.250.132.57:80\"},{\"ip_port\":\"183.207.228.116:80\"},{\"ip_port\":\"183.207.224.50:85\"},{\"ip_port\":\"183.207.224.51:82\"},{\"ip_port\":\"183.207.224.51:84\"},{\"ip_port\":\"183.207.224.51:80\"},{\"ip_port\":\"183.207.224.44:80\"},{\"ip_port\":\"114.80.182.132:80\"},{\"ip_port\":\"183.207.224.51:85\"},{\"ip_port\":\"183.207.224.50:81\"},{\"ip_port\":\"183.207.224.42:80\"},{\"ip_port\":\"183.207.224.51:83\"},{\"ip_port\":\"183.207.224.43:80\"},{\"ip_port\":\"183.207.224.13:80\"},{\"ip_port\":\"115.231.96.120:80\"},{\"ip_port\":\"101.71.27.120:80\"},{\"ip_port\":\"200.62.212.247:3128\"},{\"ip_port\":\"183.207.237.11:86\"},{\"ip_port\":\"36.250.74.87:8101\"},{\"ip_port\":\"69.10.137.138:8000\"},{\"ip_port\":\"206.17.20.75:3128\"},{\"ip_port\":\"111.12.251.199:80\"},{\"ip_port\":\"111.11.153.19:3128\"},{\"ip_port\":\"111.11.153.19:111\"},{\"ip_port\":\"60.18.147.42:80\"},{\"ip_port\":\"162.208.49.45:7808\"},{\"ip_port\":\"114.215.108.155:9999\"},{\"ip_port\":\"183.203.8.147:8080\"},{\"ip_port\":\"119.4.95.136:80\"},{\"ip_port\":\"58.218.199.124:808\"}]";
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             JsonNode jsonNode = objectMapper.readTree(proxyJson);
@@ -97,14 +99,12 @@ public class TranslateHelper {
 
 
     public static void main(String args[]) throws IOException{
-        TranslateHelper translateHelper=new TranslateHelper();
-//        do{
-//            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//
-//            String s = br.readLine();
-//            translateHelper.translate(s);
-//        }while (true);
-        translateHelper.translate("hello,everyone");
+//        System.setProperty("http.proxyHost", "183.203.8.147");
+//        System.setProperty("http.proxyPort", "8080");
+//        System.setProperty("https.proxyHost", "183.203.8.147");
+//        System.setProperty("https.proxyPort", "8080");
+        Document doc=Jsoup.connect("http://translate.google.cn/translate_a/t?client=g&sl=en&tl=zh-CN&hl=zh-CN&q=hello").userAgent("Mozilla").timeout(5000).get();
+        doc.body();
     }
 
 
