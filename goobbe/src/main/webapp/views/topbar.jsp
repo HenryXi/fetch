@@ -6,6 +6,10 @@
     <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/jqueryui/1.10.2/css/smoothness/jquery-ui-1.10.2.custom.min.css">
     <script language="JavaScript">
         function search(){
+            var q=$('#search').val().trim();
+            if(q.length==0){
+                return;
+            }
             NProgress.start();
             var questions=$('#questions');
             if(questions.length==0){
@@ -40,7 +44,7 @@
 
                 <p id="pl-dbox-search-button"><input type="button" value=" Search! " OnClick="getdboxResults();"/></p>
             </div>
-            <input id="pl-dbox-glossary" type="hidden" value="EnglishToChineseS,EnglishToChineseT"/>
+            <input id="pl-dbox-glossary" type="hidden" value="${tl}"/>
         </div>
     </div>
     <div class="topbar-wrapper">
