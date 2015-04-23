@@ -45,7 +45,7 @@ public class ContentController {
             modelMap.put("question", question);
             List<RelatedQuestion> relatedQuestions=searchService.getLocalSearchResult(question.getT());
             modelMap.put("relatedQuestions",relatedQuestions);
-            modelMap.put("tl",messageSource.getMessage("target.language",null,locale));
+            modelMap.put("tl",messageSource.getMessage("target.language",null,"EnglishToEnglish",locale));
             return "content";
         }catch (Exception e){
            e.printStackTrace();

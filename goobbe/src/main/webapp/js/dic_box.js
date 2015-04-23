@@ -1,7 +1,45 @@
 var isopen=false;
-jQuery.extend(jQuery.easing,{easeOutCubic:function(x,t,b,c,d){return c*((t=t/d-1)*t*t+1)+b;}});jQuery(document).ready(function(){bitHeight=jQuery('#pl-dbox-content').height();setTimeout(function(){jQuery('#pl-dbox').animate({bottom:'-'+bitHeight-30+'px'},200);},300);jQuery('#pl-dbox a.pl-dbox-title').click(function(){if(!isopen){isopen=true;jQuery('#pl-dbox a.pl-dbox-title').addClass('open');jQuery('#pl-dbox #pl-dbox-content').addClass('open')
-    jQuery('#pl-dbox').stop();jQuery('#pl-dbox').animate({bottom:'0px'},{duration:400,easing:"easeOutCubic"});}else{isopen=false;jQuery('#pl-dbox').stop();jQuery('#pl-dbox').animate({bottom:'-'+bitHeight-30+'px'},200,function(){jQuery('#pl-dbox a.pl-dbox-title').removeClass('open');jQuery('#pl-dbox #pl-dbox-content').removeClass('open');});}});});
+jQuery.extend(jQuery.easing, {
+    easeOutCubic: function (x, t, b, c, d) {
+        return c * ((t = t / d - 1) * t * t + 1) + b;
+    }
+});
+jQuery(document).ready(function () {
+    bitHeight = jQuery('#pl-dbox-content').height();
+    setTimeout(function () {
+        jQuery('#pl-dbox').animate({bottom: '-' + bitHeight - 30 + 'px'}, 200);
+    }, 300);
+    jQuery('#pl-dbox a.pl-dbox-title').click(function () {
+        if (!isopen) {
+            showBox();
+        } else {
+            hideBox();
+        }
+    });
+    $('.container').click(function(){
+        if(isopen){
+            hideBox();
+        }
+    });
+});
 
+function showBox(){
+    isopen = true;
+    jQuery('#pl-dbox a.pl-dbox-title').addClass('open');
+    jQuery('#pl-dbox #pl-dbox-content').addClass('open')
+    jQuery('#pl-dbox').stop();
+    jQuery('#pl-dbox').animate({bottom: '0px'}, {duration: 400, easing: "easeOutCubic"});
+
+}
+
+function hideBox(){
+    isopen = false;
+    jQuery('#pl-dbox').stop();
+    jQuery('#pl-dbox').animate({bottom: '-' + bitHeight - 30 + 'px'}, 200, function () {
+        jQuery('#pl-dbox a.pl-dbox-title').removeClass('open');
+        jQuery('#pl-dbox #pl-dbox-content').removeClass('open');
+    });
+}
 
 document.ondblclick = function () {
     var sel = (document.selection && document.selection.createRange().text) || (window.getSelection && window.getSelection().toString());
