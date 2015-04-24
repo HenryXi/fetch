@@ -16,9 +16,6 @@
 <body class="questions-page new-topbar">
 <jsp:include page="topbar.jsp"/>
 <div class="container">
-    <%--<div id="header">--%>
-        <%--There should be logo pic--%>
-    <%--</div>--%>
     <div id="content" class="snippet-hidden">
         <div id="mainbar">
             <div class="subheader">

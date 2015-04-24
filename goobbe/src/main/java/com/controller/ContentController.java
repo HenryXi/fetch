@@ -35,7 +35,7 @@ public class ContentController {
     private MessageSource messageSource;
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String loadIndex(ModelMap modelMap,Locale locale){
-       return loadIndex("1",modelMap,locale);
+       return loadIndex("-1",modelMap,locale);
     }
 
     @RequestMapping(value = "/questions/{id}/{title4url}", method = RequestMethod.GET)
@@ -61,18 +61,23 @@ public class ContentController {
     @RequestMapping(value = "/questions", method = RequestMethod.GET)
     public String loadIndex(@RequestParam("page") String page, ModelMap modelMap,Locale locale){
         try{
-            int totalPage=1+questionService.getMaxId()/number_of_questions_per_page;
+            List<Question> list;
             int pageNum=Integer.valueOf(page);
-            if(pageNum<=0){
-                pageNum=1;
+            if(pageNum==-1){
+                list=questionService.getRandomQuestions();
+            }else{
+                int totalPage=1+questionService.getMaxId()/number_of_questions_per_page;
+                if(pageNum<-1){
+                    pageNum=1;
+                }else if(pageNum>totalPage){
+                    pageNum=totalPage;
+                }
+                modelMap.put("totalPage",totalPage);
+                list = questionService.getQuestionsForIndex(pageNum);
             }
-            if(pageNum>totalPage){
-                pageNum=totalPage;
-            }
-            List<Question> list = questionService.getQuestionsForIndex(pageNum);
-            modelMap.put("questions", list);
+            //todo fix page logic default index show random question
             modelMap.put("currentPage",pageNum);
-            modelMap.put("totalPage",totalPage);
+            modelMap.put("questions", list);
             modelMap.put("tl",messageSource.getMessage("target.language",null,"EnglishToEnglish",locale));
             return "index";
         }catch (Exception e){

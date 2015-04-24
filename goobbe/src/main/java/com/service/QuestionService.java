@@ -175,4 +175,23 @@ public class QuestionService extends GoobbeLogger {
     public int getMaxId(){
         return jdbcTemplate.queryForInt("select max(id) from tb_content;");
     }
+
+    public List<Question> getRandomQuestions() {
+        int random = (int)(Math.random() * getMaxId() + 1);
+        // todo "not null" in sql should be removed after format db
+        List<Question> questions = this.jdbcTemplate.query(
+                "select * from tb_content where content is not null and id>=? order by id limit 15",
+                new Object[]{random},
+                new RowMapper<Question>() {
+                    public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        try {
+                            return getQuestionByResultSet(rs);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+                });
+        return questions;
+    }
 }
