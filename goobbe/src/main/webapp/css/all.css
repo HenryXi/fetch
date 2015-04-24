@@ -4569,6 +4569,12 @@ table.sorter tbody tr.odd td {
     background: #008000;
 }
 
+.other-answer-mark {
+    height: 30px;
+    width: 5px;
+    background: #808080;
+}
+
 .first-comment-mark {
     height: 15px;
     width: 5px;
