@@ -35,7 +35,11 @@ public class ContentController {
     private MessageSource messageSource;
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String loadIndex(ModelMap modelMap,Locale locale){
-       return loadIndex("-1",modelMap,locale);
+        List<Question> list=questionService.getRandomQuestions();
+        modelMap.put("questions", list);
+        modelMap.put("tl",messageSource.getMessage("target.language",null,"EnglishToEnglish",locale));
+        modelMap.put("currentPage",-1);
+        return "index";
     }
 
     @RequestMapping(value = "/questions/{id}/{title4url}", method = RequestMethod.GET)
@@ -61,23 +65,18 @@ public class ContentController {
     @RequestMapping(value = "/questions", method = RequestMethod.GET)
     public String loadIndex(@RequestParam("page") String page, ModelMap modelMap,Locale locale){
         try{
-            List<Question> list;
+            int totalPage=1+questionService.getMaxId()/number_of_questions_per_page;
             int pageNum=Integer.valueOf(page);
-            if(pageNum==-1){
-                list=questionService.getRandomQuestions();
-            }else{
-                int totalPage=1+questionService.getMaxId()/number_of_questions_per_page;
-                if(pageNum<-1){
-                    pageNum=1;
-                }else if(pageNum>totalPage){
-                    pageNum=totalPage;
-                }
-                modelMap.put("totalPage",totalPage);
-                list = questionService.getQuestionsForIndex(pageNum);
+            if(pageNum<=0){
+                pageNum=1;
             }
-            //todo fix page logic default index show random question
-            modelMap.put("currentPage",pageNum);
+            if(pageNum>totalPage){
+                pageNum=totalPage;
+            }
+            List<Question> list = questionService.getQuestionsForIndex(pageNum);
             modelMap.put("questions", list);
+            modelMap.put("currentPage",pageNum);
+            modelMap.put("totalPage",totalPage);
             modelMap.put("tl",messageSource.getMessage("target.language",null,"EnglishToEnglish",locale));
             return "index";
         }catch (Exception e){
