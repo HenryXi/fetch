@@ -11,7 +11,7 @@
 * <s>translation function, using js is the best way(press button then translate move mouse button disappear)</s> only content page have this function
 * make a ecosystem for goobbe(<s>1.fetching all data</s> 2.update db by searching result 3.handle questions moved to other domain )
 * return state code and page for 404 500 503 and so on
-* add contact us link(email) and version at the bottom and for resource file
+* add contact us link(email) and version at the bottom and for resource file(buildnumber-maven-plugin)
 * add original link for each question
 * replace sof question link in content json
 * css file is too long, remove useless css
