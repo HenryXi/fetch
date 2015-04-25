@@ -1,9 +1,7 @@
 <div class="topbar">
     <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.js"></script>
-    <script src="http://cdn.bootcss.com/jqueryui/1.10.2/jquery-ui.min.js"></script>
     <script src="/js/nprogress.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/all.css">
-    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/jqueryui/1.10.2/css/smoothness/jquery-ui-1.10.2.custom.min.css">
     <script language="JavaScript">
         function search(){
             var q=$('#search').val().trim();
