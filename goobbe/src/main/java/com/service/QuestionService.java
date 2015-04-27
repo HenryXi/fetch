@@ -53,15 +53,12 @@ public class QuestionService extends GoobbeLogger {
         throw new GoobbeException("error");
     }
 
-    private Question getQuestionByResultSet(ResultSet rs) throws IOException, SQLException {
-        Question question = objectMapper.readValue(rs.getString("content"), Question.class);
-        question.setUrl(rs.getInt("url"));
-        String summery= Jsoup.parse(question.getC().replace("&lt", "<").replace("&gt", ">")).text();
+    private Question getBriefQuestionByResultSet(ResultSet rs) throws IOException, SQLException {
+        String summery=Jsoup.parse(rs.getString("content").replace("&lt;", "<").replace("&gt;", ">")).text();
         if(summery.length()>200){
-            summery=summery.substring(0,200);
+            summery=summery.substring(0,200).trim();
         }
-        question.setC(summery);
-        question.setId(rs.getString("id"));
+        Question question=new Question(rs.getString("id"),rs.getString("title"),summery);
         return question;
     }
 
@@ -69,12 +66,13 @@ public class QuestionService extends GoobbeLogger {
         int startNum=15*page-14; //15*(page-1)+1
         // todo "not null" in sql should be removed after format db
         List<Question> questions = this.jdbcTemplate.query(
-                "select * from tb_content where content is not null and id>=? order by id limit 15",
+                "select id ,content ->> 't' as title,content ->> 'c' as content" +
+                        " from tb_content where content is not null and id>=? order by id limit 15",
                 new Object[]{startNum},
                 new RowMapper<Question>() {
                     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
                         try {
-                            return getQuestionByResultSet(rs);
+                            return getBriefQuestionByResultSet(rs);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -180,12 +178,13 @@ public class QuestionService extends GoobbeLogger {
         int random = (int)(Math.random() * getMaxId() + 1);
         // todo "not null" in sql should be removed after format db
         List<Question> questions = this.jdbcTemplate.query(
-                "select * from tb_content where content is not null and id>=? order by id limit 15",
+                "select id ,content ->> 't' as title,content ->> 'c' as content" +
+                        " from tb_content where content is not null and id>=? order by id limit 15",
                 new Object[]{random},
                 new RowMapper<Question>() {
                     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
                         try {
-                            return getQuestionByResultSet(rs);
+                            return getBriefQuestionByResultSet(rs);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

@@ -18,6 +18,11 @@ public class Question {
         this.id=String.valueOf(id);
         this.t=title;
     }
+    public Question(String id,String title,String content){
+        this.id=id;
+        this.t=title;
+        this.c=content;
+    }
     public Question(String title,String content){
         this.t=title;
         this.c=content;

@@ -34,10 +34,9 @@ public class ContentController {
     @Autowired
     private MessageSource messageSource;
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String loadIndex(ModelMap modelMap,Locale locale){
+    public String loadIndex(ModelMap modelMap){
         List<Question> list=questionService.getRandomQuestions();
         modelMap.put("questions", list);
-        modelMap.put("tl",messageSource.getMessage("target.language",null,"EnglishToEnglish",locale));
         modelMap.put("currentPage",-1);
         return "index";
     }
@@ -103,12 +102,6 @@ public class ContentController {
     @RequestMapping(value = "/question/{url}", method = RequestMethod.GET)
     public String showSearchResult(@PathVariable("url") String url, ModelMap modelMap,Locale locale){
         return showSearchResult(url,"luck",modelMap,locale);
-    }
-
-    @RequestMapping(value = "/getRelated", method = RequestMethod.GET)
-    @ResponseBody
-    public List<RelatedQuestion> getRelatedQuestion(@RequestParam("title") String title){
-        return searchService.getLocalSearchResult(title);
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)

@@ -32,19 +32,6 @@
             });
         }
     </script>
-    <!-- begin dictionary box -->
-    <script type="text/javascript" src="/js/dic_box.js"></script>
-    <div id="pl-dbox"><a class="pl-dbox-title" href="javascript:void(0);dboxCursorLoc();"><span id="pl-dbox-title-text">Dictionary</span></a>
-        <div id="pl-dbox-content">
-            <div id="pl-dbox-ajax-content">
-                <p><input type="text" name="pl-dbox-search-field" style="width:97%;" id="pl-dbox-search-field"
-                          onKeyPress="return dbxChkKy(event);" autocomplete=off/></p>
-
-                <p id="pl-dbox-search-button"><input type="button" value=" Search! " OnClick="getdboxResults();"/></p>
-            </div>
-            <input id="pl-dbox-glossary" type="hidden" value="${tl}"/>
-        </div>
-    </div>
     <div class="topbar-wrapper">
         <h1 class="logo">
             <a href="/">Goobbe</a>
