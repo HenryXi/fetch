@@ -12,7 +12,41 @@
     <artifactId>goobbe</artifactId>
     <build>
         <outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.2</version>
+
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <shortRevisionLength>5</shortRevisionLength>
+                    <doCheck>false</doCheck>
+                    <doUpdate>false</doUpdate>
+                    <format>${version}.{0,date,yyyyMMdd}</format>
+                    <items>
+                        <item>timestamp</item>
+                    </items>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
+    <scm>
+        <connection>scm:git:git@github.com:HenryXi/fetch.git</connection>
+    </scm>
     <properties>
         <spring.version>3.1.2.RELEASE</spring.version>
     </properties>
@@ -97,6 +131,4 @@
             <version>1.8.6</version>
         </dependency>
     </dependencies>
-
-
 </project>
