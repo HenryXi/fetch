@@ -1,14 +1,11 @@
-koss-root.ids
 *.iml
 *.ipr
 *.iws
 .idea
 */*.log
-buildNumber.properties
 */target/
 *.DS_Store
 *.classpath
 *.settings
 *.project
-*/koss-report-base/*.pdf
 
