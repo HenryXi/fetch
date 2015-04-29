@@ -41,7 +41,7 @@ public class SearchService extends GoobbeLogger {
             IndexSearcher searcher = new IndexSearcher(reader);
             Analyzer analyzer = new StandardAnalyzer();
             QueryParser parser = new QueryParser("title", analyzer);
-            Query query = parser.parse(target.replaceAll("[^0-9a-zA-Z\\\\s]"," "));
+            Query query = parser.parse(QueryParser.escape(target.toLowerCase()));
             TopDocs results = searcher.search(query, null, 11);
             ScoreDoc[] hits = results.scoreDocs;
             for(int i=1;i<hits.length;i++){
