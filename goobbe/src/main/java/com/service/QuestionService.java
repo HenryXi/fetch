@@ -165,17 +165,19 @@ public class QuestionService extends GoobbeLogger {
             error("error occur when save search result in db. question url["+questionJson.getUrl()+"]");
         }
     }
-
+    @Deprecated
     public int getTotalNumQuestions(){
         return jdbcTemplate.queryForInt("select count from tcounter where table_name='tb_content';");
     }
 
     public int getMaxId(){
+        info("get max id from db.");
         return jdbcTemplate.queryForInt("select max(id) from tb_content;");
     }
 
     public List<Question> getRandomQuestions() {
         int random = (int)(Math.random() * getMaxId() + 1);
+        info("generate random id successful, get random questions ... ");
         // todo "not null" in sql should be removed after format db
         List<Question> questions = this.jdbcTemplate.query(
                 "select id ,content ->> 't' as title,content ->> 'c' as content" +

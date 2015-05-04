@@ -34,7 +34,9 @@ public class ContentController {
     @Autowired
     private MessageSource messageSource;
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String loadIndex(ModelMap modelMap){
+    public String loadIndex(ModelMap modelMap,HttpServletResponse response){
+//        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+//        return "error";
         List<Question> list=questionService.getRandomQuestions();
         modelMap.put("questions", list);
         modelMap.put("currentPage",-1);
