@@ -1,13 +1,8 @@
 <div class="topbar">
     <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.js"></script>
     <script src="/js/nprogress.js"></script>
-    <link rel="stylesheet" type="text/css" href="/css/all.css">
+    <link id="css" rel="stylesheet" type="text/css" href="/css/all.css">
     <script language="JavaScript">
-        $(document).ready(function(){
-            if(window.navigator.userAgent.indexOf("MSIE")){
-                //todo go to error page. show msg "do not support IE!"
-            }
-        });
         function search(){
             var q=$('#search').val().trim();
             if(q.length==0){
