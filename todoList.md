@@ -22,6 +22,7 @@
 * store search key word in db
 * remove records content is null
 * hot deploy on tomcat
+* data warehouse to analyze visit data
 * not support IE(I don't care)
 * support structured-data for google
 * <b>final target every can learn IT skill by themselves</b>
