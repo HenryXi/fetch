@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>${errorCode}- Goobbe</title>
+    <title>${errorCode} - Goobbe</title>
 </head>
 <body style="font-family:Arial,Helvetica,sans-serif;">
 <div style="margin: 0 auto; width: 960px;">
