@@ -1,7 +1,7 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<html itemscope="" itemtype="">
+<html>
 <head>
     <title>${question.t}</title>
     <link rel="icon" href="/pic/favicon.ico" mce_href="/favicon.ico" type="image/x-icon">
@@ -34,7 +34,7 @@
     <h1 itemprop="name">${question.t}</h1>
 </div>
 <div id="mainbar">
-    <div class="question" data-questionid="" id="question">
+    <div class="question" id="question">
         <table>
             <tbody>
             <tr>
@@ -97,8 +97,7 @@
             </div>
         </div>
         <c:forEach var="answer" items="${question.as}" varStatus="questionStatus">
-            <div id="answer-${questionStatus.index}" class="answer accepted-answer" data-answerid="28208672" itemscope=""
-                 itemtype="" itemprop="acceptedAnswer">
+            <div id="answer-${questionStatus.index}" class="answer accepted-answer" data-answerid="28208672">
                 <table>
                     <tbody>
                     <tr>
@@ -108,7 +107,7 @@
                             </div>
                         </td>
                         <td class="answercell">
-                            <div class="post-text" itemprop="text">
+                            <div class="post-text">
                                 ${answer.c}
                             </div>
                         </td>

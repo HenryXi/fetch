@@ -4606,7 +4606,8 @@ table.sorter tbody tr.odd td {
     padding: 7px 19px;
     border: 1px solid transparent;
     font-size: 18px;
-    border-radius: 4px
+    border-radius: 4px;
+    cursor: pointer;
 }
 .logo {
     margin-bottom: 0px;
