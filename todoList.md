@@ -23,4 +23,6 @@
 * remove records content is null
 * hot deploy on tomcat
 * not support IE
-* <b>final target every can learn IT skill by themselves</b>
+* compress and encrypt js and css 
+* use cdn for jquery
+* <b>final target everyone can learn IT skills by himself</b>
