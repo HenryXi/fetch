@@ -170,25 +170,25 @@
                 </div>
             </td>
         </tr>
-        <tr id="comment1" class="comment ">
+        <tr id="ad1" class="comment ">
             <td class="comment-text">
-                <div style="display: block;" class="comment-body">
-                    <span><code>Comments</code> will be put here</span>
-                </div>
-            </td>
-        </tr>
-        <tr id="comment2" class="comment ">
-            <td class="comment-text">
-                <div style="display: block;" class="comment-body">
-                            <span class="comment-copy"><code>Comments</code> will be put here</span>
-                </div>
-            </td>
-        </tr>
-        <tr id="comment3" class="comment ">
-            <td class="comment-text">
-                <div style="display: block;" class="comment-body">
-                    <span class="comment-copy"><code>Comments</code> will be put here</span>
-                </div>
+                <script charset="utf-8" type="text/javascript">
+                    amzn_assoc_ad_type = "responsive_search_widget";
+                    amzn_assoc_tracking_id = "goobbe-20";
+                    amzn_assoc_link_id = "UYNFH7MH6HICAOSO";
+                    amzn_assoc_marketplace = "amazon";
+                    amzn_assoc_region = "US";
+                    amzn_assoc_placement = "";
+                    amzn_assoc_search_type = "search_widget";
+                    amzn_assoc_width = "250";
+                    amzn_assoc_height = "600";
+                    amzn_assoc_default_search_category = "Books";
+                    <%--amzn_assoc_default_search_key = "${question.ts[0]} ${question.ts[1]}";--%>
+                    amzn_assoc_default_search_key = "";
+                    amzn_assoc_theme = "light";
+                    amzn_assoc_bg_color = "3d495f";
+                </script>
+                <script src="//z-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&Operation=GetScript&ID=OneJS&WS=1&MarketPlace=US"></script>
             </td>
         </tr>
         </tbody>

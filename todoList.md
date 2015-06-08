@@ -27,4 +27,5 @@
 * support structured-data for google
 * compress and encrypt js and css 
 * use cdn for jquery
+* add ad make money
 * <b>final target everyone can learn IT skills by himself</b>

@@ -28,6 +28,18 @@ public class Question {
      * answers
      */
     private List<Answer> as=new ArrayList<Answer>();
+    /**
+     * tags
+     */
+    private List<String> ts =new ArrayList<>();
+
+    public List<String> getTs() {
+        return ts;
+    }
+
+    public void setTs(List<String> ts) {
+        this.ts = ts;
+    }
 
     public String getT() {
         return t;

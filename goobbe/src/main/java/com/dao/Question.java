@@ -41,8 +41,17 @@ public class Question {
     private String t;
     private String title4url;
     private String c;
+    private List<String> ts=new ArrayList<>();
     private List<Comment> cs=new ArrayList<Comment>();
     private List<Answer> as=new ArrayList<Answer>();
+
+    public List<String> getTs() {
+        return ts;
+    }
+
+    public void setTs(List<String> ts) {
+        this.ts = ts;
+    }
 
     public String getId() {
         return id;
