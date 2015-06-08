@@ -144,6 +144,9 @@ public class QuestionService extends GoobbeLogger {
             }
             questionJson.getAs().add(answer);
         }
+        for(Element tag :doc.select(".post-taglist>.post-tag")){
+            questionJson.getTs().add(tag.text());
+        }
         return questionJson;
     }
 
