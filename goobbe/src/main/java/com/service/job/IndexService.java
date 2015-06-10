@@ -1,8 +1,8 @@
 package com.service.job;
 
-import cn.edu.hfut.dmic.webcollector.util.JDBCHelper;
 import com.dao.Question;
 import com.exception.GoobbeException;
+import com.exception.GoobbeRsNotFoundException;
 import com.util.GoobbeLogger;
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.analysis.Analyzer;

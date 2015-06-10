@@ -170,6 +170,13 @@
                 </div>
             </td>
         </tr>
+        <tr id="recommendMsg" class="comment ">
+            <td class="comment-text">
+                <div style="display: block;" class="comment-body">
+                    <h2><spring:message code="recommend.message" text="Recommended books for you!" /></h2>
+                </div>
+            </td>
+        </tr>
         <tr id="ad1" class="comment ">
             <td class="comment-text">
                 <script charset="utf-8" type="text/javascript">
@@ -183,8 +190,14 @@
                     amzn_assoc_width = "250";
                     amzn_assoc_height = "600";
                     amzn_assoc_default_search_category = "Books";
-                    <%--amzn_assoc_default_search_key = "${question.ts[0]} ${question.ts[1]}";--%>
-                    amzn_assoc_default_search_key = "";
+                    <c:choose>
+                        <c:when test="${question.ts.size()>1}">
+                            amzn_assoc_default_search_key = "${question.ts[0]} ${question.ts[1]}";
+                        </c:when>
+                        <c:otherwise>
+                            amzn_assoc_default_search_key = "";
+                        </c:otherwise>
+                    </c:choose>
                     amzn_assoc_theme = "light";
                     amzn_assoc_bg_color = "3d495f";
                 </script>
