@@ -84,7 +84,7 @@ public class QuestionService extends GoobbeLogger {
         return questions;
     }
 
-    public String getQuestionsByKeyword(String keyword){
+    public String getQuestionsByKeyword(String keyword) {
         try {
             info("user search by keyword:[" + keyword + "]");
             keyword = URLEncoder.encode(keyword, "UTF-8");
@@ -96,7 +96,7 @@ public class QuestionService extends GoobbeLogger {
         }
     }
 
-    public Question getQuestionByUrl(Integer url){
+    public Question getQuestionByUrl(Integer url) {
         List<Question> questions;
         try {
             questions = jdbcTemplate.query("select * from tb_content where url=?",
@@ -118,19 +118,19 @@ public class QuestionService extends GoobbeLogger {
         } catch (Exception e) {
             throw new GoobbeInternalErrorException();
         }
-        if(questions.get(0)==null){
+        if (questions.size() != 0 && questions.get(0) == null) {
             throw new GoobbeRsNotFoundException();
         }
-        try{
+        try {
             if (questions.size() == 0) {
                 Document docFromSearch = getPageService.getDoc(STACK_URL + url);
                 QuestionJson questionJson = getQuestionByDoc(docFromSearch, url);
                 saveSearchResultInDB(questionJson);
                 return questionJson;
-            } else{
+            } else {
                 return questions.get(0);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new GoobbeInternalErrorException();
         }
     }
@@ -188,7 +188,7 @@ public class QuestionService extends GoobbeLogger {
         return jdbcTemplate.queryForInt("select max(id) from tb_content;");
     }
 
-    public List<Question> getRandomQuestions(){
+    public List<Question> getRandomQuestions() {
         int random = (int) (Math.random() * getMaxId() + 1);
         info("generate random id successful, get random questions ... ");
         // todo "not null" in sql should be removed after format db

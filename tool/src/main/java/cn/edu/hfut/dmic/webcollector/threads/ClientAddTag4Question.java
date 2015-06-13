@@ -20,7 +20,7 @@ public class ClientAddTag4Question {
         List<AddTag4Question> deadGap=new ArrayList<>();
         int useProxy=0;
         long step = 100l;
-        long index = 1299;
+        long index = 7010;
         do {
             if (addTag4Questions.size() == threadNumber) {
                 int waitingThread=0;

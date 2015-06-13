@@ -105,6 +105,8 @@ public class AddTag4Question extends Thread {
                 saveContentAsJsonInDB(doc,url);
             } catch (Throwable e) {
                 e.printStackTrace();
+                System.out.println("ERROR ---------->" + startNumber + "---" + endNumber + " end----");
+                break;
             }
         }
         System.out.println("---------->" + startNumber + "---" + endNumber + " end---------");
