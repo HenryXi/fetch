@@ -46,8 +46,24 @@ public class QuestionService extends GoobbeLogger {
             throw new GoobbeRsNotFoundException();
         }
         try {
-            Question question = objectMapper.readValue(record.get("content").toString(), Question.class);
+            Map<String,String> keywordUrl=new HashMap<>();
+            for(int i=0;i<10000;i++){
+                if(i==9999){
+                    keywordUrl.put("mark the","testUrl");
+                }else{
+                    keywordUrl.put("keyword"+i,"testUrl");
+                }
+
+            }
+            String contentJson=record.get("content").toString();
+            for(String keyword:keywordUrl.keySet()){
+                if(contentJson.toLowerCase().contains(keyword.toLowerCase())){
+                    contentJson=contentJson.replaceAll("(?i)mark the","<a href=http://www.baidu.com>Mark the</a>");
+                }
+            }
+            Question question = objectMapper.readValue(contentJson, Question.class);
             question.setId(record.get("id").toString());
+            info("get info of " + id);
             return question;
         } catch (Exception e) {
             error("error when get question [id: " + id + "]");

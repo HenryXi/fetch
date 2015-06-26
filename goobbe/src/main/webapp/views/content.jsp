@@ -28,27 +28,6 @@
     <script language="JavaScript">
         var url='/questions/${question.id}/${question.title4url}';
         window.history.replaceState(null, null, url);
-        var showAd=0;
-        function changeAnotherKeyword(){
-            switch (showAd%3){
-                case 0:
-                    $('#ad1').hide();
-                    $('#ad2').show();
-                    $('#ad3').hide();
-                    break;
-                case 1:
-                    $('#ad1').hide();
-                    $('#ad2').hide();
-                    $('#ad3').show();
-                    break;
-                case 2:
-                    $('#ad1').show();
-                    $('#ad2').hide();
-                    $('#ad3').hide();
-                    break;
-            }
-            showAd=showAd+1;
-        }
     </script>
 <div id="content" class="snippet-hidden">
 <div id="question-header">
@@ -194,93 +173,44 @@
         <tr id="recommendMsg" class="comment ">
             <td class="comment-text">
                 <div style="display: block;" class="comment-body">
-                    <h2><spring:message code="recommend.message" text="Recommended books for you!" /><a onclick="changeAnotherKeyword()">(↔)</a></h2>
+                    <h2><spring:message code="recommend.message" text="Recommended books for you!" />
+                        <c:choose>
+                            <c:when test="${question.ts.size()>1}">
+                                <a target="_blank"
+                                   href="http://www.amazon.com/gp/search?ie=UTF8&camp=1789&creative=9325&index=books&keywords=${question.ts[0]}+${question.ts[1]}&linkCode=ur2&tag=goobbe-20&linkId=JKQVDSX6HBHBP5OI">Books</a>
+                                <img src="http://ir-na.amazon-adsystem.com/e/ir?t=goobbe-20&l=ur2&o=1" width="1"
+                                     height="1" border="0" alt=""
+                                     style="border:none !important; margin:0px !important;"/>
+                            </c:when>
+                            <c:otherwise>
+                                <c:choose>
+                                    <c:when test="${question.ts.size()>0}">
+                                        <a target="_blank"
+                                           href="http://www.amazon.com/gp/search?ie=UTF8&camp=1789&creative=9325&index=books&keywords=${question.ts[0]}&linkCode=ur2&tag=goobbe-20&linkId=JKQVDSX6HBHBP5OI">Books</a>
+                                        <img src="http://ir-na.amazon-adsystem.com/e/ir?t=goobbe-20&l=ur2&o=1" width="1"
+                                             height="1" border="0" alt=""
+                                             style="border:none !important; margin:0px !important;"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a target="_blank"
+                                           href="http://www.amazon.com/gp/search?ie=UTF8&camp=1789&creative=9325&index=books&keywords=code&linkCode=ur2&tag=goobbe-20&linkId=JKQVDSX6HBHBP5OI">Books</a>
+                                        <img src="http://ir-na.amazon-adsystem.com/e/ir?t=goobbe-20&l=ur2&o=1" width="1"
+                                             height="1" border="0" alt=""
+                                             style="border:none !important; margin:0px !important;"/>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:otherwise>
+                        </c:choose>
+                        <img src="http://ir-na.amazon-adsystem.com/e/ir?t=goobbe-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+                    </h2>
                 </div>
-            </td>
-        </tr>
-        <tr id="ad1" class="comment ">
-            <td class="comment-text">
-                <script charset="utf-8" type="text/javascript">
-                    amzn_assoc_ad_type = "responsive_search_widget";
-                    amzn_assoc_tracking_id = "goobbe-20";
-                    amzn_assoc_link_id = "UYNFH7MH6HICAOSO";
-                    amzn_assoc_marketplace = "amazon";
-                    amzn_assoc_region = "US";
-                    amzn_assoc_placement = "";
-                    amzn_assoc_search_type = "search_widget";
-                    amzn_assoc_width = "250";
-                    amzn_assoc_height = "600";
-                    amzn_assoc_default_search_category = "Books";
-                    <c:choose>
-                        <c:when test="${question.ts.size()>1}">
-                            amzn_assoc_default_search_key = "${question.ts[0]} ${question.ts[1]}";
-                        </c:when>
-                        <c:otherwise>
-                            amzn_assoc_default_search_key = "";
-                        </c:otherwise>
-                    </c:choose>
-                    amzn_assoc_theme = "light";
-                    amzn_assoc_bg_color = "3d495f";
-                </script>
-                <script src="//z-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&Operation=GetScript&ID=OneJS&WS=1&MarketPlace=US"></script>
-            </td>
-        </tr>
-        <tr id="ad2" class="comment" style="display: none">
-            <td class="comment-text">
-                <script charset="utf-8" type="text/javascript">
-                    amzn_assoc_ad_type = "responsive_search_widget";
-                    amzn_assoc_tracking_id = "goobbe-20";
-                    amzn_assoc_link_id = "UYNFH7MH6HICAOSO";
-                    amzn_assoc_marketplace = "amazon";
-                    amzn_assoc_region = "US";
-                    amzn_assoc_placement = "";
-                    amzn_assoc_search_type = "search_widget";
-                    amzn_assoc_width = "250";
-                    amzn_assoc_height = "600";
-                    amzn_assoc_default_search_category = "Books";
-                    <c:choose>
-                    <c:when test="${question.ts.size()>0}">
-                    amzn_assoc_default_search_key = "${question.ts[1]}";
-                    </c:when>
-                    <c:otherwise>
-                    amzn_assoc_default_search_key = "";
-                    </c:otherwise>
-                    </c:choose>
-                    amzn_assoc_theme = "light";
-                    amzn_assoc_bg_color = "3d495f";
-                </script>
-                <script src="//z-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&Operation=GetScript&ID=OneJS&WS=1&MarketPlace=US"></script>
-            </td>
-        </tr>
-        <tr id="ad3" class="comment" style="display: none">
-            <td class="comment-text">
-                <script charset="utf-8" type="text/javascript">
-                    amzn_assoc_ad_type = "responsive_search_widget";
-                    amzn_assoc_tracking_id = "goobbe-20";
-                    amzn_assoc_link_id = "UYNFH7MH6HICAOSO";
-                    amzn_assoc_marketplace = "amazon";
-                    amzn_assoc_region = "US";
-                    amzn_assoc_placement = "";
-                    amzn_assoc_search_type = "search_widget";
-                    amzn_assoc_width = "250";
-                    amzn_assoc_height = "600";
-                    amzn_assoc_default_search_category = "Books";
-                    <c:choose>
-                    <c:when test="${question.ts.size()>0}">
-                    amzn_assoc_default_search_key = "${question.ts[0]}";
-                    </c:when>
-                    <c:otherwise>
-                    amzn_assoc_default_search_key = "";
-                    </c:otherwise>
-                    </c:choose>
-                    amzn_assoc_theme = "light";
-                    amzn_assoc_bg_color = "3d495f";
-                </script>
-                <script src="//z-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&Operation=GetScript&ID=OneJS&WS=1&MarketPlace=US"></script>
             </td>
         </tr>
         </tbody>
     </table>
+    <!-- Begin BidVertiser code -->
+    <SCRIPT LANGUAGE="JavaScript1.1" SRC="http://bdv.bidvertiser.com/BidVertiser.dbm?pid=674767&bid=1685612" type="text/javascript"></SCRIPT>
+    <!-- End BidVertiser code -->
 </div>
 </div>
 </div>

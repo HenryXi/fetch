@@ -9,6 +9,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sun.net.www.protocol.http.HttpURLConnection;
@@ -39,6 +40,7 @@ public class AddTag4Question extends Thread {
     ConcurrentHashMap<String,Proxy> proxys=new ConcurrentHashMap<String,Proxy>();
     Random random = new Random();
     public Proxy currentProxy;
+    private boolean loseConnection;
 
     public AddTag4Question(Long startNumber, Long endNumber) {
         this.startNumber = startNumber;
@@ -97,8 +99,14 @@ public class AddTag4Question extends Thread {
     }
 
     public void run() {
-        List<Integer> records=jdbcTemplate.queryForList("select url from tb_content where id between "+startNumber +" and "+endNumber,Integer.class);
         Document doc = null;
+        List<Integer> records=null;
+        try{
+            records=jdbcTemplate.queryForList("select url from tb_content where id between "+startNumber +" and "+endNumber,Integer.class);
+        }catch (DataAccessException e){
+            System.out.println("ERROR ---------->" + startNumber + "---" + endNumber + " end----");
+            //loseConnection=true;
+        }
         for (Integer url:records) {
             try {
                 doc = getDoc(url);
@@ -106,7 +114,7 @@ public class AddTag4Question extends Thread {
             } catch (Throwable e) {
                 e.printStackTrace();
                 System.out.println("ERROR ---------->" + startNumber + "---" + endNumber + " end----");
-                break;
+                //loseConnection=true;
             }
         }
         System.out.println("---------->" + startNumber + "---" + endNumber + " end---------");
@@ -183,5 +191,13 @@ public class AddTag4Question extends Thread {
             }
             System.out.println(getAllPager.isAlive());
         } while (true);
+    }
+
+    public boolean isLoseConnection() {
+        return loseConnection;
+    }
+
+    public void setLoseConnection(boolean loseConnection) {
+        this.loseConnection = loseConnection;
     }
 }

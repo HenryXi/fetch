@@ -20,7 +20,8 @@ public class ClientAddTag4Question {
         List<AddTag4Question> deadGap=new ArrayList<>();
         int useProxy=0;
         long step = 100l;
-        long index = 7010;
+        long index = 21220;
+        loseConnection:
         do {
             if (addTag4Questions.size() == threadNumber) {
                 int waitingThread=0;
@@ -30,6 +31,10 @@ public class ClientAddTag4Question {
                 deadGap.clear();
                 useProxy=0;
                 for (AddTag4Question getAllPager : addTag4Questions) {
+                    if(getAllPager.isLoseConnection()){
+                        System.out.println("Current index -> "+index);
+                        break loseConnection;
+                    }
                     if (!getAllPager.isAlive()) {
                         deadGap.add(getAllPager);
                     }

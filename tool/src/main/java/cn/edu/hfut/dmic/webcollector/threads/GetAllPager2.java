@@ -22,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by henxii on 1/9/15.
+ * save usable url in db, ignore 404 and remove content
  */
 public class GetAllPager2 extends Thread {
     protected String userAgent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:27.0) Gecko/20100101 Firefox/27.0";
