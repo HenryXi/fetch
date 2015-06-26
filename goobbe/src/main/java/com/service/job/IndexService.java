@@ -35,7 +35,7 @@ public class IndexService extends GoobbeLogger {
     private Path indexFolderBak;
     private Path indexFolder;
     private IndexService() {
-//        jdbcTemplate=JDBCHelper.createMysqlTemplate("po",
+//        jdbcTemplate=JDBCHelper.createPostgresqlTemplate("po",
 //                "jdbc:postgresql://123.57.136.60:5432/goobbe",
 //                "yong", "xixiaoyong123", 80, 120);
         indexFolderBak= Paths.get(System.getProperty("user.home") + FileSystems.getDefault().getSeparator() + "index_bak");

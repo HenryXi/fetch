@@ -135,7 +135,7 @@ public class GetAllPager2 extends Thread {
 
 
     public static void main(String[] args) {
-        JDBCHelper.createMysqlTemplate("po",
+        JDBCHelper.createPostgresqlTemplate("po",
                 "jdbc:postgresql://localhost:5432/page",
                 "postgres", "postgres", 80, 120);
         GetAllPager2 getAllPager = new GetAllPager2(1900l, 2000l);

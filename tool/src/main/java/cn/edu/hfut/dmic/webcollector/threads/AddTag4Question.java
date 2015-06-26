@@ -178,7 +178,7 @@ public class AddTag4Question extends Thread {
 
 
     public static void main(String[] args) {
-        JDBCHelper.createMysqlTemplate("po",
+        JDBCHelper.createPostgresqlTemplate("po",
                 "jdbc:postgresql://123.57.136.60:5432/goobbe",
                 "yong", "xixiaoyong123", 80, 120);
         AddTag4Question getAllPager = new AddTag4Question(1l, 2l);

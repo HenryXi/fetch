@@ -13,7 +13,7 @@ public class Handle503Pages extends Thread{
     JdbcTemplate jdbcTemplate = null;
     public Handle503Pages(List<String> urls){
         try {
-            jdbcTemplate = JDBCHelper.createMysqlTemplate("mysql1",
+            jdbcTemplate = JDBCHelper.createPostgresqlTemplate("mysql1",
                     "jdbc:postgresql://localhost:5432/page",
                     "postgres", "postgres", 5, 30);
             System.out.println("connect db successful!");

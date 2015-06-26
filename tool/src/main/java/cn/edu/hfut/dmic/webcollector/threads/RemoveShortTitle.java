@@ -1,6 +1,5 @@
 package cn.edu.hfut.dmic.webcollector.threads;
 
-import cn.edu.hfut.dmic.webcollector.Question;
 import cn.edu.hfut.dmic.webcollector.util.JDBCHelper;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -11,10 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by henxii on 3/11/15.
@@ -23,7 +19,7 @@ public class RemoveShortTitle {
     private JdbcTemplate jdbcTemplate;
     private ObjectMapper objectMapper=new ObjectMapper();
     public RemoveShortTitle(){
-        JDBCHelper.createMysqlTemplate("po",
+        JDBCHelper.createPostgresqlTemplate("po",
                 "jdbc:postgresql://localhost:5432/page",
                 "postgres", "postgres", 80, 120);
         jdbcTemplate = JDBCHelper.getJdbcTemplate("po");

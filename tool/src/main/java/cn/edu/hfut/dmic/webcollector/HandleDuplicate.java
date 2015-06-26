@@ -14,7 +14,7 @@ import java.util.Map;
 public class HandleDuplicate {
     private JdbcTemplate jdbcTemplate;
     public HandleDuplicate(){
-        jdbcTemplate = JDBCHelper.createMysqlTemplate("mysql1",
+        jdbcTemplate = JDBCHelper.createPostgresqlTemplate("mysql1",
                 "jdbc:postgresql://localhost:5432/page",
                 "postgres", "postgres", 5, 30);
     }

@@ -75,7 +75,7 @@ public class DemoSoupLangCrawler extends DeepCrawler {
     public static void main(String[] args) throws Exception {
         try {
             /*用JDBCHelper在JDBCTemplate池中建立一个名为temp1的JDBCTemplate*/
-            JDBCHelper.createMysqlTemplate("temp1",
+            JDBCHelper.createPostgresqlTemplate("temp1",
                     "jdbc:mysql://localhost/testdb?useUnicode=true&characterEncoding=utf8",
                     "root", "password", 5, 30);
 

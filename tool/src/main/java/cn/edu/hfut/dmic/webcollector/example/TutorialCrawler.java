@@ -79,7 +79,7 @@ public class TutorialCrawler extends DeepCrawler {
          */
 
         try {
-            jdbcTemplate = JDBCHelper.createMysqlTemplate("mysql1",
+            jdbcTemplate = JDBCHelper.createPostgresqlTemplate("mysql1",
                     "jdbc:postgresql://localhost:5432/page",
                     "postgres", "postgres", 5, 30);
 

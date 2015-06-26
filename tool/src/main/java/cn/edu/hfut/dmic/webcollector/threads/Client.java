@@ -13,7 +13,7 @@ public class Client {
     public static final int threadNumber = 3;
     private static Random random=new Random();
     public static void main(String[] args) {
-        JDBCHelper.createMysqlTemplate("po",
+        JDBCHelper.createPostgresqlTemplate("po",
                 "jdbc:postgresql://localhost:5432/page",
                 "postgres", "postgres", 80, 120);
         List<GetAllPager> getAllPagers = new ArrayList<GetAllPager>();

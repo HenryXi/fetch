@@ -13,7 +13,7 @@ public class ClientAddTag4Question {
     private static final long totalNumber = 8146616;
     public static final int threadNumber = 10;
     public static void main(String[] args) {
-        JDBCHelper.createMysqlTemplate("po",
+        JDBCHelper.createPostgresqlTemplate("po",
                 "jdbc:postgresql://123.57.136.60:5432/goobbe",
                 "yong", "xixiaoyong123", 80, 120);
         List<AddTag4Question> addTag4Questions = new ArrayList<>();

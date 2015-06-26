@@ -30,9 +30,19 @@ public class JDBCHelper {
 
     public static HashMap<String, JdbcTemplate> templateMap = new HashMap<String, JdbcTemplate>();
 
-    public static JdbcTemplate createMysqlTemplate(String templateName, String url, String username, String password, int initialSize, int maxActive) {
+    public static JdbcTemplate createPostgresqlTemplate(String templateName, String url, String username, String password, int initialSize, int maxActive) {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
+        return getJdbcTemplateWithoutDriver(templateName, url, username, password, initialSize, maxActive, dataSource);
+    }
+
+    public static JdbcTemplate createSQLiteTemplate(String templateName, String url, String username, String password, int initialSize, int maxActive) {
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setDriverClassName("org.sqlite.JDBC");
+        return getJdbcTemplateWithoutDriver(templateName, url, username, password, initialSize, maxActive, dataSource);
+    }
+
+    private static JdbcTemplate getJdbcTemplateWithoutDriver(String templateName, String url, String username, String password, int initialSize, int maxActive, BasicDataSource dataSource) {
         dataSource.setUrl(url);
         dataSource.setUsername(username);
         dataSource.setPassword(password);

@@ -13,7 +13,7 @@ public class Client2 {
     private static final long totalNumber = 200000;
     public static final int threadNumber = 10;
     public static void main(String[] args) {
-        JDBCHelper.createMysqlTemplate("po",
+        JDBCHelper.createPostgresqlTemplate("po",
                 "jdbc:postgresql://123.57.136.60:5432/goobbe",
                 "yong", "xixiaoyong123", 80, 120);
         List<GetAllPager2> getAllPagers = new ArrayList<GetAllPager2>();
