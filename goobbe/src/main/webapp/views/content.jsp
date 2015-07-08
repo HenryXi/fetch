@@ -22,9 +22,6 @@
     </div>
 </div>
 <div class="container">
-<%--<div id="header">--%>
-    <%--There should be logo pic--%>
-<%--</div>--%>
     <script language="JavaScript">
         var url='/questions/${question.id}/${question.title4url}';
         window.history.replaceState(null, null, url);
