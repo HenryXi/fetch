@@ -467,7 +467,7 @@ tr.comment > td {
 #sidebar, .sidebar {
     float: right;
     overflow: hidden;
-    width: 500px;
+    width: 220px;
     margin: 0 0 15px 0px;
 }
 
@@ -483,7 +483,7 @@ tr.comment > td {
 
 #mainbar, .mainbar {
     float: left;
-    width: 685px;
+    width: 728px;
     margin: 0 0 0 0;
     padding: 0;
 }

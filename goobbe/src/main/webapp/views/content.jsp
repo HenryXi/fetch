@@ -167,54 +167,11 @@
                 </div>
             </td>
         </tr>
-        <tr id="recommendMsg" class="comment ">
-            <td class="comment-text">
-                <div style="display: block;" class="comment-body">
-                    <h2><spring:message code="recommend.message" text="Recommended books for you!" />
-                        <c:choose>
-                            <c:when test="${question.ts.size()>1}">
-                                <a target="_blank"
-                                   href="http://www.amazon.com/gp/search?ie=UTF8&camp=1789&creative=9325&index=books&keywords=${question.ts[0]}+${question.ts[1]}&linkCode=ur2&tag=goobbe-20&linkId=JKQVDSX6HBHBP5OI">Books</a>
-                                <img src="http://ir-na.amazon-adsystem.com/e/ir?t=goobbe-20&l=ur2&o=1" width="1"
-                                     height="1" border="0" alt=""
-                                     style="border:none !important; margin:0px !important;"/>
-                            </c:when>
-                            <c:otherwise>
-                                <c:choose>
-                                    <c:when test="${question.ts.size()>0}">
-                                        <a target="_blank"
-                                           href="http://www.amazon.com/gp/search?ie=UTF8&camp=1789&creative=9325&index=books&keywords=${question.ts[0]}&linkCode=ur2&tag=goobbe-20&linkId=JKQVDSX6HBHBP5OI">Books</a>
-                                        <img src="http://ir-na.amazon-adsystem.com/e/ir?t=goobbe-20&l=ur2&o=1" width="1"
-                                             height="1" border="0" alt=""
-                                             style="border:none !important; margin:0px !important;"/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <a target="_blank"
-                                           href="http://www.amazon.com/gp/search?ie=UTF8&camp=1789&creative=9325&index=books&keywords=code&linkCode=ur2&tag=goobbe-20&linkId=JKQVDSX6HBHBP5OI">Books</a>
-                                        <img src="http://ir-na.amazon-adsystem.com/e/ir?t=goobbe-20&l=ur2&o=1" width="1"
-                                             height="1" border="0" alt=""
-                                             style="border:none !important; margin:0px !important;"/>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:otherwise>
-                        </c:choose>
-                        <img src="http://ir-na.amazon-adsystem.com/e/ir?t=goobbe-20&l=ur2&o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
-                    </h2>
-                </div>
-            </td>
-        </tr>
         </tbody>
     </table>
     <!-- Begin BidVertiser code -->
     <SCRIPT LANGUAGE="JavaScript1.1" SRC="http://bdv.bidvertiser.com/BidVertiser.dbm?pid=674767&bid=1685612" type="text/javascript"></SCRIPT>
     <!-- End BidVertiser code -->
-    <!-- begin infolinks code -->
-    <script type="text/javascript">
-        var infolinks_pid = 2483710;
-        var infolinks_wsid = 0;
-    </script>
-    <script type="text/javascript" src="http://resources.infolinks.com/js/infolinks_main.js"></script>
-    <!-- end infolinks code -->
 </div>
 </div>
 </div>
