@@ -140,6 +140,9 @@
             </div>
         </c:forEach>
     </div>
+    <!-- Begin BidVertiser code -->
+    <SCRIPT LANGUAGE="JavaScript1.1" SRC="http://bdv.bidvertiser.com/BidVertiser.dbm?pid=674767&bid=1685644" type="text/javascript"></SCRIPT>
+    <!-- End BidVertiser code -->
     <div id="relatedQuestion">
         <div id="relatedQuestion-header">
             <div class="subheader answers-subheader">
