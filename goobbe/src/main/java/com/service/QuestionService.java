@@ -46,22 +46,9 @@ public class QuestionService extends GoobbeLogger {
             throw new GoobbeRsNotFoundException();
         }
         try {
-            Map<String,String> keywordUrl=new HashMap<>();
-            for(int i=0;i<10000;i++){
-                if(i==9999){
-                    keywordUrl.put("mark the","testUrl");
-                }else{
-                    keywordUrl.put("keyword"+i,"testUrl");
-                }
-
-            }
-            String contentJson=record.get("content").toString();
-            for(String keyword:keywordUrl.keySet()){
-                if(contentJson.toLowerCase().contains(keyword.toLowerCase())){
-                    contentJson=contentJson.replaceAll("(?i)mark the","<a href=http://www.baidu.com>Mark the</a>");
-                }
-            }
-            Question question = objectMapper.readValue(contentJson, Question.class);
+            Question question = objectMapper.readValue(record.get("content").toString(), Question.class);
+            question.setT(question.getT().replace("[duplicate]",""));
+            question.setT(question.getT().replace("[closed]", ""));
             question.setId(record.get("id").toString());
             info("get info of " + id);
             return question;
@@ -112,11 +99,14 @@ public class QuestionService extends GoobbeLogger {
         }
     }
 
-    public Question getQuestionByUrl(Integer url) {
+    public Question getQuestionByUrl(String url) {
+        if(!url.matches("[0-9]+")){
+            throw new GoobbeInternalErrorException();
+        }
         List<Question> questions;
         try {
             questions = jdbcTemplate.query("select * from tb_content where url=?",
-                    new Object[]{url},
+                    new Object[]{Integer.valueOf(url)},
                     new RowMapper<Question>() {
                         public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
                             try {
@@ -140,7 +130,7 @@ public class QuestionService extends GoobbeLogger {
         try {
             if (questions.size() == 0) {
                 Document docFromSearch = getPageService.getDoc(STACK_URL + url);
-                QuestionJson questionJson = getQuestionByDoc(docFromSearch, url);
+                QuestionJson questionJson = getQuestionByDoc(docFromSearch, Integer.valueOf(url));
                 saveSearchResultInDB(questionJson);
                 return questionJson;
             } else {

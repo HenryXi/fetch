@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import com.service.QuestionService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -69,7 +71,7 @@ public class ContentController {
 
     @RequestMapping(value = "/question/{url}/{title4url}",method = RequestMethod.GET)
     public String showSearchResult(@PathVariable("url") String url, @PathVariable("title4url") String title4url, ModelMap modelMap,Locale locale){
-        Question question= questionService.getQuestionByUrl(Integer.valueOf(url));
+        Question question= questionService.getQuestionByUrl(url);
         if(question==null) throw new GoobbeRsNotFoundException();
         modelMap.put("question", question);
         List<RelatedQuestion> relatedQuestions=searchService.getLocalSearchResult(question.getT());
