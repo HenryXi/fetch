@@ -10,6 +10,7 @@
             }
             if($.isNumeric(q)){
                 window.location.href="/question/"+q;
+                return;
             }
             NProgress.start();
             var questions=$('#questions');
