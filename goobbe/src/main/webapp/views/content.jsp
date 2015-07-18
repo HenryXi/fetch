@@ -154,7 +154,7 @@
         <c:forEach var="question" items="${relatedQuestions}" varStatus="questionStatus">
             <div class="question-summary" id="questions-summary-${questionsStatus.index}">
                 <div class="related">
-                    <a href="/questions/${question.id}/${question.title4url}" target="_blank">${question.t}</a>
+                    <a href="/questions/${question.id}/${question.title4url}">${question.t}</a>
                 </div>
             </div>
         </c:forEach>

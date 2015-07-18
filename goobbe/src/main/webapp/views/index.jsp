@@ -40,7 +40,7 @@
                     <div class="question-summary" id="questions-summary-${questionsStatus.index}">
                         <div class="summary">
                             <h3>
-                                <a href="/questions/${question.id}/${question.title4url}" class="question-hyperlink" target="_blank">${question.t}</a>
+                                <a href="/questions/${question.id}/${question.title4url}" class="question-hyperlink">${question.t}</a>
                             </h3>
                             <div class="excerpt">
                                 ${question.c}
