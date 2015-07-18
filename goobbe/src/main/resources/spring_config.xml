@@ -25,6 +25,7 @@
         <property name="username" value="yong"></property>
         <property name="password" value="xixiaoyong123"></property>
         <property name="maxActive" value="100"></property>
+        <property name="initialSize" value="10"></property>
         <property name="maxIdle" value="30"></property>
         <property name="maxWait" value="500"></property>
         <property name="defaultAutoCommit" value="true"></property>
