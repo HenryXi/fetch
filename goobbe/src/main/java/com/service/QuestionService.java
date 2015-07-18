@@ -132,8 +132,10 @@ public class QuestionService extends GoobbeLogger {
                 Document docFromSearch = getPageService.getDoc(STACK_URL + url);
                 QuestionJson questionJson = getQuestionByDoc(docFromSearch, Integer.valueOf(url));
                 saveSearchResultInDB(questionJson);
+                info("get info of " + questionJson.getId());
                 return questionJson;
             } else {
+                info("get info of " + questions.get(0).getId());
                 return questions.get(0);
             }
         } catch (Exception e) {
