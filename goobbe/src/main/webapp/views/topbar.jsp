@@ -30,7 +30,7 @@
                     NProgress.done();
                     $('#allQuestionsHeader').html("Search result");
                     jQuery.parseJSON(data).forEach(function(question,index){
-                        $('#questions').append("<div class=\"question-summary\" id=\"question-summary-"+index+"\"><div class=\"summary\"><h3><a href=\"/question/"+question.url+"\" class=\"question-hyperlink\">"+question.t+"</a></h3><div class=\"excerpt\">"+question.c+"</div></div></div>");
+                        $('#questions').append("<div class=\"question-summary\" id=\"question-summary-"+index+"\"><div class=\"summary\"><h3><a href=\"/question/"+question.url+"\" class=\"question-hyperlink\" target=\"_blank\">"+question.t+"</a></h3><div class=\"excerpt\">"+question.c+"</div></div></div>");
                     });
                 }
             });

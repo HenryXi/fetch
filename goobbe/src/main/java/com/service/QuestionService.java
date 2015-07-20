@@ -136,6 +136,7 @@ public class QuestionService extends GoobbeLogger {
                 question= questions.get(0);
             }
             question.setT(GoobbeTitleUtil.removeQuestionStatus(question.getT()));
+            info("get info of " + questions.getId());
             return question;
         } catch (Exception e) {
             throw new GoobbeInternalErrorException();
