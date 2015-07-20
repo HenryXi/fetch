@@ -8,10 +8,9 @@ import java.net.URLEncoder;
 /**
  * Created by henry on 2015/4/14.
  */
-public class HandleTitle {
+public class GoobbeTitleUtil {
     public static String generateShortTitle(String title){
-        title=title.replace("[duplicate]","");
-        title=title.replace("[closed]","");
+        title=removeQuestionStatus(title);
         title=title.replace("<b>","").replace("</b>","");
         title=title.toLowerCase();
         title=title.replace("c# ", "c sharp ");
@@ -30,6 +29,12 @@ public class HandleTitle {
         if(title.length()==title.lastIndexOf("-")){
             title=title.substring(0,title.lastIndexOf("-"));
         }
+        return title;
+    }
+
+    public static String removeQuestionStatus(String title){
+        title=title.replace("[duplicate]","");
+        title=title.replace("[closed]","");
         return title;
     }
 }

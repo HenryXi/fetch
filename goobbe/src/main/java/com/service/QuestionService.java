@@ -7,6 +7,7 @@ import com.dao.QuestionJson;
 import com.exception.GoobbeInternalErrorException;
 import com.exception.GoobbeRsNotFoundException;
 import com.util.GoobbeLogger;
+import com.util.GoobbeTitleUtil;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -32,8 +33,6 @@ public class QuestionService extends GoobbeLogger {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-    @Autowired
     private ObjectMapper objectMapper;
     @Autowired
     private GetPageService getPageService;
@@ -47,8 +46,7 @@ public class QuestionService extends GoobbeLogger {
         }
         try {
             Question question = objectMapper.readValue(record.get("content").toString(), Question.class);
-            question.setT(question.getT().replace("[duplicate]",""));
-            question.setT(question.getT().replace("[closed]", ""));
+            question.setT(GoobbeTitleUtil.removeQuestionStatus(question.getT()));
             question.setId(record.get("id").toString());
             info("get info of " + id);
             return question;
@@ -103,6 +101,7 @@ public class QuestionService extends GoobbeLogger {
         if(!url.matches("[0-9]+")){
             throw new GoobbeInternalErrorException();
         }
+        Question question;
         List<Question> questions;
         try {
             questions = jdbcTemplate.query("select * from tb_content where url=?",
@@ -132,10 +131,12 @@ public class QuestionService extends GoobbeLogger {
                 Document docFromSearch = getPageService.getDoc(STACK_URL + url);
                 QuestionJson questionJson = getQuestionByDoc(docFromSearch, Integer.valueOf(url));
                 saveSearchResultInDB(questionJson);
-                return questionJson;
+                question= questionJson;
             } else {
-                return questions.get(0);
+                question= questions.get(0);
             }
+            question.setT(GoobbeTitleUtil.removeQuestionStatus(question.getT()));
+            return question;
         } catch (Exception e) {
             throw new GoobbeInternalErrorException();
         }

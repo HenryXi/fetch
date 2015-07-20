@@ -1,11 +1,7 @@
 package com.dao;
 
-import com.util.HandleTitle;
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import com.util.GoobbeTitleUtil;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -17,22 +13,22 @@ public class Question {
     public Question(int id,String title){
         this.id=String.valueOf(id);
         this.t=title;
-        this.title4url=HandleTitle.generateShortTitle(t);
+        this.title4url= GoobbeTitleUtil.generateShortTitle(t);
     }
     public Question(String id,String title,String content){
         this.id=id;
         this.t=title;
-        this.title4url=HandleTitle.generateShortTitle(t);
+        this.title4url= GoobbeTitleUtil.generateShortTitle(t);
         this.c=content;
     }
     public Question(String title,String content){
         this.t=title;
-        this.title4url=HandleTitle.generateShortTitle(t);
+        this.title4url= GoobbeTitleUtil.generateShortTitle(t);
         this.c=content;
     }
     public Question(String title ,String content,int url){
         this.t=title;
-        this.title4url=HandleTitle.generateShortTitle(t);
+        this.title4url= GoobbeTitleUtil.generateShortTitle(t);
         this.c=content;
         this.url=url;
     }
@@ -75,7 +71,7 @@ public class Question {
 
     public void setT(String t) {
         this.t = t;
-        this.title4url= HandleTitle.generateShortTitle(t);
+        this.title4url= GoobbeTitleUtil.generateShortTitle(t);
     }
 
     public String getTitle4url() {

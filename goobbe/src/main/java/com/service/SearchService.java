@@ -1,9 +1,7 @@
 package com.service;
 
-import com.dao.Question;
 import com.dao.RelatedQuestion;
 import com.util.GoobbeLogger;
-import com.util.HandleTitle;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -28,7 +26,8 @@ public class SearchService extends GoobbeLogger {
     private SearchService() {}
 
     public static void main(String[] args) throws Exception {
-
+        SearchService searchService=new SearchService();
+        List<RelatedQuestion> relatedQuestions=searchService.getLocalSearchResult("java thread priority");
 
     }
 
@@ -42,7 +41,7 @@ public class SearchService extends GoobbeLogger {
             Analyzer analyzer = new StandardAnalyzer();
             QueryParser parser = new QueryParser("title", analyzer);
             Query query = parser.parse(QueryParser.escape(target.toLowerCase()));
-            TopDocs results = searcher.search(query, null, 11);
+            TopDocs results = searcher.search(query, null, 16);
             ScoreDoc[] hits = results.scoreDocs;
             for(int i=1;i<hits.length;i++){
                 Document doc = searcher.doc(hits[i].doc);
