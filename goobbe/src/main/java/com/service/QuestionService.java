@@ -110,7 +110,7 @@ public class QuestionService extends GoobbeLogger {
                         public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
                             try {
                                 if (rs.getString("content") == null) {
-                                    return null;
+                                    return new Question();
                                 }
                                 Question question = objectMapper.readValue(rs.getString("content").toString(), Question.class);
                                 question.setId(rs.getString("id"));
@@ -127,7 +127,7 @@ public class QuestionService extends GoobbeLogger {
             throw new GoobbeRsNotFoundException();
         }
         try {
-            if (questions.size() == 0) {
+            if (questions.size() == 0 || questions.get(0).getT()==null) {
                 Document docFromSearch = getPageService.getDoc(STACK_URL + url);
                 QuestionJson questionJson = getQuestionByDoc(docFromSearch, Integer.valueOf(url));
                 saveSearchResultInDB(questionJson);
