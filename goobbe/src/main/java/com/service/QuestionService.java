@@ -48,6 +48,7 @@ public class QuestionService extends GoobbeLogger {
             Question question = objectMapper.readValue(record.get("content").toString(), Question.class);
             question.setT(GoobbeTitleUtil.removeQuestionStatus(question.getT()));
             question.setId(record.get("id").toString());
+            question.setUrl(Integer.valueOf(record.get("url").toString()));
             info("get info of " + id);
             return question;
         } catch (Exception e) {
@@ -114,6 +115,7 @@ public class QuestionService extends GoobbeLogger {
                                 }
                                 Question question = objectMapper.readValue(rs.getString("content").toString(), Question.class);
                                 question.setId(rs.getString("id"));
+                                question.setUrl(rs.getInt("url"));
                                 return question;
                             } catch (IOException e) {
                                 return null;
