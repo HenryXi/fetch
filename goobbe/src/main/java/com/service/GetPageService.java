@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Service
 public class GetPageService extends GoobbeLogger {
-    private final String userAgent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:27.0) Gecko/20100101 Firefox/27.0";
+    private final String userAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36";
     ConcurrentHashMap<String,Proxy> proxys=new ConcurrentHashMap<String,Proxy>();
     Random random = new Random();
     public Proxy currentProxy;
@@ -60,7 +60,7 @@ public class GetPageService extends GoobbeLogger {
         HttpURLConnection httpUrlConnetion=new HttpURLConnection(website,currentProxy);
         httpUrlConnetion.setConnectTimeout(1000 * 40);
         httpUrlConnetion.setReadTimeout(1000 * 20);
-        httpUrlConnetion.addRequestProperty("userAgent",userAgent);
+        httpUrlConnetion.setRequestProperty("User-Agent", userAgent);
         String page=null;
         try {
             int stateCode=httpUrlConnetion.getResponseCode();
