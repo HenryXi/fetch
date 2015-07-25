@@ -60,6 +60,7 @@ public class GetPageService extends GoobbeLogger {
         HttpURLConnection httpUrlConnetion=new HttpURLConnection(website,currentProxy);
         httpUrlConnetion.setConnectTimeout(1000 * 40);
         httpUrlConnetion.setReadTimeout(1000 * 20);
+        httpUrlConnetion.addRequestProperty("userAgent",userAgent);
         String page=null;
         try {
             int stateCode=httpUrlConnetion.getResponseCode();

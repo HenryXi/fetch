@@ -140,9 +140,15 @@
             </div>
         </c:forEach>
     </div>
-    <!-- Begin BidVertiser code -->
-    <SCRIPT LANGUAGE="JavaScript1.1" SRC="http://bdv.bidvertiser.com/BidVertiser.dbm?pid=674767&bid=1685644" type="text/javascript"></SCRIPT>
-    <!-- End BidVertiser code -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- footer -->
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:728px;height:90px"
+         data-ad-client="ca-pub-4950190930837228"
+         data-ad-slot="9443263195"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
     <div id="relatedQuestion">
         <div id="relatedQuestion-header">
             <div class="subheader answers-subheader">
@@ -172,9 +178,16 @@
         </tr>
         </tbody>
     </table>
-    <!-- Begin BidVertiser code -->
-    <SCRIPT LANGUAGE="JavaScript1.1" SRC="http://bdv.bidvertiser.com/BidVertiser.dbm?pid=674767&bid=1685612" type="text/javascript"></SCRIPT>
-    <!-- End BidVertiser code -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- sidebar -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-4950190930837228"
+         data-ad-slot="1780395597"
+         data-ad-format="auto"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 </div>
 </div>
 </div>
