@@ -37,7 +37,7 @@ public class ContentController {
     @RequestMapping(value = "/questions/{id}/{title4url}", method = RequestMethod.GET)
     public String loadContent(@PathVariable("id") String id,@PathVariable("title4url") String title4url, ModelMap modelMap,Locale locale){
         Question question= questionService.getQuestionById(Integer.valueOf(id));
-        if(question==null) throw new GoobbeRsNotFoundException();
+        if(question==null||question.getT().equals("")) throw new GoobbeRsNotFoundException();
         modelMap.put("question", question);
         List<RelatedQuestion> relatedQuestions=searchService.getLocalSearchResult(question.getT());
         modelMap.put("relatedQuestions",relatedQuestions);
@@ -72,7 +72,7 @@ public class ContentController {
     @RequestMapping(value = "/question/{url}/{title4url}",method = RequestMethod.GET)
     public String showSearchResult(@PathVariable("url") String url, @PathVariable("title4url") String title4url, ModelMap modelMap,Locale locale){
         Question question= questionService.getQuestionByUrl(url);
-        if(question==null) throw new GoobbeRsNotFoundException();
+        if(question==null||question.getT().equals("")) throw new GoobbeRsNotFoundException();
         modelMap.put("question", question);
         List<RelatedQuestion> relatedQuestions=searchService.getLocalSearchResult(question.getT());
         modelMap.put("relatedQuestions",relatedQuestions);
