@@ -9,7 +9,7 @@
     var timerId=window.setInterval(function(){
         if(current==1){
             clearInterval(timerId);
-            window.location.replace('http://${host}.com');
+            window.location.replace('http://'+window.location.hostname);
         }
         current=current-1;
         document.getElementById('second').text=current;
