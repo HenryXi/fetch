@@ -176,13 +176,6 @@
                 </div>
             </td>
         </tr>
-        <tr id="original" class="comment">
-            <td class="comment-text">
-                <div style="display: block;" class="comment-body">
-                    <h2>Original link <a href="http://stackoverflow.com/questions/${question.url}">here</a></h2>
-                </div>
-            </td>
-        </tr>
         </tbody>
     </table>
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
