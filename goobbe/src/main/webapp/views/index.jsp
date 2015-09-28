@@ -5,13 +5,13 @@
     <title>
     <c:choose>
         <c:when test="${currentPage==1}">
-            All questions - Goobbe
+            All questions - ${host}
         </c:when>
         <c:when test="${currentPage==-1}">
-            Goobbe
+            ${host}
         </c:when>
         <c:otherwise>
-            All questions - Page ${currentPage} - Goobbe
+            All questions - Page ${currentPage} - ${host}
         </c:otherwise>
     </c:choose>
     </title>
