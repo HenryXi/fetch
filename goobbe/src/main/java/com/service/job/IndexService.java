@@ -65,7 +65,7 @@ public class IndexService extends GoobbeLogger {
             FileUtils.moveDirectory(indexFolderBak.toFile(),indexFolder.toFile());
             info("finish indexing!");
         } catch (IOException e) {
-            error("error occur when indexing!");
+            error(e,"error occur when indexing!");
         }
     }
 

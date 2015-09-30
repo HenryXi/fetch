@@ -32,7 +32,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AddTag4Question extends Thread {
     ObjectMapper objectMapper=new ObjectMapper();
     private Question question;
-    protected String userAgent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:27.0) Gecko/20100101 Firefox/27.0";
+    protected String userAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36";
     private List<String> allLinksOfOnePage;
     Long startNumber;
     Long endNumber;
@@ -88,11 +88,13 @@ public class AddTag4Question extends Thread {
             if(!doc.baseUri().contains("http://stackoverflow.com/questions/")){
                 return;
             }
-            jdbcTemplate.update("update tb_content set content=?::json ,url=? where url=?",
-                objectMapper.writeValueAsString(question),Integer.valueOf(doc.baseUri().replace("http://stackoverflow.com/questions/", "").replaceAll("/.+", "")),oldUrl);
-        }catch (DuplicateKeyException e){
-            jdbcTemplate.update("delete from tb_content where url=?",oldUrl);
-            return;
+            int newUrl=Integer.valueOf(doc.baseUri().replace("http://stackoverflow.com/questions/", "").replaceAll("/.+", ""));
+            if(newUrl==oldUrl){
+                jdbcTemplate.update("update tb_content set content=?::json where url=?",objectMapper.writeValueAsString(question),oldUrl);
+            }else{
+                //oldUrl have changed 301 code
+                jdbcTemplate.update("update tb_content set content=null where url=?",oldUrl);
+            }
         }catch (IOException e) {
             e.printStackTrace();
         }
@@ -126,7 +128,7 @@ public class AddTag4Question extends Thread {
         HttpURLConnection httpUrlConnetion=new HttpURLConnection(website,currentProxy);
         httpUrlConnetion.setConnectTimeout(1000*40);
         httpUrlConnetion.setReadTimeout(1000 * 20);
-//        httpUrlConnetion.setRequestProperty("User-Agent", userAgent);
+        httpUrlConnetion.setRequestProperty("User-Agent", userAgent);
         String page=null;
         try {
             int stateCode=httpUrlConnetion.getResponseCode();
@@ -181,16 +183,8 @@ public class AddTag4Question extends Thread {
         JDBCHelper.createPostgresqlTemplate("po",
                 "jdbc:postgresql://123.57.136.60:5432/goobbe",
                 "yong", "xixiaoyong123", 80, 120);
-        AddTag4Question getAllPager = new AddTag4Question(1l, 2l);
+        AddTag4Question getAllPager = new AddTag4Question(8147230l, 8147230l);
         getAllPager.start();
-        do {
-            try {
-                Thread.sleep(1000*10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println(getAllPager.isAlive());
-        } while (true);
     }
 
     public boolean isLoseConnection() {

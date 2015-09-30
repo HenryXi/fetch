@@ -3,6 +3,8 @@ package com.util;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 
+import java.util.Objects;
+
 public class GoobbeLogger {
     private final Logger logger = Logger.getLogger(this.getClass());
 
@@ -18,13 +20,20 @@ public class GoobbeLogger {
         logger.warn(combineMessages(messages));
     }
 
-    public void error(String... messages) {
-        logger.error(combineMessages(messages));
+    public void error(Exception e,String... messages) {
+        logger.error(combineMessages(messages,e));
         logger.error(getStackTrace());
     }
 
-    private String combineMessages(Object[] messages) {
+    private String combineMessages(Object[] messages){
+        return combineMessages(messages,null);
+    }
+    
+    private String combineMessages(Object[] messages,Exception e) {
         StringBuilder stringBuilder = new StringBuilder();
+        if(e!=null){
+            stringBuilder.append(e.getMessage()+"\n\t");
+        }
         for (Object message : messages) {
             stringBuilder.append(message);
         }

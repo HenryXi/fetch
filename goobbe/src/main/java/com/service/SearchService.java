@@ -48,9 +48,9 @@ public class SearchService extends GoobbeLogger {
                 relatedQuestions.add(new RelatedQuestion(doc.get("id"), doc.get("title")));
             }
         } catch (IOException e) {
-            error("read directory ["+indexPath+"] error!");
+            error(e,"read directory ["+indexPath+"] error!");
         } catch (ParseException e){
-            error("parse search keyword ["+target+"] error!");
+            error(e,"parse search keyword ["+target+"] error!");
         }
         return relatedQuestions;
     }

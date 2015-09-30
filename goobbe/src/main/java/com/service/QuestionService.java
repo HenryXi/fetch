@@ -41,7 +41,7 @@ public class QuestionService extends GoobbeLogger {
 
         Map<String, Object> record = jdbcTemplate.queryForMap("select * from tb_content where id=?", id);
         if (null == record.get("content")) {
-            error("content of question [id: " + id + "] is null");
+            warn("content of question [id: " + id + "] is null");
             throw new GoobbeRsNotFoundException();
         }
         try {
@@ -52,7 +52,7 @@ public class QuestionService extends GoobbeLogger {
             info("get info of " + id);
             return question;
         } catch (Exception e) {
-            error("error when get question [id: " + id + "]");
+            error(e,"error when get question [id: " + id + "]");
         }
         throw new GoobbeInternalErrorException();
     }
@@ -93,7 +93,7 @@ public class QuestionService extends GoobbeLogger {
             String returnJson = Jsoup.connect("http://52.11.54.118:8080/google?keyword=" + keyword).timeout(10000).ignoreContentType(true).execute().body();
             return returnJson.replace(STACK_OVERFLOW, "").replace(STACK_, "").replaceAll("<br.{0,2}>", "");
         } catch (IOException e) {
-            error("error when user search by keyword:[" + keyword + "]");
+            error(e,"error when user search by keyword:[" + keyword + "]");
             throw new GoobbeInternalErrorException();
         }
     }
@@ -184,7 +184,7 @@ public class QuestionService extends GoobbeLogger {
         } catch (DuplicateKeyException e) {
             return;
         } catch (IOException e) {
-            error("error occur when save search result in db. question url[" + questionJson.getUrl() + "]");
+            error(e,"error occur when save search result in db. question url[" + questionJson.getUrl() + "]");
         }
     }
 
