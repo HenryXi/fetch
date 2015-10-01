@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import com.service.QuestionService;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Locale;
 
@@ -26,7 +27,8 @@ public class ContentController {
     @Autowired
     private MessageSource messageSource;
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String loadIndex(ModelMap modelMap){
+    public String loadIndex(ModelMap modelMap,HttpServletRequest request){
+        modelMap.put("host",request.getHeader("host").replace("www.","").replace(".com", ""));
         List<Question> questions=questionService.getRandomQuestions();
         if(questions.contains(null)) throw new GoobbeInternalErrorException();
         modelMap.put("questions", questions);
@@ -35,23 +37,26 @@ public class ContentController {
     }
 
     @RequestMapping(value = "/questions/{id}/{title4url}", method = RequestMethod.GET)
-    public String loadContent(@PathVariable("id") String id,@PathVariable("title4url") String title4url, ModelMap modelMap,Locale locale){
+    public String loadContent(@PathVariable("id") String id,@PathVariable("title4url") String title4url,
+                              ModelMap modelMap,Locale locale,HttpServletRequest request){
+        modelMap.put("host",request.getHeader("host").replace("www.", "").replace(".com", ""));
         Question question= questionService.getQuestionById(Integer.valueOf(id));
         if(question==null||question.getT().equals("")) throw new GoobbeRsNotFoundException();
         modelMap.put("question", question);
         List<RelatedQuestion> relatedQuestions=searchService.getLocalSearchResult(question.getT());
-        modelMap.put("relatedQuestions",relatedQuestions);
+        modelMap.put("relatedQuestions", relatedQuestions);
         modelMap.put("tl",messageSource.getMessage("target.language",null,"EnglishToEnglish",locale));
         return "content";
     }
 
     @RequestMapping(value = "/questions/{id}", method = RequestMethod.GET)
-    public String loadContent(@PathVariable("id") String id, ModelMap modelMap,Locale locale){
-        return loadContent(id,"luck",modelMap,locale);
+    public String loadContent(@PathVariable("id") String id, ModelMap modelMap,Locale locale,HttpServletRequest request){
+        return loadContent(id,"luck",modelMap,locale,request);
     }
 
     @RequestMapping(value = "/questions", method = RequestMethod.GET)
-    public String loadIndex(@RequestParam("page") String page, ModelMap modelMap,Locale locale){
+    public String loadIndex(@RequestParam("page") String page, ModelMap modelMap,Locale locale,HttpServletRequest request){
+        modelMap.put("host",request.getHeader("host").replace("www.","").replace(".com", ""));
         int totalPage=1+questionService.getMaxId()/number_of_questions_per_page;
         int pageNum=Integer.valueOf(page);
         if(pageNum<=0){
@@ -64,25 +69,27 @@ public class ContentController {
         if(questions.contains(null)) throw new GoobbeInternalErrorException();
         modelMap.put("questions", questions);
         modelMap.put("currentPage",pageNum);
-        modelMap.put("totalPage",totalPage);
-        modelMap.put("tl",messageSource.getMessage("target.language",null,"EnglishToEnglish",locale));
+        modelMap.put("totalPage", totalPage);
+        modelMap.put("tl",messageSource.getMessage("target.language", null, "EnglishToEnglish", locale));
         return "index";
     }
 
     @RequestMapping(value = "/question/{url}/{title4url}",method = RequestMethod.GET)
-    public String showSearchResult(@PathVariable("url") String url, @PathVariable("title4url") String title4url, ModelMap modelMap,Locale locale){
+    public String showSearchResult(@PathVariable("url") String url, @PathVariable("title4url") String title4url,
+                                   ModelMap modelMap,Locale locale,HttpServletRequest request){
+        modelMap.put("host",request.getHeader("host").replace("www.", "").replace(".com", ""));
         Question question= questionService.getQuestionByUrl(url);
         if(question==null||question.getT().equals("")) throw new GoobbeRsNotFoundException();
         modelMap.put("question", question);
         List<RelatedQuestion> relatedQuestions=searchService.getLocalSearchResult(question.getT());
-        modelMap.put("relatedQuestions",relatedQuestions);
+        modelMap.put("relatedQuestions", relatedQuestions);
         modelMap.put("tl",messageSource.getMessage("target.language",null,"EnglishToEnglish",locale));
         return "content";
     }
 
     @RequestMapping(value = "/question/{url}", method = RequestMethod.GET)
-    public String showSearchResult(@PathVariable("url") String url, ModelMap modelMap,Locale locale){
-        return showSearchResult(url,"luck",modelMap,locale);
+    public String showSearchResult(@PathVariable("url") String url, ModelMap modelMap,Locale locale,HttpServletRequest request){
+        return showSearchResult(url,"luck",modelMap,locale,request);
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)

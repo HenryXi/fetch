@@ -1,6 +1,5 @@
 package cn.edu.hfut.dmic.webcollector.threads;
 
-import com.google.gson.Gson;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import sun.net.www.protocol.http.HttpURLConnection;

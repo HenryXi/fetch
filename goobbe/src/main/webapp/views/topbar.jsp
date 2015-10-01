@@ -22,7 +22,7 @@
             $('#search').blur();
             $('#pagination').remove();
             var q=$('#search').val().trim();
-            document.title=q+"_Goobbe search result";
+            document.title=q+"_${host} search result";
             questions.html('');
             $.ajax({
                 url: "/search?q="+encodeURIComponent(q),
@@ -38,7 +38,7 @@
     </script>
     <div class="topbar-wrapper">
         <h1 class="logo">
-            <a href="/">Goobbe</a>
+            <a href="/">${host}</a>
         </h1>
         <div class="search-container">
             <input id="search" name="q" type="text" placeholder="Tab focus here, Enter search you want" tabindex="1" autocomplete="off"
