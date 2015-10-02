@@ -47,6 +47,7 @@ public class SearchService extends GoobbeLogger {
                 Document doc = searcher.doc(hits[i].doc);
                 relatedQuestions.add(new RelatedQuestion(doc.get("id"), doc.get("title")));
             }
+            reader.close();
         } catch (IOException e) {
             error(e,"read directory ["+indexPath+"] error!");
         } catch (ParseException e){
