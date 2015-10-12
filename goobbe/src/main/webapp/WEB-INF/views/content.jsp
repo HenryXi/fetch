@@ -150,7 +150,7 @@
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
     <div id="relatedQuestion">
-        <div id="relatedQuestion-header">
+        <div id="relatedQuestions-header">
             <div class="subheader answers-subheader">
                 <h2>
                     Related questions
@@ -159,11 +159,17 @@
         </div>
         <c:forEach var="question" items="${relatedQuestions}" varStatus="questionStatus">
             <div class="question-summary" id="questions-summary-${questionsStatus.index}">
-                <div class="related">
-                    <a href="/issue/${question.id}/${question.title4url}">${question.t}</a>
-                </div>
-                <div style="display: block;" class="comment-body">
-                    <span class="comment-copy">${question.c}</span>
+                <div id="relatedQuestion-title-${questionStatus.index}">
+                    <div class="subheader answers-subheader">
+                        <h3>
+                            <a href="/issue/${question.id}/${question.title4url}">${question.t}</a>
+                        </h3>
+                    </div>
+                    <div>
+                        <div class="post-text" itemprop="text">
+                                ${question.c}
+                        </div>
+                    </div>
                 </div>
             </div>
         </c:forEach>

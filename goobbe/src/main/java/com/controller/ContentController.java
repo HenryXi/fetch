@@ -27,7 +27,7 @@ public class ContentController {
     private MessageSource messageSource;
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String loadIndex(ModelMap modelMap,HttpServletRequest request){
-        List<Question> questions=questionService.getRandomQuestions();
+        List<Question> questions=questionService.getQuestionsForRandomPage();
         if(questions.contains(null)) throw new GoobbeInternalErrorException();
         modelMap.put("questions", questions);
         modelMap.put("currentPage",-1);
@@ -61,7 +61,7 @@ public class ContentController {
         if(pageNum>totalPage){
             pageNum=totalPage;
         }
-        List<Question> questions = questionService.getQuestionsForIndex(pageNum);
+        List<Question> questions = questionService.getQuestionsForIndexPage(pageNum);
         if(questions.contains(null)) throw new GoobbeInternalErrorException();
         modelMap.put("questions", questions);
         modelMap.put("currentPage",pageNum);

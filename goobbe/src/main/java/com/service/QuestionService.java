@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -57,16 +56,21 @@ public class QuestionService extends GoobbeLogger {
         throw new GoobbeInternalErrorException();
     }
 
-    public Question getBriefQuestionByResultSet(ResultSet rs) throws IOException, SQLException {
-        String summery = Jsoup.parse(rs.getString("content").replace("&lt;", "<").replace("&gt;", ">")).text();
-        if (summery.length() > 200) {
-            summery = summery.substring(0, 200).trim();
+    public Question getQuestionByResultSet(ResultSet rs, boolean isBriefContent) throws IOException, SQLException {
+        Question question;
+        if(isBriefContent){
+            String summery = Jsoup.parse(rs.getString("content").replace("&lt;", "<").replace("&gt;", ">")).text();
+            if (summery.length() > 200) {
+                summery = summery.substring(0, 200).trim();
+            }
+            question = new Question(rs.getString("id"), rs.getString("title"), summery);
+        }else{
+            question= new Question(rs.getString("id"), rs.getString("title"),rs.getString("content"));
         }
-        Question question = new Question(rs.getString("id"), rs.getString("title"), summery);
         return question;
     }
 
-    public List<Question> getQuestionsForIndex(Integer page) {
+    public List<Question> getQuestionsForIndexPage(Integer page) {
         int startNum = 15 * page - 14; //15*(page-1)+1
         // todo "not null" in sql should be removed after format db
         List<Question> questions = this.jdbcTemplate.query(
@@ -76,7 +80,7 @@ public class QuestionService extends GoobbeLogger {
                 new RowMapper<Question>() {
                     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
                         try {
-                            return getBriefQuestionByResultSet(rs);
+                            return getQuestionByResultSet(rs, true);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -198,7 +202,7 @@ public class QuestionService extends GoobbeLogger {
         return jdbcTemplate.queryForInt("select max(id) from tb_content;");
     }
 
-    public List<Question> getRandomQuestions() {
+    public List<Question> getQuestionsForRandomPage() {
         int random = (int) (Math.random() * getMaxId() + 1);
         info("generate random id successful, get random questions ... ");
         // todo "not null" in sql should be removed after format db
@@ -209,7 +213,7 @@ public class QuestionService extends GoobbeLogger {
                 new RowMapper<Question>() {
                     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
                         try {
-                            return getBriefQuestionByResultSet(rs);
+                            return getQuestionByResultSet(rs, true);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

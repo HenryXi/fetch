@@ -16,7 +16,6 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -64,12 +63,12 @@ public class IndexService extends GoobbeLogger {
             IndexWriter writer = new IndexWriter(dir, iwc);
             int totalNum=jdbcTemplate.queryForInt("select max(id) from tb_content;")/INDEX_TITLES_EACH_LOOP+1;
             for(int i=1;i<totalNum+1;i++){
-                indexDocs(writer, getQuestionsForIndex(i * INDEX_TITLES_EACH_LOOP));
+                indexDocs(writer, getQuestionsForBuildingIndex(i * INDEX_TITLES_EACH_LOOP));
                 info("indexing... total group: ["+(totalNum+1)+"], ["+INDEX_TITLES_EACH_LOOP+"] items per group, current group: ["+i+"]");
             }
             writer.close();
             FileUtils.deleteDirectory(indexFolder.toFile());
-            FileUtils.moveDirectory(indexFolderBak.toFile(),indexFolder.toFile());
+            FileUtils.moveDirectory(indexFolderBak.toFile(), indexFolder.toFile());
             info("finish indexing!");
         } catch (IOException e) {
             error(e,"error occur when indexing!");
@@ -98,14 +97,14 @@ public class IndexService extends GoobbeLogger {
         }
     }
 
-    private List<Question> getQuestionsForIndex(Integer startNum) {
+    private List<Question> getQuestionsForBuildingIndex(Integer startNum) {
         List<Question> questions = this.jdbcTemplate.query(
-                "select content ->'t' as title,content -> 'c' as content,id from tb_content where id between ? and ? and content is not null",
+                "select content ->>'t' as title,content ->> 'c' as content,id from tb_content where id between ? and ? and content is not null",
                 new Object[]{startNum-9999,startNum},
                 new RowMapper<Question>() {
                     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
                         try {
-                            return questionService.getBriefQuestionByResultSet(rs);
+                            return questionService.getQuestionByResultSet(rs,false );
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
