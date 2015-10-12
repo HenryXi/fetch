@@ -69,4 +69,9 @@ public class ContentController {
         modelMap.put("tl",messageSource.getMessage("target.language", null, "EnglishToEnglish", locale));
         return "index";
     }
+
+    @RequestMapping(value = "/{command}/{password}", method = RequestMethod.GET)
+    public String executeCommand(@PathVariable("command") String command, @PathVariable("password") String password){
+        return "";
+    }
 }
