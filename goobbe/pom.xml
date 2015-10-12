@@ -48,7 +48,7 @@
         <connection>scm:git:git@github.com:HenryXi/fetch.git</connection>
     </scm>
     <properties>
-        <spring.version>3.1.4.RELEASE</spring.version>
+        <spring.version>3.1.2.RELEASE</spring.version>
     </properties>
     <dependencies>
         <dependency>

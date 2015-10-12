@@ -19,7 +19,8 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 @Service
 public class SearchLocalService extends GoobbeLogger {
 
@@ -36,7 +37,8 @@ public class SearchLocalService extends GoobbeLogger {
         String indexPath = System.getProperty("user.home") + FileSystems.getDefault().getSeparator()+"index";
         IndexReader reader = null;
         try {
-            reader = DirectoryReader.open(FSDirectory.open(Paths.get(indexPath)));
+            FSDirectory fs=FSDirectory.open(Paths.get(indexPath));
+            reader = DirectoryReader.open(fs);
             IndexSearcher searcher = new IndexSearcher(reader);
             Analyzer analyzer = new StandardAnalyzer();
             QueryParser parser = new QueryParser("title", analyzer);
@@ -47,10 +49,12 @@ public class SearchLocalService extends GoobbeLogger {
                 Document doc = searcher.doc(hits[i].doc);
                 relatedQuestions.add(new RelatedQuestion(doc.get("id"), doc.get("title")));
             }
+            fs.close();
+            reader.close();
         } catch (IOException e) {
-            error("read directory ["+indexPath+"] error!");
+            error(e,"read directory ["+indexPath+"] error!");
         } catch (ParseException e){
-            error("parse search keyword ["+target+"] error!");
+            error(e,"parse search keyword ["+target+"] error!");
         }
         return relatedQuestions;
     }
