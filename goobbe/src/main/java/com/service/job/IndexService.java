@@ -67,7 +67,6 @@ public class IndexService extends GoobbeLogger {
                 indexDocs(writer, getQuestionsForIndex(i * INDEX_TITLES_EACH_LOOP));
                 info("indexing... total group: ["+(totalNum+1)+"], ["+INDEX_TITLES_EACH_LOOP+"] items per group, current group: ["+i+"]");
             }
-            dir.close();
             writer.close();
             FileUtils.deleteDirectory(indexFolder.toFile());
             FileUtils.moveDirectory(indexFolderBak.toFile(),indexFolder.toFile());
