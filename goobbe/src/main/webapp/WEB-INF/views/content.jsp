@@ -9,7 +9,7 @@
 <body class="question-page new-topbar">
 <jsp:include page="topbar.jsp"/>
 <!-- begin dictionary box -->
-<script type="text/javascript" src="/js/dic_box.js"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/dic_box.js"/>"></script>
 <div id="pl-dbox"><a class="pl-dbox-title" href="javascript:void(0);dboxCursorLoc();"><span id="pl-dbox-title-text">Dictionary</span></a>
     <div id="pl-dbox-content">
         <div id="pl-dbox-ajax-content">
@@ -23,7 +23,7 @@
 </div>
 <div class="container">
     <script language="JavaScript">
-        var url='/questions/${question.id}/${question.title4url}';
+        var url='/issue/${question.id}/${question.title4url}';
         window.history.replaceState(null, null, url);
     </script>
 <div id="content" class="snippet-hidden">
@@ -94,7 +94,7 @@
             </div>
         </div>
         <c:forEach var="answer" items="${question.as}" varStatus="questionStatus">
-            <div id="answer-${questionStatus.index}" class="answer accepted-answer" data-answerid="28208672">
+            <div id="answer-${questionStatus.index}" class="answer">
                 <table>
                     <tbody>
                     <tr>
@@ -160,7 +160,10 @@
         <c:forEach var="question" items="${relatedQuestions}" varStatus="questionStatus">
             <div class="question-summary" id="questions-summary-${questionsStatus.index}">
                 <div class="related">
-                    <a href="/questions/${question.id}/${question.title4url}">${question.t}</a>
+                    <a href="/issue/${question.id}/${question.title4url}">${question.t}</a>
+                </div>
+                <div style="display: block;" class="comment-body">
+                    <span class="comment-copy">${question.c}</span>
                 </div>
             </div>
         </c:forEach>
@@ -191,7 +194,6 @@
 </div>
 </div>
 </div>
-<jsp:include page="footer.jsp"/>
 </body>
 </html>
 

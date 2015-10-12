@@ -3908,7 +3908,7 @@ table.sorter tbody tr.odd td {
     width: 150px;
     height: 60px;
     text-indent: 200px;
-    color: Transparent;
+    /*color: Transparent;*/
 }
 
 /* Make clicks pass-through */

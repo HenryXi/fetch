@@ -14,6 +14,7 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -32,6 +33,8 @@ import java.util.List;
 public class IndexService extends GoobbeLogger {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private ObjectMapper objectMapper;
 //    private JdbcTemplate jdbcTemplate;-->for test!
     private int INDEX_TITLES_EACH_LOOP=10000;
     private Path indexFolderBak;
@@ -86,13 +89,14 @@ public class IndexService extends GoobbeLogger {
             Document doc = new Document();
             doc.add(new StoredField("id",question.getId()));
             doc.add(new TextField("title",question.getT(), Field.Store.YES));
+            doc.add(new TextField("content",question.getC(),Field.Store.YES));
             writer.addDocument(doc);
         }
     }
 
     private List<Question> getQuestionsForIndex(Integer startNum) {
         List<Question> questions = this.jdbcTemplate.query(
-                "select content ->'t' as title,id from tb_content where id between ? and ? and content is not null",
+                "select content ->'t' as title,content -> 'c' as content,id from tb_content where id between ? and ? and content is not null",
                 new Object[]{startNum-9999,startNum},
                 new RowMapper<Question>() {
                     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -108,7 +112,7 @@ public class IndexService extends GoobbeLogger {
     }
 
     private Question getQuestionByResultSet(ResultSet rs) throws IOException, SQLException {
-        Question question = new Question(rs.getInt("id"),rs.getString("title").replace("\"",""));
+        Question question = new Question(rs.getString("id"),rs.getString("title").replace("\"", ""),rs.getString("c"));
         return question;
     }
 }

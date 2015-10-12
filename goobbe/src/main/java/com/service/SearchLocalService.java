@@ -21,13 +21,13 @@ import java.nio.file.FileSystems;
 import java.nio.file.Paths;
 import java.util.*;
 @Service
-public class SearchService extends GoobbeLogger {
+public class SearchLocalService extends GoobbeLogger {
 
-    private SearchService() {}
+    private SearchLocalService() {}
 
     public static void main(String[] args) throws Exception {
-        SearchService searchService=new SearchService();
-        List<RelatedQuestion> relatedQuestions=searchService.getLocalSearchResult("java thread priority");
+        SearchLocalService searchLocalService =new SearchLocalService();
+        List<RelatedQuestion> relatedQuestions= searchLocalService.getLocalSearchResult("java thread priority");
 
     }
 
