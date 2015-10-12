@@ -2,6 +2,7 @@ package com.service.job;
 
 import com.dao.Question;
 import com.exception.GoobbeException;
+import com.service.QuestionService;
 import com.util.GoobbeLogger;
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.analysis.Analyzer;
@@ -15,6 +16,7 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -35,6 +37,8 @@ public class IndexService extends GoobbeLogger {
     private JdbcTemplate jdbcTemplate;
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private QuestionService questionService;
 //    private JdbcTemplate jdbcTemplate;-->for test!
     private int INDEX_TITLES_EACH_LOOP=10000;
     private Path indexFolderBak;
@@ -102,7 +106,7 @@ public class IndexService extends GoobbeLogger {
                 new RowMapper<Question>() {
                     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
                         try {
-                            return getQuestionByResultSet(rs);
+                            return questionService.getBriefQuestionByResultSet(rs);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -110,10 +114,5 @@ public class IndexService extends GoobbeLogger {
                     }
                 });
         return questions;
-    }
-
-    private Question getQuestionByResultSet(ResultSet rs) throws IOException, SQLException {
-        Question question = new Question(rs.getString("id"),rs.getString("title").replace("\"", ""),rs.getString("c"));
-        return question;
     }
 }

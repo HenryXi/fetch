@@ -57,7 +57,7 @@ public class QuestionService extends GoobbeLogger {
         throw new GoobbeInternalErrorException();
     }
 
-    private Question getBriefQuestionByResultSet(ResultSet rs) throws IOException, SQLException {
+    public Question getBriefQuestionByResultSet(ResultSet rs) throws IOException, SQLException {
         String summery = Jsoup.parse(rs.getString("content").replace("&lt;", "<").replace("&gt;", ">")).text();
         if (summery.length() > 200) {
             summery = summery.substring(0, 200).trim();
