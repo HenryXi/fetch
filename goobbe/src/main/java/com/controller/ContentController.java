@@ -5,14 +5,13 @@ import com.dao.RelatedQuestion;
 import com.exception.GoobbeInternalErrorException;
 import com.exception.GoobbeRsNotFoundException;
 import com.service.SearchLocalService;
-import com.service.job.IndexService;
+import com.service.IndexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import com.service.QuestionService;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
