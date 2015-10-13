@@ -5,7 +5,6 @@
     <modules>
         <module>goobbe</module>
         <module>tool</module>
-        <module>transfer</module>
     </modules>
 
     <groupId>cn.edu.hfut.dmic.webcollector</groupId>
