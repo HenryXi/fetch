@@ -93,6 +93,7 @@ public class IndexService extends GoobbeLogger {
             doc.add(new StoredField("id",question.getId()));
             doc.add(new TextField("title",question.getT(), Field.Store.YES));
             doc.add(new TextField("content",question.getC(),Field.Store.YES));
+            doc.add(new TextField("title4url",question.getTitle4url(),Field.Store.YES));
             writer.addDocument(doc);
         }
     }

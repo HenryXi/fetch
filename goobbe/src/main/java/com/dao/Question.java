@@ -71,7 +71,6 @@ public class Question {
 
     public void setT(String t) {
         this.t = t;
-        this.title4url= GoobbeTitleUtil.generateShortTitle(t);
     }
 
     public String getTitle4url() {

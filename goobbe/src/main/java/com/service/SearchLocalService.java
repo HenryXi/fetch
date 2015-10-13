@@ -47,7 +47,8 @@ public class SearchLocalService extends GoobbeLogger {
             ScoreDoc[] hits = results.scoreDocs;
             for(int i=1;i<hits.length;i++){
                 Document doc = searcher.doc(hits[i].doc);
-                relatedQuestions.add(new RelatedQuestion(doc.get("id"), doc.get("title"),doc.get("content")));
+                relatedQuestions.add(new RelatedQuestion(doc.get("id"), doc.get("title"),
+                                                         doc.get("content"), doc.get("title4url")));
             }
             fs.close();
             reader.close();

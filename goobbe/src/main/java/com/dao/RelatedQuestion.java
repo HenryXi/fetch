@@ -15,10 +15,11 @@ public class RelatedQuestion extends Question {
         setT(title);
     }
 
-    public RelatedQuestion(String id,String title,String summary){
+    public RelatedQuestion(String id,String title,String summary,String title4url){
         setId(id);
         setT(title);
         setC(summary);
+        setTitle4url(title4url);
     }
 
 }
