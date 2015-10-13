@@ -80,7 +80,7 @@
     </div>
     <div id="answers">
         <div id="answers-header">
-            <div class="subheader answers-subheader">
+            <div class="subheader">
                 <h2>
                     <c:choose>
                         <c:when test="${question.as.size()>0}">
@@ -151,7 +151,7 @@
     </script>
     <div id="relatedQuestion">
         <div id="relatedQuestions-header">
-            <div class="subheader answers-subheader">
+            <div class="subheader">
                 <h2>
                     Related questions
                 </h2>
@@ -160,16 +160,29 @@
         <c:forEach var="question" items="${relatedQuestions}" varStatus="questionStatus">
             <div class="question-summary" id="questions-summary-${questionsStatus.index}">
                 <div id="relatedQuestion-title-${questionStatus.index}">
-                    <div class="subheader answers-subheader">
-                        <h3>
-                            <a href="/issue/${question.id}/${question.title4url}">${question.t}</a>
-                        </h3>
-                    </div>
-                    <div>
-                        <div class="post-text" itemprop="text">
-                                ${question.c}
-                        </div>
-                    </div>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td class="votecell">
+                                <div class="question-mark">
+                                        <%--<span itemprop="upvoteCount" class="vote-count-post ">0</span>--%>
+                                </div>
+                            </td>
+                            <td class="postcell">
+                                <div class="subheader">
+                                    <h2>
+                                        <a href="/issue/${question.id}/${question.title4url}">${question.t}</a>
+                                    </h2>
+                                </div>
+                                <div>
+                                    <div class="post-text" itemprop="text">
+                                            ${question.c}
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </c:forEach>
@@ -197,6 +210,27 @@
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
+    <table>
+    <tbody data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+    <tr id="transalateMsg2" class="comment ">
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <h2><spring:message code="translation.message" text="Double-click the word automatic translation!" /></h2>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- sidebar_2 -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-4950190930837228"
+         data-ad-slot="2828734799"
+         data-ad-format="auto"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</table>
 </div>
 </div>
 </div>

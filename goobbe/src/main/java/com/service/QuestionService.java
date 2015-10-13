@@ -48,6 +48,7 @@ public class QuestionService extends GoobbeLogger {
             question.setT(GoobbeTitleUtil.removeQuestionStatus(question.getT()));
             question.setId(record.get("id").toString());
             question.setUrl(Integer.valueOf(record.get("url").toString()));
+            question.setTitle4url(GoobbeTitleUtil.generateShortTitle(question.getT()));
             info("get info of " + id);
             return question;
         } catch (Exception e) {

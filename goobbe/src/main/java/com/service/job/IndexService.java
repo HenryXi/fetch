@@ -62,7 +62,7 @@ public class IndexService extends GoobbeLogger {
             IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
             IndexWriter writer = new IndexWriter(dir, iwc);
             int totalNum=jdbcTemplate.queryForInt("select max(id) from tb_content;")/INDEX_TITLES_EACH_LOOP+1;
-            for(int i=1;i<totalNum+1;i++){
+            for(int i=1;i<3;i++){
                 indexDocs(writer, getQuestionsForBuildingIndex(i * INDEX_TITLES_EACH_LOOP));
                 info("indexing... total group: ["+(totalNum+1)+"], ["+INDEX_TITLES_EACH_LOOP+"] items per group, current group: ["+i+"]");
             }

@@ -1,5 +1,6 @@
 package com.service;
 
+import com.dao.Question;
 import com.dao.RelatedQuestion;
 import com.util.GoobbeLogger;
 import org.apache.lucene.analysis.Analyzer;
@@ -28,11 +29,10 @@ public class SearchLocalService extends GoobbeLogger {
 
     public static void main(String[] args) throws Exception {
         SearchLocalService searchLocalService =new SearchLocalService();
-        List<RelatedQuestion> relatedQuestions= searchLocalService.getLocalSearchResult("java thread priority");
 
     }
 
-    public List<RelatedQuestion> getLocalSearchResult(String target){
+    public List<RelatedQuestion> getLocalSearchResult(Question question){
         List<RelatedQuestion> relatedQuestions=new ArrayList<>();
         String indexPath = System.getProperty("user.home") + FileSystems.getDefault().getSeparator()+"index";
         IndexReader reader = null;
@@ -42,11 +42,14 @@ public class SearchLocalService extends GoobbeLogger {
             IndexSearcher searcher = new IndexSearcher(reader);
             Analyzer analyzer = new StandardAnalyzer();
             QueryParser parser = new QueryParser("title", analyzer);
-            Query query = parser.parse(QueryParser.escape(target.toLowerCase()));
-            TopDocs results = searcher.search(query, null, 16);
+            Query query = parser.parse(QueryParser.escape(question.getT().toLowerCase()));
+            TopDocs results = searcher.search(query, null, question.getAs().size()<=5?5:question.getAs().size());
             ScoreDoc[] hits = results.scoreDocs;
-            for(int i=1;i<hits.length;i++){
+            for(int i=0;i<hits.length;i++){
                 Document doc = searcher.doc(hits[i].doc);
+                if(doc.get("id").equals(question.getId())){
+                    continue;
+                }
                 relatedQuestions.add(new RelatedQuestion(doc.get("id"), doc.get("title"),
                                                          doc.get("content"), doc.get("title4url")));
             }
@@ -55,7 +58,7 @@ public class SearchLocalService extends GoobbeLogger {
         } catch (IOException e) {
             error(e,"read directory ["+indexPath+"] error!");
         } catch (ParseException e){
-            error(e,"parse search keyword ["+target+"] error!");
+            error(e,"parse search keyword ["+question.getT()+"] error!");
         }
         return relatedQuestions;
     }
