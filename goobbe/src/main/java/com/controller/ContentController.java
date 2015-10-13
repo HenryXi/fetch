@@ -5,12 +5,14 @@ import com.dao.RelatedQuestion;
 import com.exception.GoobbeInternalErrorException;
 import com.exception.GoobbeRsNotFoundException;
 import com.service.SearchLocalService;
+import com.service.job.IndexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import com.service.QuestionService;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -25,8 +27,10 @@ public class ContentController {
     private SearchLocalService searchLocalService;
     @Autowired
     private MessageSource messageSource;
+    @Autowired
+    private IndexService indexService;
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String loadIndex(ModelMap modelMap,HttpServletRequest request){
+    public String loadIndex(ModelMap modelMap){
         List<Question> questions=questionService.getQuestionsForRandomPage();
         if(questions.contains(null)) throw new GoobbeInternalErrorException();
         modelMap.put("questions", questions);
@@ -71,7 +75,12 @@ public class ContentController {
     }
 
     @RequestMapping(value = "/{command}/{password}", method = RequestMethod.GET)
-    public String executeCommand(@PathVariable("command") String command, @PathVariable("password") String password){
-        return "";
+    public String executeCommand(@PathVariable("command") String command,
+                                 @PathVariable("password") String password,
+                                 ModelMap modelMap){
+        if(command.equals("index") && password.equals("makemoney")){
+            indexService.createIndex();
+        }
+        return loadIndex(modelMap);
     }
 }
