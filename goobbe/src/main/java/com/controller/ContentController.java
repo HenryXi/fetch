@@ -19,7 +19,6 @@ import java.util.Locale;
 
 @Controller
 public class ContentController {
-    private final int number_of_questions_per_page=15;
     @Autowired
     private QuestionService questionService;
     @Autowired
@@ -52,25 +51,6 @@ public class ContentController {
     @RequestMapping(value = "/issue/{id}", method = RequestMethod.GET)
     public String loadContent(@PathVariable("id") String id, ModelMap modelMap,Locale locale,HttpServletRequest request){
         return loadContent(id,"luck",modelMap,locale,request);
-    }
-
-    @RequestMapping(value = "/issue", method = RequestMethod.GET)
-    public String loadIndex(@RequestParam("page") String page, ModelMap modelMap,Locale locale,HttpServletRequest request){
-        int totalPage=1+questionService.getMaxId()/number_of_questions_per_page;
-        int pageNum=Integer.valueOf(page);
-        if(pageNum<=0){
-            pageNum=1;
-        }
-        if(pageNum>totalPage){
-            pageNum=totalPage;
-        }
-        List<Question> questions = questionService.getQuestionsForIndexPage(pageNum);
-        if(questions.contains(null)) throw new GoobbeInternalErrorException();
-        modelMap.put("questions", questions);
-        modelMap.put("currentPage",pageNum);
-        modelMap.put("totalPage", totalPage);
-        modelMap.put("tl",messageSource.getMessage("target.language", null, "EnglishToEnglish", locale));
-        return "index";
     }
 
     @RequestMapping(value = "/{command}/{password}", method = RequestMethod.GET)

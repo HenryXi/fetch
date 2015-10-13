@@ -49,63 +49,6 @@
             </div>
 
             <br class="cbt">
-            <c:choose>
-                <c:when test="${currentPage!=-1}">
-                    <div id="pagination" class="pager fl">
-                        <c:if test="${currentPage>1}">
-                            <a href="/issue?page=${currentPage-1}" rel="next" title="go to page ${currentPage-1}">
-                                <span class="page-numbers next"> prev</span>
-                            </a>
-                        </c:if>
-                        <c:if test="${currentPage!=1}">
-                            <a href="/issue?page=1" title="go to page 1">
-                                <span class="page-numbers">1</span>
-                            </a>
-                        </c:if>
-                        <c:if test="${currentPage>=5}">
-                            <span class="page-numbers dots">…</span>
-                        </c:if>
-                        <c:if test="${currentPage-2>1}">
-                            <a href="/issue?page=${currentPage-2}" title="go to page ${currentPage-2}">
-                                <span class="page-numbers">${currentPage-2}</span>
-                            </a>
-                        </c:if>
-                        <c:if test="${currentPage-1>1}">
-                            <a href="/issue?page=${currentPage-1}" title="go to page ${currentPage-1}">
-                                <span class="page-numbers">${currentPage-1}</span>
-                            </a>
-                        </c:if>
-                        <span class="page-numbers current">${currentPage}</span>
-                        <c:if test="${currentPage+1<totalPage}">
-                            <a href="/issue?page=${currentPage+1}" title="go to page 4">
-                                <span class="page-numbers">${currentPage+1}</span>
-                            </a>
-                        </c:if>
-                        <c:if test="${currentPage+2<totalPage}">
-                            <a href="/issue?page=${currentPage+2}" title="go to page 5">
-                                <span class="page-numbers">${currentPage+2}</span>
-                            </a>
-                        </c:if>
-                        <c:if test="${totalPage-currentPage>3}">
-                            <span class="page-numbers dots">…</span>
-                        </c:if>
-                        <c:if test="${currentPage!=totalPage}">
-                            <a href="/issue?page=${totalPage}" title="go to page 175093">
-                                <span class="page-numbers">${totalPage}</span>
-                            </a>
-                        </c:if>
-                        <c:if test="${currentPage<totalPage}">
-                            <a href="/issue?page=${currentPage+1}" rel="next" title="go to page ${currentPage+1}">
-                                <span class="page-numbers next"> next</span>
-                            </a>
-                        </c:if>
-                    </div>
-                </c:when>
-                <c:otherwise>
-                    <h2 class="bottom-notice" data-loc="2">Looking for more? Browse the <a href="/issue?page=1">complete
-                        list of questions</a>.</h2>
-                </c:otherwise>
-            </c:choose>
         </div>
     </div>
 </div>
