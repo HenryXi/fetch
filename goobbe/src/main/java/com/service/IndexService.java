@@ -34,17 +34,11 @@ public class IndexService extends GoobbeLogger {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
-    private ObjectMapper objectMapper;
-    @Autowired
     private QuestionService questionService;
-//    private JdbcTemplate jdbcTemplate;-->for test!
     private int INDEX_TITLES_EACH_LOOP=10000;
     private Path indexFolderBak;
     private Path indexFolder;
     private IndexService() {
-//        jdbcTemplate=JDBCHelper.createPostgresqlTemplate("po",
-//                "jdbc:postgresql://123.57.136.60:5432/goobbe",
-//                "yong", "xixiaoyong123", 80, 120);
         indexFolderBak= Paths.get(System.getProperty("user.home") + FileSystems.getDefault().getSeparator() + "index_bak");
         indexFolder= Paths.get(System.getProperty("user.home") + FileSystems.getDefault().getSeparator()+"index");
     }
