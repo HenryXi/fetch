@@ -21,7 +21,7 @@
         <property name="driverClassName"
                   value="org.postgresql.Driver">
         </property>
-        <property name="url" value="jdbc:postgresql://123.57.136.60:5432/goobbe"/>
+        <property name="url" value="jdbc:postgresql://localhost:5432/goobbe"/>
         <property name="username" value="yong"/>
         <property name="password" value="xixiaoyong123"/>
         <property name="maxActive" value="100"/>
