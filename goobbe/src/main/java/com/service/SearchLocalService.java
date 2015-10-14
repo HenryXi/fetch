@@ -43,7 +43,7 @@ public class SearchLocalService extends GoobbeLogger {
             Analyzer analyzer = new StandardAnalyzer();
             QueryParser parser = new QueryParser("title", analyzer);
             Query query = parser.parse(QueryParser.escape(question.getT().toLowerCase()));
-            TopDocs results = searcher.search(query, null, question.getAs().size()<=5?5:question.getAs().size());
+            TopDocs results = searcher.search(query, null, question.getAs().size()<=3?3:question.getAs().size());
             ScoreDoc[] hits = results.scoreDocs;
             for(int i=0;i<hits.length;i++){
                 Document doc = searcher.doc(hits[i].doc);
