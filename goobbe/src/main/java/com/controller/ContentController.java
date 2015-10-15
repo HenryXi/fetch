@@ -32,7 +32,6 @@ public class ContentController {
         List<Question> questions=questionService.getQuestionsForRandomPage();
         if(questions.contains(null)) throw new GoobbeInternalErrorException();
         modelMap.put("questions", questions);
-        modelMap.put("currentPage",-1);
         return "index";
     }
 
