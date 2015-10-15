@@ -79,6 +79,7 @@ pre {
 }
 
 pre {
+    clear: both;
     max-height: none\9
 }
 
