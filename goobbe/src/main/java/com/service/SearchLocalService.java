@@ -1,7 +1,6 @@
 package com.service;
 
 import com.dao.Question;
-import com.dao.RelatedQuestion;
 import com.util.GoobbeLogger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -16,7 +15,6 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -28,9 +26,7 @@ import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class SearchLocalService extends GoobbeLogger {
@@ -47,6 +43,10 @@ public class SearchLocalService extends GoobbeLogger {
 
     public List<Question> getLocalSearchResult(Question question){
         List<Integer> relatedQuestionsId = getRelatedQuestionsId(question);
+        if(relatedQuestionsId.size()==0){
+            relatedQuestionsId.add(Integer.valueOf(question.getId())+1);
+            relatedQuestionsId.add(Integer.valueOf(question.getId())+2);
+        }
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("relatedQuestionsId", relatedQuestionsId);
         List<Question> questions=namedParameterJdbcTemplate.query("select id ,content ->> 't' as title,content ->> 'c' as content" +
@@ -54,7 +54,7 @@ public class SearchLocalService extends GoobbeLogger {
                     parameters, new RowMapper<Question>() {
                     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
                         try {
-                            return questionService.getQuestionByResultSet(rs, false);
+                            return questionService.getQuestionByResultSet(rs, false, true);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

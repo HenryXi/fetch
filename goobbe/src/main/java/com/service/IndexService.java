@@ -14,7 +14,6 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -96,7 +95,7 @@ public class IndexService extends GoobbeLogger {
                 new RowMapper<Question>() {
                     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
                         try {
-                            return questionService.getQuestionByResultSet(rs,false );
+                            return questionService.getQuestionByResultSet(rs,false,false );
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

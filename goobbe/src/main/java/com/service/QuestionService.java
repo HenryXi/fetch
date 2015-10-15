@@ -1,25 +1,18 @@
 package com.service;
 
-import com.dao.Answer;
-import com.dao.Comment;
 import com.dao.Question;
-import com.dao.QuestionJson;
 import com.exception.GoobbeInternalErrorException;
 import com.exception.GoobbeRsNotFoundException;
 import com.util.GoobbeLogger;
 import com.util.GoobbeTitleUtil;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -52,7 +45,7 @@ public class QuestionService extends GoobbeLogger {
         throw new GoobbeInternalErrorException();
     }
 
-    public Question getQuestionByResultSet(ResultSet rs, boolean isBriefContent) throws IOException, SQLException {
+    public Question getQuestionByResultSet(ResultSet rs, boolean isBriefContent, boolean isContainContent) throws IOException, SQLException {
         Question question;
         if(isBriefContent){
             String summery = Jsoup.parse(rs.getString("content").replace("&lt;", "<").replace("&gt;", ">")).text();
@@ -61,7 +54,12 @@ public class QuestionService extends GoobbeLogger {
             }
             question = new Question(rs.getString("id"), rs.getString("title"), summery);
         }else{
-            question= new Question(rs.getString("id"), rs.getString("title"),rs.getString("content"));
+            if(isContainContent){
+                question= new Question(rs.getString("id"), rs.getString("title"),rs.getString("content"));
+            }else{
+                question= new Question(rs.getString("id"), rs.getString("title"), null);
+            }
+
         }
         return question;
     }
@@ -82,7 +80,7 @@ public class QuestionService extends GoobbeLogger {
                 new RowMapper<Question>() {
                     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
                         try {
-                            return getQuestionByResultSet(rs, true);
+                            return getQuestionByResultSet(rs, true, true);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
