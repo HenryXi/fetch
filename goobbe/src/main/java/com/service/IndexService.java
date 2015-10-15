@@ -55,7 +55,7 @@ public class IndexService extends GoobbeLogger {
             IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
             IndexWriter writer = new IndexWriter(dir, iwc);
             int totalNum=jdbcTemplate.queryForInt("select max(id) from tb_content;")/INDEX_TITLES_EACH_LOOP+1;
-            for(int i=1;i<3;i++){
+            for(int i=1;i<=totalNum;i++){
                 indexDocs(writer, getQuestionsForBuildingIndex(i * INDEX_TITLES_EACH_LOOP));
                 info("indexing... total group: ["+(totalNum+1)+"], ["+INDEX_TITLES_EACH_LOOP+"] items per group, current group: ["+i+"]");
             }
@@ -85,15 +85,13 @@ public class IndexService extends GoobbeLogger {
             Document doc = new Document();
             doc.add(new StoredField("id",question.getId()));
             doc.add(new TextField("title",question.getT(), Field.Store.YES));
-            doc.add(new TextField("content",question.getC(),Field.Store.YES));
-            doc.add(new TextField("title4url",question.getTitle4url(),Field.Store.YES));
             writer.addDocument(doc);
         }
     }
 
     private List<Question> getQuestionsForBuildingIndex(Integer startNum) {
         List<Question> questions = this.jdbcTemplate.query(
-                "select content ->>'t' as title,content ->> 'c' as content,id from tb_content where id between ? and ? and content is not null",
+                "select content ->>'t' as title,id from tb_content where id between ? and ? and content is not null",
                 new Object[]{startNum-9999,startNum},
                 new RowMapper<Question>() {
                     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {

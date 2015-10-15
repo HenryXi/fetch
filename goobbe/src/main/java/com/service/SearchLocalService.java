@@ -15,16 +15,29 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Paths;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class SearchLocalService extends GoobbeLogger {
-
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    @Autowired
+    private QuestionService questionService;
     private SearchLocalService() {}
 
     public static void main(String[] args) throws Exception {
@@ -32,8 +45,28 @@ public class SearchLocalService extends GoobbeLogger {
 
     }
 
-    public List<RelatedQuestion> getLocalSearchResult(Question question){
-        List<RelatedQuestion> relatedQuestions=new ArrayList<>();
+    public List<Question> getLocalSearchResult(Question question){
+        List<Integer> relatedQuestionsId = getRelatedQuestionsId(question);
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("relatedQuestionsId", relatedQuestionsId);
+        List<Question> questions=namedParameterJdbcTemplate.query("select id ,content ->> 't' as title,content ->> 'c' as content" +
+                                                  " from tb_content where id in (:relatedQuestionsId)",
+                    parameters, new RowMapper<Question>() {
+                    public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        try {
+                            return questionService.getQuestionByResultSet(rs, false);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+                });
+
+        return questions;
+    }
+
+    public List<Integer> getRelatedQuestionsId(Question question){
+        List<Integer> relatedQuestionsId=new ArrayList<>();
         String indexPath = System.getProperty("user.home") + FileSystems.getDefault().getSeparator()+"index";
         IndexReader reader = null;
         try {
@@ -50,8 +83,7 @@ public class SearchLocalService extends GoobbeLogger {
                 if(doc.get("id").equals(question.getId())){
                     continue;
                 }
-                relatedQuestions.add(new RelatedQuestion(doc.get("id"), doc.get("title"),
-                                                         doc.get("content"), doc.get("title4url")));
+                relatedQuestionsId.add(Integer.valueOf(doc.get("id")));
             }
             fs.close();
             reader.close();
@@ -60,6 +92,6 @@ public class SearchLocalService extends GoobbeLogger {
         } catch (ParseException e){
             error(e,"parse search keyword ["+question.getT()+"] error!");
         }
-        return relatedQuestions;
+        return relatedQuestionsId;
     }
 }

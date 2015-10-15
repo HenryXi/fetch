@@ -42,7 +42,7 @@ public class ContentController {
         Question question= questionService.getQuestionById(Integer.valueOf(id));
         if(question==null||question.getT().equals("")) throw new GoobbeRsNotFoundException();
         modelMap.put("question", question);
-        List<RelatedQuestion> relatedQuestions= searchLocalService.getLocalSearchResult(question);
+        List<Question> relatedQuestions= searchLocalService.getLocalSearchResult(question);
         modelMap.put("relatedQuestions", relatedQuestions);
         modelMap.put("tl",messageSource.getMessage("target.language",null,"EnglishToEnglish",locale));
         return "content";

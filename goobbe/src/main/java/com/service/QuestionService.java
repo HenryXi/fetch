@@ -26,15 +26,10 @@ import java.util.*;
 
 @Service
 public class QuestionService extends GoobbeLogger {
-    private final String STACK_URL = "http://stackoverflow.com/questions/";
-    private final String STACK_OVERFLOW = " - Stack Overflow";
-    private final String STACK_ = " - Stack";
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
     private ObjectMapper objectMapper;
-    @Autowired
-    private GetPageService getPageService;
 
     public Question getQuestionById(Integer id) {
 
@@ -69,26 +64,6 @@ public class QuestionService extends GoobbeLogger {
             question= new Question(rs.getString("id"), rs.getString("title"),rs.getString("content"));
         }
         return question;
-    }
-
-    public List<Question> getQuestionsForIndexPage(Integer page) {
-        int startNum = 15 * page - 14; //15*(page-1)+1
-        // todo "not null" in sql should be removed after format db
-        List<Question> questions = this.jdbcTemplate.query(
-                "select id ,content ->> 't' as title,content ->> 'c' as content" +
-                        " from tb_content where content is not null and id>=? order by id limit 15",
-                new Object[]{startNum},
-                new RowMapper<Question>() {
-                    public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
-                        try {
-                            return getQuestionByResultSet(rs, true);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return null;
-                    }
-                });
-        return questions;
     }
 
     public int getMaxId() {
