@@ -4,8 +4,6 @@
 <html>
 <head>
     <title>${question.t}</title>
-    <link rel="icon" href="/pic/favicon.ico" mce_href="/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="/pic/favicon.ico" mce_href="/favicon.ico" type="image/x-icon">
 <body class="question-page new-topbar">
 <jsp:include page="topbar.jsp"/>
 <!-- begin dictionary box -->
