@@ -36,7 +36,11 @@ public class Config {
         return config;
     }
 
-    public static String getPropertyByName(String propertyName) {
+    public static String getString(String propertyName) {
         return prop.getProperty(propertyName);
+    }
+
+    public static int getInt(String propertyName) {
+        return Integer.valueOf(prop.getProperty(propertyName));
     }
 }
