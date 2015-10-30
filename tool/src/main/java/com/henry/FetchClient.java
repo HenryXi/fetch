@@ -1,13 +1,11 @@
 package com.henry;
 
 import com.henry.threads.Fetcher;
-import com.henry.threads.GetAllPager;
 import com.henry.util.Config;
 import com.henry.util.JDBCHelper;
 
 import java.net.Proxy;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
