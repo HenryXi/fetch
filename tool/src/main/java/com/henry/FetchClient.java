@@ -4,6 +4,8 @@ import com.henry.threads.Fetcher;
 import com.henry.threads.GetAllPager;
 import com.henry.util.Config;
 import com.henry.util.JDBCHelper;
+
+import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -14,12 +16,9 @@ import java.util.List;
  * 2.get content by url
  */
 public class FetchClient {
-    public FetchClient(){
-        Config.getInstance();
-    }
     public static void main(String[] args) {
-
-        JDBCHelper.createPostgresqlTemplate("po",
+        Config.getInstance();
+        JDBCHelper.createPostgresqlTemplate("fetcher",
                 Config.getString("database.url"),
                 Config.getString("database.username"),
                 Config.getString("database.pwd"),
@@ -27,54 +26,37 @@ public class FetchClient {
                 Config.getInt("database.maxActive"));
         List<Fetcher> runningFetcher = new ArrayList<>();
         List<Fetcher> deadFetcher=new ArrayList<>();
-        long step = 100l;
-        long startIndex=3907l;
-        long index = 3907l;
-        long startTime= Calendar.getInstance().getTime().getTime();
+        int index = Config.getInt("total.page");
         do {
-            if (runningFetcher.size() == 3) {
-                int waitingThread=0;
+            if (runningFetcher.size() == Config.getInt("fetcher.number")) {
                 int runningThread=0;
-                int blockThread=0;
-                int timeWaitingThread=0;
+                int usingProxy=0;
                 deadFetcher.clear();
-                for (GetAllPager getAllPager : runningFetcher) {
-                    if (!getAllPager.isAlive()) {
-                        deadFetcher.add(getAllPager);
+                for (Fetcher fetcher : runningFetcher) {
+                    if (!fetcher.isAlive()) {
+                        deadFetcher.add(fetcher);
                     }
-                    switch (getAllPager.getState()){
-                        case WAITING:
-                            waitingThread++;
-                            break;
-                        case RUNNABLE:
-                            runningThread++;
-                            break;
-                        case BLOCKED:
-                            blockThread++;
-                            break;
-
-                        case TIMED_WAITING:
-                            timeWaitingThread++;
-                            break;
+                    if(fetcher.getState()== Thread.State.RUNNABLE){
+                        runningThread++;
+                    }
+                    if(fetcher.getCurrentProxy()!= Proxy.NO_PROXY){
+                        usingProxy++;
                     }
                 }
                 runningFetcher.removeAll(deadFetcher);
-                long endTime=Calendar.getInstance().getTime().getTime();
-                int pagePerSecond= (int) ((index-startIndex-1)*100/(endTime-startTime)/1000);
-                System.out.println(waitingThread+" Waiting, "+runningThread+" Running,"+blockThread+" Block,"+timeWaitingThread+
-                        " TimeWaiting. Current index "+index+". Current speed: "+pagePerSecond+" pages per second.");
+                System.out.println(runningThread+" Running, " + index +" pages left, "+usingProxy+" using proxy.");
                 try {
-                    Thread.sleep(1000*5);
+                    Thread.sleep(1000*10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             } else {
-                GetAllPager getAllPager = new GetAllPager(1 + (index - 1) * step, index * step);
-                runningFetcher.add(getAllPager);
-                getAllPager.start();
-                index++;
+                Fetcher fetcher = new Fetcher(index);
+                runningFetcher.add(fetcher);
+                fetcher.start();
+                index--;
             }
-            if (index * step >= 10) {
+            if(index==0){
                 break;
             }
         } while (true);
