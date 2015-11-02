@@ -21,15 +21,15 @@
         <property name="driverClassName"
                   value="org.postgresql.Driver">
         </property>
-        <property name="url" value="jdbc:postgresql://123.57.136.60:5432/goobbe"/>
-        <property name="username" value="yong"/>
-        <property name="password" value="xixiaoyong123"/>
-        <property name="maxActive" value="100"/>
-        <property name="initialSize" value="10"/>
-        <property name="maxIdle" value="30"/>
-        <property name="minIdle" value="5"/>
-        <property name="maxWait" value="500"/>
-        <property name="defaultAutoCommit" value="true"/>
+        <property name="url" value="${database.url}"/>
+        <property name="username" value="${database.username}"/>
+        <property name="password" value="${database.pwd}"/>
+        <property name="maxActive" value="${database.maxActive}"/>
+        <property name="initialSize" value="${database.initActive}"/>
+        <property name="maxIdle" value="${database.maxIdle}"/>
+        <property name="minIdle" value="${database.minIdle}"/>
+        <property name="maxWait" value="${database.maxWait}"/>
+        <property name="defaultAutoCommit" value="${database.defaultAutoCommit}"/>
     </bean>
 
     <!-- jdbc注入 -->
@@ -50,4 +50,6 @@
         <property name="basename" value="dicMsg" />
         <property name="useCodeAsDefaultMessage" value="true" />
     </bean>
+    <!-- properties-->
+    <context:property-placeholder location="classpath*:config.properties"/>
 </beans>

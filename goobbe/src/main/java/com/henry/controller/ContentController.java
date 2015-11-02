@@ -3,6 +3,7 @@ package com.henry.controller;
 import com.henry.dao.Question;
 import com.henry.exception.GoobbeInternalErrorException;
 import com.henry.exception.GoobbeRsNotFoundException;
+import com.henry.service.GenerateRelatedQuestions;
 import com.henry.service.QuestionService;
 import com.henry.service.SearchLocalService;
 import com.henry.service.IndexService;
@@ -21,7 +22,7 @@ public class ContentController {
     @Autowired
     private QuestionService questionService;
     @Autowired
-    private SearchLocalService searchLocalService;
+    private GenerateRelatedQuestions generateRelatedQuestions;
     @Autowired
     private MessageSource messageSource;
     @Autowired
@@ -36,19 +37,22 @@ public class ContentController {
 
     @RequestMapping(value = "/issue/{id}/{title4url}", method = RequestMethod.GET)
     public String loadContent(@PathVariable("id") String id,@PathVariable("title4url") String title4url,
+                              @RequestHeader("host") String siteName,
                               ModelMap modelMap,Locale locale,HttpServletRequest request){
         Question question= questionService.getQuestionById(Integer.valueOf(id));
         if(question==null||question.getT().equals("")) throw new GoobbeRsNotFoundException();
         modelMap.put("question", question);
-        List<Question> relatedQuestions= searchLocalService.getLocalSearchResult(question);
+        List<Question> relatedQuestions= generateRelatedQuestions.getRelatedQuestions(siteName,question);
         modelMap.put("relatedQuestions", relatedQuestions);
         modelMap.put("tl",messageSource.getMessage("target.language",null,"EnglishToEnglish",locale));
         return "content";
     }
 
     @RequestMapping(value = "/issue/{id}", method = RequestMethod.GET)
-    public String loadContent(@PathVariable("id") String id, ModelMap modelMap,Locale locale,HttpServletRequest request){
-        return loadContent(id,"luck",modelMap,locale,request);
+    public String loadContent(@PathVariable("id") String id, ModelMap modelMap,
+                              @RequestHeader("host") String hostName,
+                              Locale locale,HttpServletRequest request){
+        return loadContent(id,"luck",hostName,modelMap,locale,request);
     }
 
     @RequestMapping(value = "/{command}/{password}", method = RequestMethod.GET)

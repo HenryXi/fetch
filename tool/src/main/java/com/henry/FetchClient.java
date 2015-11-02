@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class FetchClient {
     public static void main(String[] args) {
-        Config.getInstance();
+        Config.getInstance("fetch.properties");
         JDBCHelper.createPostgresqlTemplate("fetcher",
                 Config.getString("database.url"),
                 Config.getString("database.username"),

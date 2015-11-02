@@ -9,10 +9,10 @@ import java.util.Properties;
 public class Config {
     private static Config config;
     private static Properties prop;
-    private Config(){
+    private Config(String configFileName){
         InputStream inputStream=null;
         try {
-            inputStream=Thread.currentThread().getContextClassLoader().getResourceAsStream("fetch.properties");
+            inputStream=Thread.currentThread().getContextClassLoader().getResourceAsStream(configFileName);
             prop = new Properties();
             prop.load(inputStream);
         } catch (FileNotFoundException e) {
@@ -29,9 +29,9 @@ public class Config {
             }
         }
     }
-    public static Config getInstance(){
+    public static Config getInstance(String configFileName){
         if(config==null){
-            return new Config();
+            return new Config(configFileName);
         }
         return config;
     }

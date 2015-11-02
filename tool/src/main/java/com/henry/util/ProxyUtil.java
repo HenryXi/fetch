@@ -13,7 +13,7 @@ public class ProxyUtil {
     private static ProxyUtil proxyUtil;
     private static Map<String,Proxy> proxys=new ConcurrentHashMap<>();
     private ProxyUtil(){
-        Config.getInstance();
+        Config.getInstance("fetch.properties");
         String proxyJson = Config.getString("proxy.ips");
         ObjectMapper objectMapper = new ObjectMapper();
         try {

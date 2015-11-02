@@ -114,15 +114,20 @@
             <version>3.3.2</version>
         </dependency>
         <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-demo</artifactId>
             <version>5.0.0</version>
         </dependency>
 
         <dependency>
-            <groupId>cn.edu.hfut.dmic.webcollector</groupId>
+            <groupId>com.henry</groupId>
             <artifactId>tool</artifactId>
-            <version>1.0</version>
+            <version>1.1</version>
         </dependency>
 
         <dependency>
