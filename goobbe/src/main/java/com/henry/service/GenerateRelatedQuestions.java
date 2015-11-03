@@ -28,7 +28,6 @@ public class GenerateRelatedQuestions {
 
     public List<Question> getRelatedQuestions(String siteName, Question question) {
         siteName=siteName.replace("www.", "");
-        siteName=siteName.substring(0,siteName.indexOf("."));
         Config.getInstance("config.properties");
         if (Config.getString(siteName + INTERVAL)==null) {
             return searchLocalService.getLocalSearchResult(question);

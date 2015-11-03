@@ -11,7 +11,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sun.net.www.protocol.http.HttpURLConnection;
 
@@ -146,8 +145,8 @@ public class Fetcher extends Thread{
             String conent=objectMapper.writeValueAsString(question);
             int url=Integer.valueOf(doc.baseUri().replace("http://stackoverflow.com/questions/", "").replaceAll("/.+", ""));
             jdbcTemplate.update("insert into tb_content (content,id) values(?::json,?)",conent,url);
-        }catch (IOException e) {
-            e.printStackTrace();
+        }catch (Exception e) {
+            System.out.println(e.getClass().getSimpleName());
         }
     }
 

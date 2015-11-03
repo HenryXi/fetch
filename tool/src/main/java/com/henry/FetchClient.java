@@ -29,6 +29,7 @@ public class FetchClient {
             if (runningFetcher.size() == Config.getInt("fetcher.number")) {
                 int runningThread=0;
                 int usingProxy=0;
+                int usableProxy=0;
                 deadFetcher.clear();
                 for (Fetcher fetcher : runningFetcher) {
                     if (!fetcher.isAlive()) {
@@ -40,11 +41,16 @@ public class FetchClient {
                     if(fetcher.getCurrentProxy()!= Proxy.NO_PROXY){
                         usingProxy++;
                     }
+                    if(fetcher.getCurrentProxy()!=null &&
+                            fetcher.getCurrentProxy().toString().contains("1080")){
+                        usableProxy++;
+                    }
                 }
                 runningFetcher.removeAll(deadFetcher);
-                System.out.println(runningThread+" Running, " + index +" pages left, "+usingProxy+" using proxy.");
+                System.out.println(runningThread+" Running, " + index +" pages left, "+usingProxy+" using proxy("
+                        +usableProxy+" usableProxy)");
                 try {
-                    Thread.sleep(1000*10);
+                    Thread.sleep(1000*5);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
