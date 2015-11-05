@@ -11,13 +11,12 @@ import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class GenerateRelatedQuestions {
-    private static final String INTERVAL = ".interval";
-    private static final String STEP = ".step";
+    private static final String BEGIN = ".begin";
+    private static final String END = ".end";
 
     @Autowired
     private SearchLocalService searchLocalService;
@@ -29,12 +28,12 @@ public class GenerateRelatedQuestions {
     public List<Question> getRelatedQuestions(String siteName, Question question) {
         siteName=siteName.replace("www.", "");
         Config.getInstance("config.properties");
-        if (Config.getString(siteName + INTERVAL)==null) {
+        if (Config.getString(siteName + BEGIN)==null) {
             return searchLocalService.getLocalSearchResult(question);
         }
         MapSqlParameterSource parameters = new MapSqlParameterSource();
-        parameters.addValue("startId", Integer.valueOf(question.getId()) + Config.getInt(siteName + INTERVAL));
-        parameters.addValue("endId", Integer.valueOf(question.getId()) + Config.getInt(siteName + STEP));
+        parameters.addValue("startId", Integer.valueOf(question.getId()) + Config.getInt(siteName + BEGIN));
+        parameters.addValue("endId", Integer.valueOf(question.getId()) + Config.getInt(siteName + END));
         List<Question> questions = namedParameterJdbcTemplate.query("select id ,content ->> 't' as title,content ->> 'c' as content" +
                         " from tb_content where id BETWEEN :startId AND :endId and content is not null",
                 parameters, new RowMapper<Question>() {
