@@ -4,7 +4,7 @@ import com.henry.dao.Question;
 import com.henry.exception.GoobbeInternalErrorException;
 import com.henry.exception.GoobbeRsNotFoundException;
 import com.henry.util.GoobbeLogger;
-import com.henry.util.GoobbeTitleUtil;
+import com.henry.util.GoobbeUtil;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +33,10 @@ public class QuestionService extends GoobbeLogger {
         }
         try {
             Question question = objectMapper.readValue(record.get("content").toString(), Question.class);
-            question.setT(GoobbeTitleUtil.removeQuestionStatus(question.getT()));
+            question.setT(GoobbeUtil.removeQuestionStatus(question.getT()));
             question.setId(record.get("id").toString());
             question.setUrl(Integer.valueOf(record.get("url").toString()));
-            question.setTitle4url(GoobbeTitleUtil.generateShortTitle(question.getT()));
+            question.setTitle4url(GoobbeUtil.generateShortTitle(question.getT()));
             info("get info of " + id);
             return question;
         } catch (Exception e) {

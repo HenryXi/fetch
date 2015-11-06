@@ -49,7 +49,8 @@ public class SearchLocalService extends GoobbeLogger {
         }
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("relatedQuestionsId", relatedQuestionsId);
-        List<Question> questions=namedParameterJdbcTemplate.query("select id ,content ->> 't' as title,content ->> 'c' as content" +
+        List<Question> questions=namedParameterJdbcTemplate.query("select id ,content ->> 't' as title," +
+                "regexp_replace(content ->> 'c', '<pre>(.*)</pre>', '<pre><code>CODE HIDDEN, CLICK TITLE TO SEE THE WHOLE CONTENT. </code></pre>') as content" +
                                                   " from tb_content where id in (:relatedQuestionsId)",
                     parameters, new RowMapper<Question>() {
                     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {

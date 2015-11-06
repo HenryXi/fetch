@@ -34,7 +34,8 @@ public class GenerateRelatedQuestions {
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("startId", Integer.valueOf(question.getId()) + Config.getInt(siteName + BEGIN));
         parameters.addValue("endId", Integer.valueOf(question.getId()) + Config.getInt(siteName + END));
-        List<Question> questions = namedParameterJdbcTemplate.query("select id ,content ->> 't' as title,content ->> 'c' as content" +
+        List<Question> questions = namedParameterJdbcTemplate.query("select id ,content ->> 't' as title," +
+                        "regexp_replace(content ->> 'c', '<pre>(.*)</pre>', '<pre><code>CODE HIDDEN, CLICK TITLE TO SEE THE WHOLE CONTENT. </code></pre>') as content" +
                         " from tb_content where id BETWEEN :startId AND :endId and content is not null",
                 parameters, new RowMapper<Question>() {
                     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {

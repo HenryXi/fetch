@@ -8,7 +8,7 @@ import java.net.URLEncoder;
 /**
  * Created by henry on 2015/4/14.
  */
-public class GoobbeTitleUtil {
+public class GoobbeUtil {
     public static String generateShortTitle(String title){
         title=removeQuestionStatus(title);
         title=title.replace("<b>","").replace("</b>","");
@@ -36,5 +36,9 @@ public class GoobbeTitleUtil {
         title=title.replace("[duplicate]","");
         title=title.replace("[closed]","");
         return title;
+    }
+
+    public static String removeCode(String content){
+        return content;
     }
 }

@@ -1,6 +1,6 @@
 package com.henry.dao;
 
-import com.henry.util.GoobbeTitleUtil;
+import com.henry.util.GoobbeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,22 +13,22 @@ public class Question {
     public Question(int id,String title){
         this.id=String.valueOf(id);
         this.t=title;
-        this.title4url= GoobbeTitleUtil.generateShortTitle(t);
+        this.title4url= GoobbeUtil.generateShortTitle(t);
     }
     public Question(String id,String title,String content){
         this.id=id;
         this.t=title;
-        this.title4url= GoobbeTitleUtil.generateShortTitle(t);
+        this.title4url= GoobbeUtil.generateShortTitle(t);
         this.c=content;
     }
     public Question(String title,String content){
         this.t=title;
-        this.title4url= GoobbeTitleUtil.generateShortTitle(t);
+        this.title4url= GoobbeUtil.generateShortTitle(t);
         this.c=content;
     }
     public Question(String title ,String content,int url){
         this.t=title;
-        this.title4url= GoobbeTitleUtil.generateShortTitle(t);
+        this.title4url= GoobbeUtil.generateShortTitle(t);
         this.c=content;
         this.url=url;
     }
