@@ -74,7 +74,7 @@ public class QuestionService extends GoobbeLogger {
         info("generate random id successful, get random questions ... ");
         // todo "not null" in sql should be removed after format db
         List<Question> questions = this.jdbcTemplate.query(
-                "select id ,content ->> 't' as title,content ->> 'c' as content" +
+                "select id ,content ->> 't' as title,regexp_replace(content ->> 'c', '<pre>(.*)</pre>', '') as content" +
                         " from tb_content where content is not null and id>=? order by id limit 15",
                 new Object[]{random},
                 new RowMapper<Question>() {
