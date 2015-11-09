@@ -61,10 +61,6 @@ code {
     background-color: #eee
 }
 
-.form-submit {
-    padding: 10px 0 15px 0;
-    display: block
-}
 pre {
     overflow: auto;
     font-size: 13px;
@@ -218,38 +214,6 @@ tr.comment > td {
     text-decoration: none
 }
 
-.summaryinfo {
-    color: #808185;
-    text-align: center
-}
-
-.lsep {
-    margin: 0 2px 0 2px;
-    color: #ccc;
-    color: #1b4072;
-    font-size: 1px;
-    visibility: hidden
-}
-
-.post-menu {
-    padding-top: 2px
-}
-
-.post-menu > a {
-    padding: 0 3px 2px 3px;
-    color: #888
-}
-
-.post-menu > a:hover {
-    color: #444;
-    text-decoration: none
-}
-
-.post-menu .lsep {
-    margin: 0;
-    padding: 0
-}
-
 .comments {
     width: 660px;
     margin-top: 10px;
@@ -266,72 +230,6 @@ tr.comment > td {
 
 tr.comment > td {
     line-height: 1.3
-}
-
-.text-counter {
-    margin-right: 20px
-}
-
-.search-highlight {
-    color: #333;
-    background-color: #ffc;
-    font-weight: bold
-}
-
-.page-description {
-    font-size: 14px;
-    margin: 10px 0;
-    line-height: 18px
-}
-
-#footer {
-    clear: both
-}
-
-#svnrev {
-    margin-top: 5px;
-    text-align: right
-}
-
-#copyright {
-    font-size: 11px
-}
-
-.content-page {
-    padding: 20px 0
-}
-
-.content-page h2 {
-    margin-bottom: 10px;
-    font-size: 120%
-}
-
-#revisions {
-    margin-top: 20px;
-    margin-left: 20px
-}
-
-.revision td {
-    background-color: #eee
-}
-
-.vote-revision td {
-    background-color: #ddd
-}
-
-.owner-revision td {
-    background-color: #e0eaf1
-}
-
-.revision-comment {
-    color: #333;
-    padding: 3px
-}
-
-.openid-identifier {
-    padding-left: 32px;
-    height: 22px;
-    line-height: 22px
 }
 
 #answers-header {
@@ -361,16 +259,6 @@ tr.comment > td {
     color: #222
 }
 
-.answer-votes {
-    color: #555;
-    text-align: center;
-    float: left;
-    padding: 4px;
-    min-width: 20px;
-    height: 15px;
-    text-decoration: none
-}
-
 .answer-hyperlink, .question-hyperlink {
     color: #07c;
     font-size: 16px;
@@ -393,38 +281,6 @@ tr.comment > td {
     width: 700px;
     padding-left: 10px;
     color: #555
-}
-
-.answer-summary {
-    padding: 3px;
-    clear: both
-}
-
-.answer-title {
-    color: #bbb
-}
-
-.answer-title:visited {
-    color: #bbb
-}
-
-#noscript-warning {
-    font-family: sans-serif;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 101;
-    text-align: center;
-    font-weight: bold;
-    font-size: 120%;
-    color: #fff;
-    background-color: #ae0000;
-    padding: 5px 0 5px 0
-}
-
-#noscript-padding {
-    padding-top: 1.9em
 }
 
 .container {
@@ -2956,26 +2812,6 @@ span.highlight {
     padding-left: 10px
 }
 
-.search-help {
-    width: 500px;
-    float: left;
-    clear: left
-}
-
-.external-search-providers {
-    width: 405px;
-    float: right;
-    clear: right;
-    padding: 15px 10px 15px 10px;
-    margin: 0 0 10px 0
-}
-
-.title-search-float {
-    border: 1px solid #000;
-    z-index: 99;
-    background: #fff
-}
-
 .title-float-selected {
     background-color: #0ff;
     height: 24px
@@ -3878,20 +3714,6 @@ table.sorter tbody tr.odd td {
     width: 5px;
     background: #808080;
 }
-.search-container {
-    float: left !important;
-    margin: 10px 20px;
-    display: inline-block
-}
-.search-container input {
-    width: 500px;
-    font-size: 16px;
-    border-radius: 4px;
-    height: 40px;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    padding: 6px 12px;
-    border: 1px solid #ccc
-}
 .btn{
     color: #fff;
     background-color: #5cb85c;
@@ -3907,79 +3729,6 @@ table.sorter tbody tr.odd td {
 }
 .logo a{
     color:white;
-}
-
-/* Make clicks pass-through */
-#nprogress {
-    pointer-events: none;
-}
-
-#nprogress .bar {
-    background: yellow;
-    position: fixed;
-    z-index: 1031;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 2px;
-}
-
-/* Fancy blur effect */
-#nprogress .peg {
-    display: block;
-    position: absolute;
-    right: 0px;
-    width: 100px;
-    height: 100%;
-    box-shadow: 0 0 10px yellow, 0 0 5px yellow;
-    opacity: 1.0;
-
-    -webkit-transform: rotate(3deg) translate(0px, -4px);
-    -ms-transform: rotate(3deg) translate(0px, -4px);
-    transform: rotate(3deg) translate(0px, -4px);
-}
-
-/* Remove these to get rid of the spinner */
-#nprogress .spinner {
-    display: block;
-    position: fixed;
-    z-index: 1031;
-    top: 15px;
-    right: 15px;
-}
-
-#nprogress .spinner-icon {
-    width: 18px;
-    height: 18px;
-    box-sizing: border-box;
-
-    border: solid 2px transparent;
-    border-top-color: yellow;
-    border-left-color: yellow;
-    border-radius: 50%;
-
-    -webkit-animation: nprogress-spinner 400ms linear infinite;
-    animation: nprogress-spinner 400ms linear infinite;
-}
-
-.nprogress-custom-parent {
-    overflow: hidden;
-    position: relative;
-}
-
-.nprogress-custom-parent #nprogress .spinner,
-.nprogress-custom-parent #nprogress .bar {
-    position: absolute;
-}
-
-@-webkit-keyframes nprogress-spinner {
-    0%   { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
-}
-@keyframes nprogress-spinner {
-    0%   { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
 }
 
 #pl-dbox, #pl-dbox * {
