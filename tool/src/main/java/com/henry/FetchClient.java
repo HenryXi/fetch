@@ -23,17 +23,16 @@ public class FetchClient {
                 Config.getInt("database.initActive"),
                 Config.getInt("database.maxActive"));
         List<Fetcher> runningFetcher = new ArrayList<>();
-        List<Fetcher> deadFetcher=new ArrayList<>();
+        List<Fetcher> waitingFetcher=new ArrayList<>();
         int index = Config.getInt("total.page");
         do {
             if (runningFetcher.size() == Config.getInt("fetcher.number")) {
                 int runningThread=0;
                 int usingProxy=0;
                 int usableProxy=0;
-                deadFetcher.clear();
                 for (Fetcher fetcher : runningFetcher) {
-                    if (!fetcher.isAlive()) {
-                        deadFetcher.add(fetcher);
+                    if (fetcher.getState()== Thread.State.WAITING) {
+                        waitingFetcher.add(fetcher);
                     }
                     if(fetcher.getState()== Thread.State.RUNNABLE){
                         runningThread++;
@@ -46,7 +45,7 @@ public class FetchClient {
                         usableProxy++;
                     }
                 }
-                runningFetcher.removeAll(deadFetcher);
+                runningFetcher.removeAll(waitingFetcher);
                 System.out.println(runningThread+" Running, " + index +" pages left, "+usingProxy+" using proxy("
                         +usableProxy+" usableProxy)");
                 try {
@@ -55,10 +54,19 @@ public class FetchClient {
                     e.printStackTrace();
                 }
             } else {
-                Fetcher fetcher = new Fetcher(index);
-                runningFetcher.add(fetcher);
-                fetcher.start();
-                index--;
+                if(waitingFetcher.size()+runningFetcher.size()<Config.getInt("fetcher.number")){
+                    Fetcher fetcher=new Fetcher(index);
+                    fetcher.start();
+                    runningFetcher.add(fetcher);
+                    index--;
+                }else{
+                    for(Fetcher fetcher:waitingFetcher){
+                        fetcher.setPageNumber(index);
+                        runningFetcher.add(fetcher);
+                        index--;
+                    }
+                    waitingFetcher.removeAll(runningFetcher);
+                }
             }
             if(index==0){
                 break;

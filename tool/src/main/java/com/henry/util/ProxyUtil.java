@@ -31,8 +31,8 @@ public class ProxyUtil {
             for(int i=0;i<Config.getInt("usable.proxy.number");i++){
                 proxys.put(String.valueOf(proxys.size()+1),
                         new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 1080)));
-                proxys.put(String.valueOf(proxys.size()+1),
-                        new Proxy(Proxy.Type.HTTP, new InetSocketAddress("123.57.136.60", 1080)));
+//                proxys.put(String.valueOf(proxys.size()+1),
+//                        new Proxy(Proxy.Type.HTTP, new InetSocketAddress("123.57.136.60", 1080)));
             }
         } catch (IOException e) {
             e.printStackTrace();

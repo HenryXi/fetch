@@ -34,7 +34,8 @@ public class Fetcher extends Thread{
     private int pageNumber;
     private Random random = new Random();
     private Proxy currentProxy=Proxy.NO_PROXY;
-
+    private static final class Lock { }
+    private final Object lock = new Lock();
     public Fetcher(int pageNumber) {
         this.pageNumber=pageNumber;
         jdbcTemplate = JDBCHelper.getJdbcTemplate("fetcher");
@@ -42,16 +43,34 @@ public class Fetcher extends Thread{
     }
 
     public void run() {
-        Document pageDoc=getDoc("http://stackoverflow.com/questions?pagesize=50&sort=newest&page=" + pageNumber);
-        if(pageDoc==null){
-           return;
+        synchronized (lock) {
+            do{
+                System.out.println("begin fetch --> "+ pageNumber);
+                Document pageDoc=getDoc("http://stackoverflow.com/questions?pagesize=50&sort=newest&page=" + pageNumber);
+                if(pageDoc==null){
+                    return;
+                }
+                List<Integer> questionsId=getQuestionsIdByDoc(pageDoc);
+                for(Integer questionId:questionsId){
+                    if(!isQuestionInDb(questionId)){
+                        Document contentDoc=getDoc("http://stackoverflow.com/questions/"+questionId);
+                        saveContentAsJsonInDB(contentDoc);
+                    }
+                }
+                System.out.println("---------->" + pageNumber + " end---------");
+
+                try {
+                    lock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }while (pageNumber != -1);
         }
-        List<Integer> questionsId=getQuestionsIdByDoc(pageDoc);
-        for(Integer questionId:questionsId){
-            Document contentDoc=getDoc("http://stackoverflow.com/questions/"+questionId);
-            saveContentAsJsonInDB(contentDoc);
-        }
-        System.out.println("---------->" + pageNumber + " end---------");
+    }
+
+    private boolean isQuestionInDb(Integer questionId){
+        return jdbcTemplate.queryForObject("Select count(*) from tb_content where id = ?", new Object[]{questionId}, Integer.class)==1;
     }
 
     private List<Integer> getQuestionsIdByDoc(Document doc) {
@@ -144,7 +163,7 @@ public class Fetcher extends Thread{
         try {
             String conent=objectMapper.writeValueAsString(question);
             int url=Integer.valueOf(doc.baseUri().replace("http://stackoverflow.com/questions/", "").replaceAll("/.+", ""));
-            jdbcTemplate.update("insert into tb_content (content,id) values(?::json,?)",conent,url);
+            jdbcTemplate.update("INSERT INTO tb_content (content,id) VALUES (?::json,?)",conent,url);
         }catch (Exception e) {
             System.out.println(e.getClass().getSimpleName());
         }
@@ -152,6 +171,17 @@ public class Fetcher extends Thread{
 
     public Proxy getCurrentProxy() {
         return currentProxy;
+    }
+
+    public int getPageNumber() {
+        return pageNumber;
+    }
+
+    public void setPageNumber(int pageNumber) {
+        synchronized (lock) {
+            this.pageNumber = pageNumber;
+            lock.notify();
+        }
     }
 
     public static void main(String[] args) {
