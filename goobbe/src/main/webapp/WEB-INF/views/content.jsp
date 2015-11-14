@@ -4,6 +4,8 @@
 <html>
 <head>
     <title>${question.t}</title>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/all.css"/>" />
+</head>
 <body class="question-page new-topbar">
 <jsp:include page="topbar.jsp"/>
 <!-- begin dictionary box -->
