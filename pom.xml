@@ -5,6 +5,7 @@
     <modules>
         <module>goobbe</module>
         <module>tool</module>
+        <module>serbbe</module>
     </modules>
 
     <groupId>com.henry</groupId>
