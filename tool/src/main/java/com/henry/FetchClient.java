@@ -67,6 +67,7 @@ public class FetchClient {
                     }
                     waitingFetcher.removeAll(runningFetcher);
                 }
+                Config.saveProperty("total.page", String.valueOf(index - Config.getInt("fetcher.number")));
             }
             if(index==0){
                 break;
