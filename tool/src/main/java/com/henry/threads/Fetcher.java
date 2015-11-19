@@ -161,6 +161,14 @@ public class Fetcher extends Thread{
             question.getTs().add(tag.text());
         }
         try {
+            //todo check the content change or not by date, if not change don't update
+            /**
+             * Jquery:
+             * $("span[class*='relativetime'")
+             * Java:
+             * DateFormat format = new SimpleDateFormat("MMM d ''yy 'at' HH:mm", Locale.ENGLISH);
+             * format.parse("Jul 5 '12 at 17:53");
+             */
             String conent=objectMapper.writeValueAsString(question);
             int url=Integer.valueOf(doc.baseUri().replace("http://stackoverflow.com/questions/", "").replaceAll("/.+", ""));
             jdbcTemplate.update("INSERT INTO tb_content (content,id) VALUES (?::json,?)",conent,url);
