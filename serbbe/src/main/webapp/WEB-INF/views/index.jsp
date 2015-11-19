@@ -7,6 +7,8 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/serbbe.css"/>" />
 </head>
 <body>
-    <h1>Hello Lucene</h1>
+    <form id="indexForm">
+        <input type="text" id="search" />
+    </form>
 </body>
 </html>
