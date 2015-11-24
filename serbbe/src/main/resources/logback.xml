@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="default.pattern" value="%date [%thread] %-5level %logger{80} - %msg%n"/>
+    <property name="file.pattern" value="%msg%n"/>
+
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${default.pattern}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="serbbeAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${catalina.base}/logs/apivisit.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${catalina.base}/logs/serbbe.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>${default.pattern}</pattern>
+        </layout>
+    </appender>
+
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <param name="QueueCapacity" value="5000"/>
+        <!-- Default is 1000 -->
+        <param name="IncludeCallerData" value="true"/>
+        <!-- Default is false -->
+        <appender-ref ref="stdout"/>
+    </appender>
+
+    <logger name="org">
+        <level value="ERROR"/>
+    </logger>
+
+    <logger name="com.henry">
+        <level value="DEBUG"/>
+        <appender-ref ref="serbbeAppender"/>
+    </logger>
+
+    <root>
+        <level value="DEBUG"/>
+        <appender-ref ref="ASYNC"/>
+    </root>
+</configuration>
