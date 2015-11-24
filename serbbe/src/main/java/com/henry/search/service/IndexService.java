@@ -14,12 +14,6 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.tika.exception.TikaException;
-import org.apache.tika.metadata.Metadata;
-import org.apache.tika.parser.AutoDetectParser;
-import org.apache.tika.parser.ParseContext;
-import org.apache.tika.sax.BodyContentHandler;
-import org.apache.tika.sax.ToXMLContentHandler;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,14 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
-import org.xml.sax.ContentHandler;
-import org.xml.sax.SAXException;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -121,7 +109,7 @@ public class IndexService {
 
     private List<Question> getQuestionsForBuildingIndex(Integer startNum) {
         List<Question> questions = this.jdbcTemplate.query(
-                "select content ->>'t' as title,id,content as content" +
+                "select content ->>'t' as title,id,content ->>'c' as content" +
                         " from tb_content where id between ? and ? and content is not null",
                 new Object[]{startNum - 9999, startNum},
                 new RowMapper<Question>() {
