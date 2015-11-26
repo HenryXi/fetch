@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class SearchController {
+    @RequestMapping(value = "/")
+    public String index(){
+        return "index";
+    }
     @RequestMapping(value = "/{page}")
-    public String index(@PathVariable(value = "page") String page){
+    public String page(@PathVariable(value = "page") String page){
         return page;
     }
 }

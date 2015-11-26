@@ -50,5 +50,5 @@
         <property name="useCodeAsDefaultMessage" value="true"/>
     </bean>
     <!-- properties-->
-    <context:property-placeholder location="classpath*:config.properties"/>
+    <context:property-placeholder location="classpath*:*.properties"/>
 </beans>
