@@ -1,7 +1,51 @@
-#indexForm {
-
+#index_form {
+    position: absolute;
+    top: 311px;
 }
-
-body{
-
+#result_index_form {
+    position: absolute;
+    top: 50px;
+}
+#form_div{
+    width: 641px;
+    min-height: 293px;
+    margin: 0 auto;
+}
+#search_input{
+    width: 641px;
+    padding: 9px 7px;
+    font: 16px arial;
+    border: 1px solid #b8b8b8;
+    border-bottom: 1px solid #ccc;
+    vertical-align: top;
+    outline: none;
+    box-shadow: none;
+}
+#results{
+    float: left;
+    width: 728px;
+    margin: 0 0 0 0;
+    padding: 0;
+}
+#suggests{
+    float: right;
+    overflow: hidden;
+    width: 220px;
+    margin: 0;
+    margin: 0 0 15px 0;
+}
+#main{
+    min-height: 450px;
+    margin: 0 auto;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    width: 1000px;
+    padding: 15px;
+    background-color: #fff;
+}
+em{
+    color: #dd4b39;
+    font-style: normal;
+    font-weight: normal;
 }

@@ -1,23 +1,30 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title></title>
+    <title>Hello Lucene</title>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/serbbe.css"/>"/>
 </head>
 <body>
-<ul id="m-result" class="result">
-    <li>
-        <h3>
-            <a href="#" target="_blank"><em>targetKey</em>_好搜百科</a>
-        </h3>
-
-        <p class="res-desc">
-            <em>test</em>test test test test test test test test test test test test
-        </p>
-
-        <p>
-            <cite>www.dict.cn/test</cite>-<a href="#" target="_blank" class="m">快照</a>
-        </p>
-    </li>
-</ul>
+<div id="main">
+    <div>
+        <form action="/s">
+            <input type="text" name="q" id="search_input" value="${keyWord}"/>
+        </form>
+    </div>
+    <div id="results">
+        <c:forEach items="${questions}" var="question">
+            <div class="result">
+                <div><h3><a href="http://stackoverflow.com/questions/${question.id}" target="_blank">${question.title}</a></h3></div>
+                <div><span>${question.content}</span></div>
+            </div>
+        </c:forEach>
+    </div>
+    <div id="suggests">
+        <div class="suggest">
+            <a href="#">href href href href href href href href href </a>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -4,11 +4,13 @@
 <html>
 <head>
     <title>Hello Lucene</title>
-    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/serbbe.css"/>" />
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/serbbe.css"/>"/>
 </head>
 <body>
-    <form id="indexForm">
-        <input type="text" id="search" />
+<div id="form_div">
+    <form id="index_form" action="/s">
+        <input type="text" name="q" id="search_input"/>
     </form>
+</div>
 </body>
 </html>
