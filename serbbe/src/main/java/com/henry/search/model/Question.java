@@ -18,6 +18,10 @@ public class Question {
     private List<Answer> answers = new ArrayList<>();
     private List<String> tags = new ArrayList<>();
 
+    public String getAllContentForIndex(){
+        return null;
+    }
+
     public int getId() {
         return id;
     }
