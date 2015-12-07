@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <property name="default.pattern" value="%date [%thread] %-5level %logger{80} - %msg%n"/>
-    <property name="file.pattern" value="%msg%n"/>
-
-    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>${default.pattern}</pattern>
-            <charset>UTF-8</charset>
-        </encoder>
-    </appender>
+    <property name="serbbe.pattern" value="%date [%thread] %-5level %logger{80} - %msg%n"/>
 
     <appender name="serbbeAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${catalina.base}/logs/apivisit.log</file>
+        <file>${catalina.base}/logs/serbbe.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${catalina.base}/logs/serbbe.%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
@@ -20,25 +13,28 @@
         </layout>
     </appender>
 
-    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
-        <param name="QueueCapacity" value="5000"/>
-        <!-- Default is 1000 -->
-        <param name="IncludeCallerData" value="true"/>
-        <!-- Default is false -->
-        <appender-ref ref="stdout"/>
+    <appender name="normalAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${catalina.base}/logs/normal.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${catalina.base}/logs/normal.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>${default.pattern}</pattern>
+        </layout>
     </appender>
 
     <logger name="org">
         <level value="ERROR"/>
+        <appender-ref ref="normalAppender"/>
     </logger>
 
-    <logger name="com.henry">
+    <logger name="com.henry.search.service">
         <level value="DEBUG"/>
+        <appender-ref ref="normalAppender"/>
+    </logger>
+
+    <logger name="com.henry.search.controller">
+        <level value="INFO"/>
         <appender-ref ref="serbbeAppender"/>
     </logger>
-
-    <root>
-        <level value="DEBUG"/>
-        <appender-ref ref="ASYNC"/>
-    </root>
 </configuration>
