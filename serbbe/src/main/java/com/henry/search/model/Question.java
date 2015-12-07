@@ -1,5 +1,7 @@
 package com.henry.search.model;
 
+import org.jsoup.Jsoup;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +21,17 @@ public class Question {
     private List<String> tags = new ArrayList<>();
 
     public String getAllContentForIndex(){
-        return null;
+        StringBuilder sb=new StringBuilder(Jsoup.parse(this.content).text());
+        for(Comment comment:comments){
+            sb.append(comment.getContent());
+        }
+        for(Answer answer:answers){
+            sb.append(Jsoup.parse(answer.getContent()).text());
+            for(Comment comment:answer.getComments()){
+                sb.append(comment.getContent());
+            }
+        }
+        return sb.toString();
     }
 
     public int getId() {

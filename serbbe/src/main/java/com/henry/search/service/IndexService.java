@@ -14,6 +14,7 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +41,8 @@ public class IndexService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private int INDEX_TITLES_EACH_LOOP = 10000;
     private Path indexFolderBak;
@@ -102,20 +105,20 @@ public class IndexService {
             Document doc = new Document();
             doc.add(new StoredField("id", question.getId()));
             doc.add(new TextField("title", question.getTitle(), Field.Store.YES));
-            doc.add(new TextField("content", Jsoup.parse(question.getContent()).text(), Field.Store.YES));
+            doc.add(new TextField("content", question.getAllContentForIndex(), Field.Store.YES));
             writer.addDocument(doc);
         }
     }
 
     private List<Question> getQuestionsForBuildingIndex(Integer startNum) {
         List<Question> questions = this.jdbcTemplate.query(
-                "select content ->>'t' as title,id,content ->>'c' as content" +
+                "select content, id" +
                         " from tb_content where id between ? and ? and content is not null",
                 new Object[]{startNum - 9999, startNum},
                 new RowMapper<Question>() {
                     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
                         try {
-                            return new Question(rs.getInt("id"), rs.getString("title"), rs.getString("content"));
+                            return objectMapper.readValue(rs.getString("content"), Question.class);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
