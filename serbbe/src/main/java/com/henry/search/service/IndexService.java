@@ -15,7 +15,6 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +62,7 @@ public class IndexService {
                 Config.getInt("database.maxActive"));
         IndexService indexService = new IndexService();
         indexService.setJdbcTemplate(JDBCHelper.getJdbcTemplate("fetcher"));
+        indexService.setObjectMapper(new ObjectMapper());
         indexService.createIndex();
     }
 
@@ -105,7 +105,7 @@ public class IndexService {
             Document doc = new Document();
             doc.add(new StoredField("id", question.getId()));
             doc.add(new TextField("title", question.getTitle(), Field.Store.YES));
-            doc.add(new TextField("content", question.getAllContentForIndex(), Field.Store.YES));
+            doc.add(new TextField("content", question.getAllPlaintContentForIndex(), Field.Store.YES));
             writer.addDocument(doc);
         }
     }
@@ -130,5 +130,9 @@ public class IndexService {
 
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public void setObjectMapper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
     }
 }

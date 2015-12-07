@@ -1,34 +1,40 @@
 package com.henry.search.model;
 
+import com.henry.search.util.StringUtil;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.jsoup.Jsoup;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Question {
-
+    public Question(){}
     public Question(int id, String title, String content){
         this.id=id;
         this.title=title;
         this.content=content;
     }
-
     private int id;
+    @JsonProperty("t")
     private String title;
+    @JsonProperty("c")
     private String content;
+    @JsonProperty("cs")
     private List<Comment> comments = new ArrayList<>();
+    @JsonProperty("as")
     private List<Answer> answers = new ArrayList<>();
+    @JsonProperty("ts")
     private List<String> tags = new ArrayList<>();
 
-    public String getAllContentForIndex(){
-        StringBuilder sb=new StringBuilder(Jsoup.parse(this.content).text());
+    public String getAllPlaintContentForIndex(){
+        StringBuilder sb=new StringBuilder(StringUtil.getPlainTextInHTML(content));
         for(Comment comment:comments){
-            sb.append(comment.getContent());
+            sb.append(StringUtil.getPlainTextInHTML(comment.getContent()));
         }
         for(Answer answer:answers){
-            sb.append(Jsoup.parse(answer.getContent()).text());
+            sb.append(StringUtil.getPlainTextInHTML(answer.getContent()));
             for(Comment comment:answer.getComments()){
-                sb.append(comment.getContent());
+                sb.append(StringUtil.getPlainTextInHTML(comment.getContent()));
             }
         }
         return sb.toString();
