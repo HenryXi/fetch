@@ -15,7 +15,7 @@
     <div id="results">
         <c:forEach items="${questions}" var="question">
             <div class="result">
-                <div><h3><a href="http://stackoverflow.com/questions/${question.id}" target="_blank">${question.title}</a></h3></div>
+                <div><h3><a href="/g/${question.id}" target="_blank">${question.title}</a></h3></div>
                 <div><span>${question.content}</span></div>
             </div>
         </c:forEach>

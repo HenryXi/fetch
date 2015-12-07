@@ -72,8 +72,8 @@ public class IndexService {
             Analyzer analyzer = new StandardAnalyzer();
             IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
             IndexWriter writer = new IndexWriter(dir, iwc);
-//            int totalNum = jdbcTemplate.queryForObject("select max(id) from tb_content;", Integer.class) / INDEX_TITLES_EACH_LOOP + 1;
-            int totalNum = 34031148 / INDEX_TITLES_EACH_LOOP + 1;
+            int totalNum = jdbcTemplate.queryForObject("select max(id) from tb_content;", Integer.class) / INDEX_TITLES_EACH_LOOP + 1;
+//            int totalNum = 34031148 / INDEX_TITLES_EACH_LOOP + 1;
             for (int i = 1; i <= totalNum; i++) {
                 indexDocs(writer, getQuestionsForBuildingIndex(i * INDEX_TITLES_EACH_LOOP));
                 logger.info("indexing... total group: [" + (totalNum + 1) + "], [" + INDEX_TITLES_EACH_LOOP + "] items per group, current group: [" + i + "]");
@@ -118,7 +118,9 @@ public class IndexService {
                 new RowMapper<Question>() {
                     public Question mapRow(ResultSet rs, int rowNum) throws SQLException {
                         try {
-                            return objectMapper.readValue(rs.getString("content"), Question.class);
+                            Question question = objectMapper.readValue(rs.getString("content"), Question.class);
+                            question.setId(rs.getInt("id"));
+                            return question;
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <property name="default.pattern" value="%date [%thread] %-5level %logger{80} - %msg%n"/>
-    <property name="serbbe.pattern" value="%date [%thread] %-5level %logger{80} - %msg%n"/>
+    <property name="serbbe.pattern" value="%date %msg%n"/>
 
     <appender name="serbbeAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${catalina.base}/logs/serbbe.log</file>
