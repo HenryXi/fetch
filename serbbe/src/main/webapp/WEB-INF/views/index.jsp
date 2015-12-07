@@ -8,7 +8,7 @@
 </head>
 <body>
 <div id="form_div">
-    <form id="index_form" action="/s">
+    <form id="index_form" action="/s" autocomplete="off">
         <input type="text" name="q" id="search_input"/>
     </form>
 </div>
