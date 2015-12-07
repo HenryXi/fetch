@@ -72,8 +72,8 @@ public class IndexService {
             Analyzer analyzer = new StandardAnalyzer();
             IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
             IndexWriter writer = new IndexWriter(dir, iwc);
-            int totalNum = jdbcTemplate.queryForObject("select max(id) from tb_content;", Integer.class) / INDEX_TITLES_EACH_LOOP + 1;
-//            int totalNum = 10;
+//            int totalNum = jdbcTemplate.queryForObject("select max(id) from tb_content;", Integer.class) / INDEX_TITLES_EACH_LOOP + 1;
+            int totalNum = 34031148 / INDEX_TITLES_EACH_LOOP + 1;
             for (int i = 1; i <= totalNum; i++) {
                 indexDocs(writer, getQuestionsForBuildingIndex(i * INDEX_TITLES_EACH_LOOP));
                 logger.info("indexing... total group: [" + (totalNum + 1) + "], [" + INDEX_TITLES_EACH_LOOP + "] items per group, current group: [" + i + "]");

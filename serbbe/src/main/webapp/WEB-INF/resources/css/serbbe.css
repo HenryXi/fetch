@@ -56,4 +56,21 @@ body{
 h3{
     font-size:18px;
     font-weight: normal;
+    margin-bottom: 0px;
+}
+a{
+    text-decoration: none;
+}
+a:link{
+    color: #1a0dab;
+
+}
+a:visited{
+    color: #609;
+}
+a:hover{
+    text-decoration: underline
+}
+span{
+    color: #545454;
 }
