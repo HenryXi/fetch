@@ -8,8 +8,8 @@
 <body>
 <div id="main">
     <div>
-        <form action="/s">
-            <input type="text" name="q" id="search_input" value="${keyWord}"/>
+        <form action="/s" autocomplete="off">
+            <input type="text" name="q" id="search_input" value="${keyWord}" autocomplete="off"/>
         </form>
     </div>
     <div id="results">
