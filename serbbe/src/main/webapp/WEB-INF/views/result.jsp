@@ -9,13 +9,13 @@
 <div id="main">
     <div>
         <form action="/s" autocomplete="off">
-            <input type="text" name="q" id="search_input" value="${keyWord}" autocomplete="off"/>
+            <input type="text" name="q" id="search_input" value="${keyword}" autocomplete="off"/>
         </form>
     </div>
     <div id="results">
         <c:forEach items="${questions}" var="question">
             <div class="result">
-                <div><h3><a href="/g/${question.id}" target="_blank">${question.title}</a></h3></div>
+                <div><h3><a href="/g/${question.id}?kw=${keyword}" target="_blank">${question.title}</a></h3></div>
                 <div><span>${question.content}</span></div>
             </div>
         </c:forEach>

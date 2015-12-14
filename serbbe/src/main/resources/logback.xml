@@ -9,7 +9,7 @@
             <fileNamePattern>${catalina.base}/logs/serbbe.%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>${default.pattern}</pattern>
+            <pattern>${serbbe.pattern}</pattern>
         </layout>
     </appender>
 
@@ -33,7 +33,7 @@
         <appender-ref ref="normalAppender"/>
     </logger>
 
-    <logger name="com.henry.search.controller">
+    <logger name="dataLogger">
         <level value="INFO"/>
         <appender-ref ref="serbbeAppender"/>
     </logger>
