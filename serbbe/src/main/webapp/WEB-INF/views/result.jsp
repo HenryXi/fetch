@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Hello Lucene</title>
+    <title>Search Stack</title>
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/serbbe.css"/>"/>
 </head>
 <body>
