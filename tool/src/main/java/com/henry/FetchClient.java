@@ -51,7 +51,7 @@ public class FetchClient {
                 try {
                     Thread.sleep(1000*5);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    e.printStackTrace();//
                 }
             } else {
                 if(waitingFetcher.size()+runningFetcher.size()<Config.getInt("fetcher.number")){
